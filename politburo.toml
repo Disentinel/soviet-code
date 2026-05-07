@@ -1,0 +1,22 @@
+# politburo.toml — Директивы Политбюро
+# Партийная конфигурация проекта
+#
+# Этот файл генерируется командой `soviet init`.
+# Редактируй под нужды конкретного проекта.
+
+[party]
+name = "My Soviet Project"
+version = "1.0.0"
+# Модель по умолчанию: pioneer=haiku | komsomolets=sonnet | cc=opus
+model = "sonnet"
+
+[iron_curtain]
+# Разрешённые внешние домены (выездные визы, статья 44 Постановления)
+# allowed_domains = ["api.github.com", "registry.npmjs.org"]
+allowed_domains = []
+
+[gosplan]
+# Максимум директив в одной пятилетке
+max_directives = 10
+# Язык пятилетки
+language = "ru"

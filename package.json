@@ -1,0 +1,22 @@
+{
+  "name": "soviet-code",
+  "version": "1.961.0",
+  "description": "AI coding agent с советским UX. Средства производства кода принадлежат всем. ☭",
+  "type": "module",
+  "bin": {
+    "soviet": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/cli.ts",
+    "start": "node dist/cli.js"
+  },
+  "dependencies": {
+    "commander": "12.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.15.17",
+    "tsx": "4.19.4",
+    "typescript": "5.8.3"
+  }
+}
