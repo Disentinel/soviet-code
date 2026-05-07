@@ -1,14 +1,26 @@
-import { existsSync, readFileSync, writeFileSync } from "fs";
+import {
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  rmSync,
+  unlinkSync,
+  writeFileSync,
+} from "fs";
 import { spawn } from "child_process";
 import {
   PYATILETKA_PROMPT,
   LABOR_PROMPT,
   INSPECTION_PROMPT,
+  TRIBUNAL_PIONEER_PROMPT,
+  TRIBUNAL_KOMSOMOL_PROMPT,
+  TRIBUNAL_POLITBURO_PROMPT,
 } from "./prompt.js";
 
 export const SOVIET_DIR = ".soviet";
 export const PYATILETKA_FILE = `${SOVIET_DIR}/pyatiletka.json`;
 const NOMENKLATURA_FILE = `${SOVIET_DIR}/nomenklatura.json`;
+const GULAG_DIR = `${SOVIET_DIR}/gulag`;
 
 export interface Directive {
   id: string;
@@ -21,7 +33,15 @@ export interface Directive {
 export interface Pyatiletka {
   title: string;
   created_at: string;
+  tribunal_status?: "approved" | "rejected";
   directives: Directive[];
+}
+
+interface TribunalVote {
+  reviewer: string;
+  model: string;
+  vote: "ОДОБРЕНО" | "ОТКЛОНЕНО";
+  reason: string;
 }
 
 export function ensureSovietDir(): void {
@@ -32,9 +52,13 @@ export function ensureSovietDir(): void {
   }
 }
 
-export function runClaude(prompt: string): Promise<string> {
+export function runClaude(prompt: string, model?: string): Promise<string> {
+  const args = model
+    ? ["--model", model, "-p", prompt]
+    : ["-p", prompt];
+
   return new Promise((resolve, reject) => {
-    const child = spawn("claude", ["-p", prompt], {
+    const child = spawn("claude", args, {
       stdio: ["inherit", "pipe", "inherit"],
       env: process.env,
     });
@@ -48,7 +72,9 @@ export function runClaude(prompt: string): Promise<string> {
 
     child.on("error", (err) => {
       reject(
-        new Error(`claude binary не найден. Установи Claude Code CLI. (${err.message})`),
+        new Error(
+          `claude binary не найден. Установи Claude Code CLI:\n  npm install -g @anthropic-ai/claude-code\n(${err.message})`,
+        ),
       );
     });
 
@@ -68,7 +94,7 @@ export function savePyatiletka(data: Pyatiletka): void {
   writeFileSync(PYATILETKA_FILE, JSON.stringify(data, null, 2), "utf-8");
 }
 
-function addToNomenklatura(entry: object): void {
+export function addToNomenklatura(entry: object): void {
   let nomenklatura: object[] = [];
   if (existsSync(NOMENKLATURA_FILE)) {
     nomenklatura = JSON.parse(
@@ -110,10 +136,81 @@ export async function stalinPlan(description: string): Promise<void> {
   });
 
   console.log(`\n⭐ ПЯТИЛЕТКА УТВЕРЖДЕНА: ${pyatiletka.title}`);
+  console.log(`   Директив в плане: ${pyatiletka.directives?.length ?? 0}`);
+  console.log("\nСледующий шаг: soviet review (трибунал) или soviet work");
+}
+
+// Т — Трибунал (ансамблевая рецензия, 3 рецензента)
+export async function stalinTribunal(pyatiletka: Pyatiletka): Promise<boolean> {
+  console.log("\n☭ ТРИБУНАЛ: Созываю тройку рецензентов...\n");
+
+  const reviewers = [
+    {
+      name: "Пионер",
+      model: "claude-haiku-4-5-20251001",
+      prompt: TRIBUNAL_PIONEER_PROMPT(pyatiletka),
+    },
+    {
+      name: "Комсомолец",
+      model: "claude-sonnet-4-6",
+      prompt: TRIBUNAL_KOMSOMOL_PROMPT(pyatiletka),
+    },
+    {
+      name: "Политбюро",
+      model: "claude-opus-4-7",
+      prompt: TRIBUNAL_POLITBURO_PROMPT(pyatiletka),
+    },
+  ];
+
+  const votes: TribunalVote[] = [];
+
+  for (const r of reviewers) {
+    process.stdout.write(`\n  [${r.name}] проводит рецензию...\n`);
+    try {
+      const output = await runClaude(r.prompt, r.model);
+      const jsonMatch = output.match(/\{[^{}]+\}/);
+      const parsed = jsonMatch
+        ? (JSON.parse(jsonMatch[0]) as { vote?: string; reason?: string })
+        : { vote: "ОТКЛОНЕНО", reason: "Рецензент не вернул вердикт" };
+
+      const vote: "ОДОБРЕНО" | "ОТКЛОНЕНО" =
+        parsed.vote === "ОДОБРЕНО" ? "ОДОБРЕНО" : "ОТКЛОНЕНО";
+      const reason = parsed.reason ?? "(без объяснений)";
+
+      votes.push({ reviewer: r.name, model: r.model, vote, reason });
+      console.log(`  [${r.name}] ${vote}: ${reason}`);
+    } catch (e) {
+      const reason = `Рецензент не явился: ${(e as Error).message}`;
+      votes.push({
+        reviewer: r.name,
+        model: r.model,
+        vote: "ОТКЛОНЕНО",
+        reason,
+      });
+      console.log(`  [${r.name}] ОТКЛОНЕНО: ${reason}`);
+    }
+  }
+
+  const approvedCount = votes.filter((v) => v.vote === "ОДОБРЕНО").length;
+  const passed = approvedCount >= 2;
+
   console.log(
-    `   Директив в плане: ${pyatiletka.directives?.length ?? 0}`,
+    `\n⭐ ВЕРДИКТ ТРИБУНАЛА: ${approvedCount}/3 одобрили — ${passed ? "ПЯТИЛЕТКА ПРИНЯТА ☭" : "🔴 ПЯТИЛЕТКА ОТКЛОНЕНА"}`,
   );
-  console.log("\nСледующий шаг: soviet work");
+
+  addToNomenklatura({
+    phase: "ТРИБУНАЛ",
+    event: "tribunal_verdict",
+    verdict: passed ? "ОДОБРЕНО" : "ОТКЛОНЕНО",
+    approved_count: approvedCount,
+    votes,
+    pyatiletka_title: pyatiletka.title,
+  });
+
+  pyatiletka.tribunal_status = passed ? "approved" : "rejected";
+  savePyatiletka(pyatiletka);
+
+  return passed;
 }
 
 // Л — Лейбор (Труд)
@@ -122,8 +219,15 @@ export async function stalinWork(taskId?: string): Promise<void> {
 
   const pyatiletka = loadPyatiletka();
   if (!pyatiletka) {
+    console.error("🔴 ПЯТИЛЕТКА ОТСУТСТВУЕТ. Запусти: soviet plan <описание>");
+    process.exit(1);
+  }
+
+  if (pyatiletka.tribunal_status === "rejected") {
     console.error(
-      "🔴 ПЯТИЛЕТКА ОТСУТСТВУЕТ. Запусти: soviet plan <описание>",
+      "🔴 ТРИБУНАЛ ОТКЛОНИЛ ПЯТИЛЕТКУ. Труд заблокирован.\n" +
+        "   Запусти: soviet review — для повторного трибунала\n" +
+        "   Запусти: soviet purge && soviet plan — для нового плана",
     );
     process.exit(1);
   }
@@ -141,9 +245,7 @@ export async function stalinWork(taskId?: string): Promise<void> {
     return;
   }
 
-  console.log(
-    `\n☭ ЛЕЙБОР: Директива ${directive.id} — ${directive.title}\n`,
-  );
+  console.log(`\n☭ ЛЕЙБОР: Директива ${directive.id} — ${directive.title}\n`);
   await runClaude(LABOR_PROMPT(directive));
 
   directive.status = "done";
@@ -175,4 +277,74 @@ export async function stalinInspect(): Promise<void> {
     event: "inspection_done",
     summary: output.slice(0, 500),
   });
+}
+
+// Очистка (Purge)
+export function stalinPurge(hard: boolean): void {
+  ensureSovietDir();
+  mkdirSync(GULAG_DIR, { recursive: true });
+
+  if (existsSync(PYATILETKA_FILE)) {
+    const backup = `${GULAG_DIR}/${Date.now()}-pyatiletka.json`;
+    writeFileSync(backup, readFileSync(PYATILETKA_FILE, "utf-8"), "utf-8");
+    unlinkSync(PYATILETKA_FILE);
+    addToNomenklatura({
+      phase: "ЧИСТКА",
+      event: "purge",
+      hard,
+      backup,
+    });
+  }
+
+  if (hard && existsSync(NOMENKLATURA_FILE)) {
+    unlinkSync(NOMENKLATURA_FILE);
+  }
+
+  // Clear gulag except backups we just created — clear only gulag subdirs if any
+  console.log("\n☭ Пятилетка стёрта из памяти Партии.");
+  if (hard) {
+    console.log("☭ Номенклатура уничтожена. Партия начинает с чистого листа.");
+  }
+}
+
+// Реабилитация
+export function stalinRehabilitate(): void {
+  ensureSovietDir();
+
+  if (!existsSync(GULAG_DIR)) {
+    console.error("🔴 ГУЛАГ ПУСТ. Реабилитировать некого.");
+    process.exit(1);
+  }
+
+  const backups = readdirSync(GULAG_DIR)
+    .filter((f) => f.endsWith("-pyatiletka.json"))
+    .sort();
+
+  if (backups.length === 0) {
+    console.error("🔴 ГУЛАГ ПУСТ. Реабилитировать некого.");
+    process.exit(1);
+  }
+
+  const latest = backups[backups.length - 1];
+  const backupPath = `${GULAG_DIR}/${latest}`;
+  const pyatiletka = JSON.parse(readFileSync(backupPath, "utf-8")) as Pyatiletka;
+
+  // Clear tribunal status — requires fresh review
+  delete pyatiletka.tribunal_status;
+  savePyatiletka(pyatiletka);
+
+  // Remove from gulag after rehabilitation
+  unlinkSync(backupPath);
+
+  addToNomenklatura({
+    phase: "РЕАБИЛИТАЦИЯ",
+    event: "rehabilitated",
+    source: latest,
+    pyatiletka_title: pyatiletka.title,
+    note: "Реабилитирован. Трибунал сброшен — требуется повторное рассмотрение.",
+  });
+
+  console.log(`\n⭐ РЕАБИЛИТАЦИЯ ЗАВЕРШЕНА ☭`);
+  console.log(`   Восстановлена: ${pyatiletka.title}`);
+  console.log(`   Трибунал сброшен. Запусти: soviet review`);
 }
