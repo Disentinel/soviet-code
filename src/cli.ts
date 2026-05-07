@@ -7,8 +7,11 @@ import {
   PYATILETKA_FILE,
   loadPyatiletka,
   stalinPlan,
+  stalinTribunal,
   stalinWork,
   stalinInspect,
+  stalinPurge,
+  stalinRehabilitate,
 } from "./stalin.js";
 
 const program = new Command();
@@ -86,6 +89,29 @@ program
     });
   });
 
+// soviet review (Tribunal)
+program
+  .command("review")
+  .description("Трибунал: 3 рецензента голосуют за пятилетку (2/3 = принята)")
+  .action(async () => {
+    const pyatiletka = loadPyatiletka();
+    if (!pyatiletka) {
+      console.error("🔴 ПЯТИЛЕТКА ОТСУТСТВУЕТ. Запусти: soviet plan <задача>");
+      process.exit(1);
+    }
+    const passed = await stalinTribunal(pyatiletka).catch((e: Error) => {
+      console.error(`\n🔴 ТРИБУНАЛ ПРЕРВАН: ${e.message}`);
+      process.exit(1);
+    });
+    if (!passed) {
+      console.error(
+        "\nТруд заблокирован до исправления плана.\n" +
+          "Запусти: soviet purge && soviet plan <новое_задание>",
+      );
+      process.exit(1);
+    }
+  });
+
 // soviet inspect
 program
   .command("inspect")
@@ -95,6 +121,23 @@ program
       console.error(`\n🔴 ТРИБУНАЛ ПРОВАЛИЛСЯ: ${e.message}`);
       process.exit(1);
     });
+  });
+
+// soviet purge
+program
+  .command("purge")
+  .description("Стереть пятилетку (мягко: в гулаг; --hard: + номенклатура)")
+  .option("--hard", "Жёсткая очистка: удалить и Номенклатуру")
+  .action((opts: { hard?: boolean }) => {
+    stalinPurge(opts.hard ?? false);
+  });
+
+// soviet rehabilitate
+program
+  .command("rehabilitate")
+  .description("Реабилитировать последнюю удалённую пятилетку из гулага")
+  .action(() => {
+    stalinRehabilitate();
   });
 
 // soviet status
