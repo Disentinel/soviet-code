@@ -13,6 +13,8 @@ import {
   stalinPurge,
   stalinRehabilitate,
 } from "./stalin.js";
+import { loadConfig } from "./config.js";
+import { initBackend, closeBackend } from "./nomenklatura.js";
 
 const program = new Command();
 
@@ -50,6 +52,12 @@ allowed_domains = []
 [gosplan]
 max_directives = 10
 language = "ru"
+
+[nomenklatura]
+# backend = "local"   # "local" (default) | "enox" | "both"
+# enox_domain = "cs"
+# enox_mcp_command = "npx"
+# enox_mcp_args = ["-y", "@enox/mcp-server"]
 `;
     writeFileSync("politburo.toml", toml, "utf-8");
     writeFileSync(
@@ -128,16 +136,22 @@ program
   .command("purge")
   .description("Стереть пятилетку (мягко: в гулаг; --hard: + номенклатура)")
   .option("--hard", "Жёсткая очистка: удалить и Номенклатуру")
-  .action((opts: { hard?: boolean }) => {
-    stalinPurge(opts.hard ?? false);
+  .action(async (opts: { hard?: boolean }) => {
+    await stalinPurge(opts.hard ?? false).catch((e: Error) => {
+      console.error(`\n🔴 ЧИСТКА ПРЕРВАНА: ${e.message}`);
+      process.exit(1);
+    });
   });
 
 // soviet rehabilitate
 program
   .command("rehabilitate")
   .description("Реабилитировать последнюю удалённую пятилетку из гулага")
-  .action(() => {
-    stalinRehabilitate();
+  .action(async () => {
+    await stalinRehabilitate().catch((e: Error) => {
+      console.error(`\n🔴 РЕАБИЛИТАЦИЯ ПРЕРВАНА: ${e.message}`);
+      process.exit(1);
+    });
   });
 
 // soviet status
@@ -203,4 +217,6 @@ program
     }
   });
 
-program.parse();
+await initBackend(loadConfig());
+await program.parseAsync(process.argv);
+await closeBackend();
