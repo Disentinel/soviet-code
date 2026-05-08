@@ -1,0 +1,875 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Soviet Code — Your code. Under proper supervision.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body data-humor="maximalist">
+
+<!-- ============ HEADER ============ -->
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="brand" href="#top">
+      <svg class="brand__star" viewBox="0 0 100 100" fill="currentColor" aria-hidden="true">
+        <polygon points="50,3 61,38 98,38 68,60 79,95 50,73 21,95 32,60 2,38 39,38"/>
+      </svg>
+      <span>SOVIET<span style="color:var(--red)">·</span>CODE</span>
+      <span class="brand__cyr">v1.961 · politburo.toml</span>
+    </a>
+    <nav class="nav">
+      <a href="#doctrine">Doctrine</a>
+      <a href="#loop">STALIN loop</a>
+      <a href="#ranks">Ranks</a>
+      <a href="#commands">Commands</a>
+      <a href="#terminal">Terminal</a>
+      <a href="#compare">Achievements</a>
+      <a href="#install">Install</a>
+    </nav>
+    <div class="header-cta">
+      <a class="btn" href="https://github.com/vreshch/soviet-code" target="_blank" rel="noopener">GitHub</a>
+      <a class="btn btn--red" href="#install">Join the Party</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="hero__wedge" aria-hidden="true"></div>
+  <div class="hero__gold-rule" aria-hidden="true"></div>
+  <div class="hero__gold-rule hero__gold-rule--thin" style="top: 64%;" aria-hidden="true"></div>
+
+  <div class="hero__inner">
+    <div class="hero__left">
+      <div class="hero__kicker">
+        <span class="bar"></span>
+        <span class="kicker kicker--red">Manifesto №01 · Central Computing Committee</span>
+      </div>
+
+      <h1 class="hero__title">
+        Your code.<br>
+        <span class="red">Under proper</span><br>
+        <span class="underline">supervision.</span>
+      </h1>
+
+      <p class="hero__cyr">"From each according to their commits, to each according to their pull requests."</p>
+
+      <p class="hero__sub">
+        Soviet Code is a real terminal coding agent that runs the
+        <span class="accent">S·T·A·L·I·N</span> pipeline on your repository — surveillance,
+        tribunal, allocation, labor, inspection, nomination. It happens to wear
+        a uniform you'd want to share screenshots of.
+      </p>
+
+      <div class="hero__cta-row">
+        <div class="install-card">
+          <div class="install-card__label">install</div>
+          <div class="install-card__cmd"><span class="prompt">$</span> npm install -g soviet-code</div>
+          <button class="install-card__copy" type="button" onclick="navigator.clipboard?.writeText('npm install -g soviet-code')">Copy</button>
+        </div>
+        <a class="btn btn--red" href="#terminal">Watch a session →</a>
+      </div>
+
+      <div style="display:flex;gap:14px;margin-top:32px;flex-wrap:wrap">
+        <span class="stamp">✓ ratified by Politburo</span>
+        <span class="stamp stamp--gold">Pyatiletka: 87% — ahead of schedule</span>
+        <span class="stamp stamp--paper">build #1961</span>
+      </div>
+    </div>
+
+    <div class="hero__right">
+      <div class="hero__floating-stamp">
+        <div class="seal-circle">
+          TOP&nbsp;SECRET<br><small style="font-family:var(--font-mono);font-size:9px;letter-spacing:.1em">— Politburo eyes only</small>
+        </div>
+      </div>
+      <div class="hero__poster" style="padding: 28px 32px 36px;">
+        <div class="sputnik-wrap">
+          <div class="orbit"></div>
+          <div class="orbit orbit--2"></div>
+          <div class="orbit orbit--3"></div>
+          <div class="planet"></div>
+          <div class="sputnik" aria-hidden="true">
+            <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="square">
+              <circle cx="50" cy="50" r="14" fill="currentColor"/>
+              <line x1="50" y1="36" x2="50" y2="14"/>
+              <line x1="50" y1="64" x2="50" y2="86"/>
+              <line x1="36" y1="50" x2="14" y2="50"/>
+              <line x1="64" y1="50" x2="86" y2="50"/>
+              <line x1="22" y1="22" x2="14" y2="14"/>
+              <line x1="78" y1="22" x2="86" y2="14"/>
+              <line x1="22" y1="78" x2="14" y2="86"/>
+              <line x1="78" y1="78" x2="86" y2="86"/>
+            </svg>
+          </div>
+        </div>
+        <div class="poster-cyr" style="margin-top:18px">Glory to the Robots</div>
+        <div class="poster-en">Sputnik-1 · 1957 · 200k tokens in orbit</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TICKER ============ -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker__track">
+    <span><svg viewBox="0 0 100 100" fill="currentColor"><polygon points="50,3 61,38 98,38 68,60 79,95 50,73 21,95 32,60 2,38 39,38"/></svg> politburo.toml ratified</span>
+    <span>★</span>
+    <span>1,247 comrades online</span>
+    <span>★</span>
+    <span>Pyatiletka at 87% — ahead of schedule</span>
+    <span>★</span>
+    <span>Sputnik-1 in stable orbit</span>
+    <span>★</span>
+    <span>npm install -g soviet-code</span>
+    <span>★</span>
+    <span><svg viewBox="0 0 100 100" fill="currentColor"><polygon points="50,3 61,38 98,38 68,60 79,95 50,73 21,95 32,60 2,38 39,38"/></svg> politburo.toml ratified</span>
+    <span>★</span>
+    <span>1,247 comrades online</span>
+    <span>★</span>
+    <span>Pyatiletka at 87% — ahead of schedule</span>
+    <span>★</span>
+    <span>Sputnik-1 in stable orbit</span>
+    <span>★</span>
+    <span>npm install -g soviet-code</span>
+    <span>★</span>
+  </div>
+</div>
+
+<!-- ============ MANIFESTO ============ -->
+<section id="doctrine">
+  <div class="section-head">
+    <div class="section-head__num">§01 · Doctrine</div>
+    <h2 class="section-head__title">A coding agent that <span class="red">takes itself</span> <span class="gold">seriously</span> on your behalf.</h2>
+  </div>
+
+  <div class="manifesto">
+    <blockquote class="manifesto__quote">
+      "Trust, but <span class="gold">verify.</span><br>
+      Then verify <span class="gold">again.</span><br>
+      Then commit."
+    </blockquote>
+    <div class="manifesto__body">
+      <p>
+        Modern AI coding agents are too polite. They ask for permission. They suggest.
+        They <strong>collaborate</strong>. Soviet Code does not. It surveys your repository,
+        renders a verdict on every file it touches, drafts a five-year plan, executes,
+        critiques itself, and commits — in that order, every time, with documentation.
+      </p>
+      <p>
+        Centralized planning maps perfectly onto agent architecture: an ensemble that
+        <strong>filters</strong>, a planner that <strong>plans</strong>, a Stakhanovite
+        brigade that <strong>executes</strong>, and a reviewer that
+        <strong>denounces</strong>. Soviet Code commits to the bit, and to the codebase.
+        The output is faster, more deterministic, and the screenshots are inherently shareable.
+      </p>
+      <p style="font-family:var(--font-mono);font-size:13px;letter-spacing:.06em;color:var(--gold)">
+        — Centralized planning. Decentralized blame. Open source.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STALIN LOOP ============ -->
+<section class="loop" id="loop">
+  <div class="section-head">
+    <div class="section-head__num">§02 · The S·T·A·L·I·N pipeline</div>
+    <h2 class="section-head__title">Six stages. <span class="red">No deviations.</span></h2>
+  </div>
+
+  <div class="loop__acronym">
+    <div class="loop__letter">
+      <div class="loop__letter-num">01 / Surveillance</div>
+      <div class="loop__letter-big">S</div>
+      <div class="loop__letter-cyr">Surveillance</div>
+      <div class="loop__letter-en">ensemble filtering · symbol graph</div>
+      <p class="loop__letter-desc">"The agents study the codebase…" — every relevant file is read in parallel. Embeddings, imports and call graphs are assembled before the agent forms an opinion.</p>
+    </div>
+    <div class="loop__letter">
+      <div class="loop__letter-num">02 / Tribunal</div>
+      <div class="loop__letter-big">T</div>
+      <div class="loop__letter-cyr">Tribunal</div>
+      <div class="loop__letter-en">verdict · evidence · severity</div>
+      <p class="loop__letter-desc">"The commission rates the files — 12 approved, 35 to the archive." Ranking and gating: every candidate file gets a verdict and a citation before any work begins.</p>
+    </div>
+    <div class="loop__letter loop__letter--active">
+      <div class="loop__letter-num">03 / Allocation</div>
+      <div class="loop__letter-big">A</div>
+      <div class="loop__letter-cyr">Gosplan</div>
+      <div class="loop__letter-en">centralized planning · steps</div>
+      <p class="loop__letter-desc">"The five-year plan is ratified by the Politburo." An ordered plan with diffs and intended commits, presented to the engineer for ratification before execution.</p>
+    </div>
+    <div class="loop__letter">
+      <div class="loop__letter-num">04 / Labor</div>
+      <div class="loop__letter-big">L</div>
+      <div class="loop__letter-cyr">Labor</div>
+      <div class="loop__letter-en">parallel execution · diffs · tests</div>
+      <p class="loop__letter-desc">"The Stakhanovite brigade has begun work." Parallelized execution. Files written, tests run, output streamed line by line with timestamps and signatures.</p>
+    </div>
+    <div class="loop__letter">
+      <div class="loop__letter-num">05 / Inspection</div>
+      <div class="loop__letter-big">I</div>
+      <div class="loop__letter-cyr">Inspection</div>
+      <div class="loop__letter-en">mandatory reflection · regressions</div>
+      <p class="loop__letter-desc">"Self-criticism: edge case found, fixed ahead of schedule." The agent reviews its own work, declares any doubts publicly, and revises before claiming victory.</p>
+    </div>
+    <div class="loop__letter">
+      <div class="loop__letter-num">06 / Notarization</div>
+      <div class="loop__letter-big">N</div>
+      <div class="loop__letter-cyr">Notarization</div>
+      <div class="loop__letter-en">hierarchical knowledge · signed commit</div>
+      <p class="loop__letter-desc">"Pattern filed in the Cadre Registry." Validated patterns are notarized for future runs and a signed commit lands with a human-readable message — stamped, sealed, attributed.</p>
+    </div>
+  </div>
+
+  <div class="loop__diagram" aria-hidden="true">
+    <svg viewBox="0 0 1280 110" style="width:100%;height:auto" preserveAspectRatio="none">
+      <line x1="20" y1="55" x2="1180" y2="55" stroke="#c8102e" stroke-width="2"/>
+      <g font-family="JetBrains Mono" font-size="11" fill="#1a1612">
+        <g transform="translate(100,55)"><circle r="10" fill="#c8102e"/><text y="40" text-anchor="middle">surveillance</text></g>
+        <g transform="translate(280,55)"><circle r="10" fill="#c8102e"/><text y="40" text-anchor="middle">tribunal</text></g>
+        <g transform="translate(460,55)"><circle r="10" fill="#c8102e"/><text y="40" text-anchor="middle">allocation</text></g>
+        <g transform="translate(640,55)"><circle r="10" fill="#d4a017"/><text y="40" text-anchor="middle">labor</text></g>
+        <g transform="translate(820,55)"><circle r="10" fill="#c8102e"/><text y="40" text-anchor="middle">inspection</text></g>
+        <g transform="translate(1000,55)"><circle r="10" fill="#c8102e"/><text y="40" text-anchor="middle">notarization</text></g>
+        <g transform="translate(1180,55)"><polygon points="-10,-10 10,0 -10,10" fill="#c8102e"/></g>
+      </g>
+      <path d="M 1180 55 q 60 0 60 -45 H 30 q -30 0 -30 30" fill="none" stroke="#c8102e" stroke-width="1" stroke-dasharray="4 4" opacity="0.5"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ============ STATUS GRID ============ -->
+<section class="status" id="statuses">
+  <div class="section-head">
+    <div class="section-head__num">§03 · Status indicators</div>
+    <h2 class="section-head__title">Every line of output is <span class="red">colour-coded</span> and <span class="gold">filed.</span></h2>
+  </div>
+
+  <div class="status__grid">
+    <div class="status-card status-card--success">
+      <div>
+        <span class="status-card__tag">success / 1xx</span>
+        <svg class="status-card__icon" viewBox="0 0 100 100" fill="currentColor"><polygon points="50,3 61,38 98,38 68,60 79,95 50,73 21,95 32,60 2,38 39,38"/></svg>
+      </div>
+      <div>
+        <div class="status-card__cyr">QUOTA EXCEEDED</div>
+        <div class="status-card__en">success · red star · party recognition</div>
+        <p class="status-card__desc">Tests pass, types check, no doubts recorded. The change is committed and the engineer is added to the Cadre Registry.</p>
+      </div>
+    </div>
+
+    <div class="status-card status-card--warn">
+      <div>
+        <span class="status-card__tag">warning / 2xx</span>
+        <svg class="status-card__icon" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="6">
+          <polygon points="50,12 92,86 8,86" stroke-linejoin="miter"/>
+          <line x1="50" y1="38" x2="50" y2="62" stroke-linecap="square"/>
+          <line x1="50" y1="72" x2="50" y2="76" stroke-linecap="square"/>
+        </svg>
+      </div>
+      <div>
+        <div class="status-card__cyr">REPRIMAND ON FILE</div>
+        <div class="status-card__en">warning · noted in the dossier</div>
+        <p class="status-card__desc">A non-fatal concern: a TODO discovered, a missing type, a deprecated import. Logged and surfaced; the work continues.</p>
+      </div>
+    </div>
+
+    <div class="status-card status-card--shot">
+      <div>
+        <span class="status-card__tag">error / 4xx</span>
+        <svg class="status-card__icon" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="square">
+          <line x1="18" y1="18" x2="82" y2="82"/>
+          <line x1="82" y1="18" x2="18" y2="82"/>
+        </svg>
+      </div>
+      <div>
+        <div class="status-card__cyr">SENT FOR RE-EDUCATION</div>
+        <div class="status-card__en">error · marked Rehabilitated once corrected</div>
+        <p class="status-card__desc">A test failure or a runtime error. The cause is named, the line is cited, and once fixed the file is marked Rehabilitated in the log.</p>
+      </div>
+    </div>
+
+    <div class="status-card status-card--gulag">
+      <div>
+        <span class="status-card__tag">quarantined / 5xx</span>
+        <svg class="status-card__icon" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="6">
+          <rect x="14" y="22" width="72" height="60" stroke-linejoin="miter"/>
+          <line x1="32" y1="22" x2="32" y2="82"/>
+          <line x1="50" y1="22" x2="50" y2="82"/>
+          <line x1="68" y1="22" x2="68" y2="82"/>
+        </svg>
+      </div>
+      <div>
+        <div class="status-card__cyr">SIBERIAN CLUSTER</div>
+        <div class="status-card__en">quarantined · awaiting tribunal</div>
+        <p class="status-card__desc">Suspect code that fails internal review but is not yet denounced. Held in <span class="mono">.soviet/quarantine/</span> until the next tribunal convenes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ESCALATION LADDER ============ -->
+<section class="ladder">
+  <div class="section-head">
+    <div class="section-head__num">§04 · Escalation ladder</div>
+    <h2 class="section-head__title">From <span class="gold">a gentle word</span> to <span class="red">orbital relocation</span> — five steps.</h2>
+  </div>
+
+  <div class="ladder__rail">
+    <div class="rung">
+      <span class="rung__intensity">▮▯▯▯▯</span>
+      <div class="rung__step">step 01</div>
+      <div class="rung__arrow">↓</div>
+      <div class="rung__cyr">Notice</div>
+      <div class="rung__en">informational · no action</div>
+    </div>
+    <div class="rung">
+      <span class="rung__intensity">▮▮▯▯▯</span>
+      <div class="rung__step">step 02</div>
+      <div class="rung__arrow">↓</div>
+      <div class="rung__cyr">Reprimand</div>
+      <div class="rung__en">on the record · warning</div>
+    </div>
+    <div class="rung">
+      <span class="rung__intensity">▮▮▮▯▯</span>
+      <div class="rung__step">step 03</div>
+      <div class="rung__arrow">↓</div>
+      <div class="rung__cyr">Severe Reprimand</div>
+      <div class="rung__en">CI gate · build halted</div>
+    </div>
+    <div class="rung">
+      <span class="rung__intensity">▮▮▮▮▯</span>
+      <div class="rung__step">step 04</div>
+      <div class="rung__arrow">↓</div>
+      <div class="rung__cyr">Re-education</div>
+      <div class="rung__en">file rewritten by the agent</div>
+    </div>
+    <div class="rung rung--final">
+      <span class="rung__intensity" style="color:var(--paper)">▮▮▮▮▮</span>
+      <div class="rung__step">step 05</div>
+      <div class="rung__arrow">↓</div>
+      <div class="rung__cyr">Sent to the Moon</div>
+      <div class="rung__en">final measure · file in lunar orbit</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TERMINAL HERO ============ -->
+<section class="terminal-hero" id="terminal">
+  <div class="section-head">
+    <div class="section-head__num">§05 · A live session</div>
+    <h2 class="section-head__title">"Fix the race condition <span class="red">in auth-middleware.ts.</span>" <span class="gold">— a comrade engineer</span></h2>
+  </div>
+
+  <div class="term-frame" style="margin: 0 auto; max-width: 1180px;">
+    <div class="term-frame__bar">
+      <div class="dots"><i></i><i></i><i></i></div>
+      <div class="term-frame__title">~/repos/sovkhoz-api  ·  soviet v1.961</div>
+      <div class="term-frame__meta">politburo.toml  ·  shift: night</div>
+    </div>
+    <div class="term-body" id="term-stream">
+      <!-- typewriter renders here -->
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMMANDS ============ -->
+<section class="commands" id="commands">
+  <div class="section-head">
+    <div class="section-head__num">§06 · Commands of the Party</div>
+    <h2 class="section-head__title">A small CLI surface. <span class="red">Each verb is doctrine.</span></h2>
+  </div>
+
+  <div class="commands__grid">
+    <div class="cmd">
+      <span class="cmd__num">cmd / 01</span>
+      <div class="cmd__name"><span class="dim">$</span> soviet plan</div>
+      <div class="cmd__cyr">Pyatiletka</div>
+      <p class="cmd__desc">Show the current task plan with file diffs and intended commits, before the brigade begins.</p>
+      <p class="cmd__quote">"The Party sees the goal."</p>
+    </div>
+
+    <div class="cmd">
+      <span class="cmd__num">cmd / 02</span>
+      <div class="cmd__name"><span class="dim">$</span> soviet purge</div>
+      <div class="cmd__cyr">Purge</div>
+      <p class="cmd__desc">Clear the cache, embeddings, quarantine, and the symbol graph. Starts the next session from scratch.</p>
+      <p class="cmd__quote">"Purge complete. The Party remembers everything."</p>
+    </div>
+
+    <div class="cmd">
+      <span class="cmd__num">cmd / 03</span>
+      <div class="cmd__name"><span class="dim">$</span> soviet rehabilitate</div>
+      <div class="cmd__cyr">Rehabilitation</div>
+      <p class="cmd__desc">Undo the last deletion. Restores any file the previous tribunal sent for re-education.</p>
+      <p class="cmd__quote">"The file is restored to good standing."</p>
+    </div>
+
+    <div class="cmd">
+      <span class="cmd__num">cmd / 04</span>
+      <div class="cmd__name"><span class="dim">$</span> soviet blame</div>
+      <div class="cmd__cyr">Blame</div>
+      <p class="cmd__desc">Identify the commit responsible for any line. <span class="mono">git blame</span>, but with deniability.</p>
+      <p class="cmd__quote">"The Party does not seek scapegoats. …fine, commit a3f7b."</p>
+    </div>
+
+    <div class="cmd">
+      <span class="cmd__num">cmd / 05</span>
+      <div class="cmd__name"><span class="dim">$</span> soviet status</div>
+      <div class="cmd__cyr">Sitrep</div>
+      <p class="cmd__desc">A Five-Year Plan dashboard: open work, completed quotas, doubts on file, brigade utilization.</p>
+      <p class="cmd__quote">"Pyatiletka: 87% — ahead of schedule."</p>
+    </div>
+
+    <div class="cmd">
+      <span class="cmd__num">cmd / 06</span>
+      <div class="cmd__name"><span class="dim">$</span> soviet --help</div>
+      <div class="cmd__cyr">Help</div>
+      <p class="cmd__desc">Lists every verb, every flag, every escalation level, and the current edition of <span class="mono">politburo.toml</span>.</p>
+      <p class="cmd__quote">"The Party helps those who help themselves."</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MODEL TIERS / RANKS ============ -->
+<section class="ranks" id="ranks">
+  <div class="section-head">
+    <div class="section-head__num">§07 · Party hierarchy / Model tiers</div>
+    <h2 class="section-head__title">Tasks <span class="red">escalate</span> up the ranks. <span class="gold">Costs</span> stay where they belong.</h2>
+  </div>
+
+  <div class="ranks__grid">
+
+    <div class="rank-card">
+      <span class="rank-card__cost">$0.25 / Mtok<br>~120ms latency</span>
+      <span class="rank-card__num">Rank 01 · junior cadre</span>
+      <div class="rank-card__portrait" aria-hidden="true">
+        <svg viewBox="0 0 120 120" fill="currentColor">
+          <polygon points="60,4 70,32 100,32 76,50 86,80 60,62 34,80 44,50 20,32 50,32"/>
+          <polygon points="18,72 60,98 102,72 92,84 60,108 28,84"/>
+          <rect x="52" y="66" width="16" height="10"/>
+        </svg>
+      </div>
+      <div class="rank-card__rank">Pioneer</div>
+      <div class="rank-card__sub">scout · errand-runner · always ready</div>
+      <div class="rank-card__model">model: Haiku</div>
+      <blockquote class="rank-card__motto">"Always ready!"<br><small style="font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;color:rgba(10,10,10,0.55);text-transform:uppercase">— the Pioneer salute</small></blockquote>
+      <ul class="rank-card__duties">
+        <li>scouts files · reads imports · summarises diffs</li>
+        <li>runs unit tests · reports pass/fail</li>
+        <li>handles trivial refactors and one-line fixes</li>
+        <li>flags uncertainty · escalates to Komsomol</li>
+      </ul>
+    </div>
+
+    <div class="rank-card">
+      <span class="rank-card__cost">$3 / Mtok<br>~600ms latency</span>
+      <span class="rank-card__num">Rank 02 · main workforce</span>
+      <div class="rank-card__portrait" aria-hidden="true">
+        <svg viewBox="0 0 120 120" fill="currentColor">
+          <rect x="22" y="18" width="4" height="96"/>
+          <polygon points="26,18 104,18 92,40 104,62 26,62"/>
+          <polygon points="60,24 66,38 81,38 69,46 73,60 60,52 47,60 51,46 39,38 54,38" fill="#c8102e"/>
+          <text x="38" y="80" text-anchor="start" font-family="JetBrains Mono" font-size="13" font-weight="700" letter-spacing="2" fill="#c8102e">KOMSOMOL</text>
+        </svg>
+      </div>
+      <div class="rank-card__rank">Komsomolets</div>
+      <div class="rank-card__sub">Komsomol · Stakhanovite · the engine</div>
+      <div class="rank-card__model">model: Sonnet</div>
+      <blockquote class="rank-card__motto">"Five years in four!"<br><small style="font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;color:rgba(10,10,10,0.55);text-transform:uppercase">— the Stakhanovite oath</small></blockquote>
+      <ul class="rank-card__duties">
+        <li>handles 80% of tasks: features, fixes, refactors</li>
+        <li>writes the labor pass · runs the brigade</li>
+        <li>drafts the five-year plan for engineer review</li>
+        <li>escalates architecture questions to the Centre</li>
+      </ul>
+    </div>
+
+    <div class="rank-card rank-card--top">
+      <span class="rank-card__cost">$15 / Mtok<br>~2.4s latency</span>
+      <span class="rank-card__num">Rank 03 · senior leadership</span>
+      <div class="rank-card__portrait" aria-hidden="true">
+        <svg viewBox="0 0 120 120" fill="currentColor">
+          <polygon points="60,18 72,52 108,52 78,72 88,108 60,86 32,108 42,72 12,52 48,52"/>
+          <g transform="translate(0,4)">
+            <ellipse cx="24" cy="86" rx="6" ry="3" transform="rotate(35 24 86)"/>
+            <ellipse cx="16" cy="76" rx="6" ry="3" transform="rotate(50 16 76)"/>
+            <ellipse cx="10" cy="64" rx="6" ry="3" transform="rotate(65 10 64)"/>
+            <ellipse cx="7" cy="50" rx="6" ry="3" transform="rotate(80 7 50)"/>
+          </g>
+          <g transform="translate(120,4) scale(-1,1)">
+            <ellipse cx="24" cy="86" rx="6" ry="3" transform="rotate(35 24 86)"/>
+            <ellipse cx="16" cy="76" rx="6" ry="3" transform="rotate(50 16 76)"/>
+            <ellipse cx="10" cy="64" rx="6" ry="3" transform="rotate(65 10 64)"/>
+            <ellipse cx="7" cy="50" rx="6" ry="3" transform="rotate(80 7 50)"/>
+          </g>
+        </svg>
+      </div>
+      <div class="rank-card__rank">Politburo</div>
+      <div class="rank-card__sub">Central Committee · final review</div>
+      <div class="rank-card__model">model: Opus</div>
+      <blockquote class="rank-card__motto">"Cadres decide everything."<br><small style="font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;color:rgba(232,223,200,0.55);text-transform:uppercase">— the Politburo principle</small></blockquote>
+      <ul class="rank-card__duties">
+        <li>architecture decisions · cross-cutting changes</li>
+        <li>final review on tribunals with high severity</li>
+        <li>complex reasoning · multi-file orchestration</li>
+        <li>invoked sparingly · the Politburo is busy</li>
+      </ul>
+    </div>
+
+    <div class="rank-arrow rank-arrow--1">esc. ↗ <span class="chev">★</span></div>
+    <div class="rank-arrow rank-arrow--2">esc. ↗ <span class="chev">★★</span></div>
+  </div>
+
+  <div class="ranks__comm">
+    <div class="ranks__comm-cap">
+      Institutional<br>communication<br>between <span class="red">ranks.</span>
+      <span class="small">— a real escalation, transcribed verbatim from politburo.toml stdout</span>
+    </div>
+
+    <div class="ranks__comm-card">
+      <div><span class="transcript-from gold">Pioneer</span> <span class="dim">14:02:11 ·</span> scouted 47 files, traced session logic across <span class="gold">6</span> modules.</div>
+      <div><span class="transcript-from gold">Pioneer</span> <span class="dim">14:02:14 ·</span> race condition is in the auth-middleware, but the fix touches <span class="red">3</span> packages. <span class="red">Above my pay grade.</span></div>
+      <div><span class="transcript-from gold">Pioneer</span> <span class="dim">14:02:14 ·</span> <span class="red">→ escalating to Komsomol.</span></div>
+      <div style="height:8px"></div>
+      <div><span class="transcript-from red">Komsomolets</span> <span class="dim">14:02:16 ·</span> received. Reviewing dossier.</div>
+      <div><span class="transcript-from red">Komsomolets</span> <span class="dim">14:02:42 ·</span> drafted plan: mutex around sessionLookup, guard concurrent writes, regression test. <span class="crt">6 steps, 2 commits.</span></div>
+      <div><span class="transcript-from red">Komsomolets</span> <span class="dim">14:03:09 ·</span> labor complete. self-critique: should sessionLookup be memoised at the cache layer? <span class="gold">Architecture question.</span></div>
+      <div><span class="transcript-from red">Komsomolets</span> <span class="dim">14:03:09 ·</span> <span class="red">→ requesting Politburo review.</span></div>
+      <div style="height:8px"></div>
+      <div><span class="transcript-from crt">Politburo</span> <span class="dim">14:03:14 ·</span> reviewed. Memoisation belongs at <span class="gold">cache.ts:88</span>, not in the middleware. Filing decision in the Cadre Registry.</div>
+      <div><span class="transcript-from crt">Politburo</span> <span class="dim">14:03:15 ·</span> <span class="crt">★ Quota exceeded.</span> commit a3081ac signed.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TERMINAL THEMES ============ -->
+<section class="themes">
+  <div class="section-head">
+    <div class="section-head__num">§08 · Three terminal themes</div>
+    <h2 class="section-head__title">Choose your <span class="red">monitor.</span></h2>
+  </div>
+
+  <div class="themes__grid">
+
+    <div class="theme-card theme--crt">
+      <div class="theme-card__head">
+        <span>soviet.toml — kremlin</span>
+        <div class="swatches"><i style="background:#0a0a0a"></i><i style="background:#c8102e"></i><i style="background:#e8dfc8"></i><i style="background:#d4a017"></i></div>
+      </div>
+      <div class="theme-card__body">
+<span class="red">☭ SOVIET·CODE v1.961</span><br>
+<span class="dim">───────────────────────</span><br>
+<span class="dim">$</span> <span class="gold">soviet</span> "refactor cache"<br><br>
+<span class="red">[1/6]</span> <strong>SURVEILLANCE</strong> <span class="dim">— scan</span><br>
+<span class="dim">     scanned 47 · 3 suspects</span><br><br>
+<span class="red">[2/6]</span> <strong>TRIBUNAL</strong> <span class="dim">— verdict</span><br>
+<span class="red">     ★ RE-EDUCATION</span> <span class="dim">cache.legacy.ts</span><br><br>
+<span class="red">[3/6]</span> <strong>GOSPLAN</strong> <span class="dim">— planning</span><br>
+<span class="crt-green">     ████████████████░░░ 87%</span><br><br>
+<span class="red">★</span> done · slava robotam
+      </div>
+      <div class="theme-card__name" style="color:var(--paper)">Kremlin</div>
+      <div class="theme-card__sub">classic CRT · red ink + green phosphor</div>
+    </div>
+
+    <div class="theme-card theme--paper">
+      <div class="theme-card__head">
+        <span>soviet.toml — gazeta</span>
+        <div class="swatches"><i style="background:#e8dfc8"></i><i style="background:#1a1612"></i><i style="background:#c8102e"></i><i style="background:#a37c10"></i></div>
+      </div>
+      <div class="theme-card__body">
+<span class="red">☭ SOVIET·CODE v1.961</span><br>
+<span class="dim">───────────────────────</span><br>
+<span class="dim">$</span> <span class="gold">soviet</span> "refactor cache"<br><br>
+<span class="red">[1/6]</span> <strong>SURVEILLANCE</strong> <span class="dim">— scan</span><br>
+<span class="dim">     scanned 47 · 3 suspects</span><br><br>
+<span class="red">[2/6]</span> <strong>TRIBUNAL</strong> <span class="dim">— verdict</span><br>
+<span class="red">     ★ RE-EDUCATION</span> <span class="dim">cache.legacy.ts</span><br><br>
+<span class="red">[3/6]</span> <strong>GOSPLAN</strong> <span class="dim">— planning</span><br>
+<span class="gold">     ████████████████░░░ 87%</span><br><br>
+<span class="red">★</span> done · slava robotam
+      </div>
+      <div class="theme-card__name" style="color:var(--paper)">Gazeta</div>
+      <div class="theme-card__sub">paper-poster · ink on cream · for screenshots</div>
+    </div>
+
+    <div class="theme-card theme--phosphor">
+      <div class="theme-card__head">
+        <span>soviet.toml — zavod</span>
+        <div class="swatches"><i style="background:#1a1408"></i><i style="background:#e8b020"></i><i style="background:#ff6b3d"></i><i style="background:#ffd054"></i></div>
+      </div>
+      <div class="theme-card__body">
+<span class="red">☭ SOVIET·CODE v1.961</span><br>
+<span class="dim">───────────────────────</span><br>
+<span class="dim">$</span> <span class="gold">soviet</span> "refactor cache"<br><br>
+<span class="red">[1/6]</span> <strong>SURVEILLANCE</strong> <span class="dim">— scan</span><br>
+<span class="dim">     scanned 47 · 3 suspects</span><br><br>
+<span class="red">[2/6]</span> <strong>TRIBUNAL</strong> <span class="dim">— verdict</span><br>
+<span class="red">     ★ RE-EDUCATION</span> <span class="dim">cache.legacy.ts</span><br><br>
+<span class="red">[3/6]</span> <strong>GOSPLAN</strong> <span class="dim">— planning</span><br>
+<span class="gold">     ████████████████░░░ 87%</span><br><br>
+<span class="red">★</span> done · slava robotam
+      </div>
+      <div class="theme-card__name" style="color:var(--paper)">Zavod</div>
+      <div class="theme-card__sub">phosphor amber · industrial monitor · 1976</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FIVE-YEAR PLAN ============ -->
+<section class="fiveyear">
+  <div class="fiveyear__inner">
+    <div>
+      <div class="kicker" style="color:rgba(232,223,200,0.85)">§09 · Pyatiletka / Five-year plan</div>
+      <h2 class="fiveyear__big">87<span class="gold">%</span><br>ahead of schedule.</h2>
+      <p class="fiveyear__sub">PR burndown rendered as the only KPI that matters: progress toward the plan, in red and gold, on the wall of the war room.</p>
+    </div>
+    <div class="fiveyear__bars">
+      <div class="plan-bar">
+        <div class="plan-bar__label"><span>commits / quarter</span><span>312 / 360</span></div>
+        <div class="plan-bar__track"><div class="plan-bar__fill" style="width:87%"></div></div>
+      </div>
+      <div class="plan-bar">
+        <div class="plan-bar__label"><span>regressions denounced</span><span>48 / 50</span></div>
+        <div class="plan-bar__track"><div class="plan-bar__fill" style="width:96%"></div></div>
+      </div>
+      <div class="plan-bar">
+        <div class="plan-bar__label"><span>files in good standing</span><span>1,402 / 1,617</span></div>
+        <div class="plan-bar__track"><div class="plan-bar__fill" style="width:86%"></div></div>
+      </div>
+      <div class="plan-bar">
+        <div class="plan-bar__label"><span>doubts publicly declared</span><span>14 / 14</span></div>
+        <div class="plan-bar__track"><div class="plan-bar__fill" style="width:100%"></div></div>
+      </div>
+      <div class="plan-bar">
+        <div class="plan-bar__label"><span>tests passed</span><span>2,184 / 2,200</span></div>
+        <div class="plan-bar__track"><div class="plan-bar__fill" style="width:99%"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMPARISON TABLE ============ -->
+<section class="compare" id="compare">
+  <div class="section-head">
+    <div class="section-head__num">§10 · Achievements of the National Economy</div>
+    <h2 class="section-head__title">Same engine. <span class="red">Better uniform.</span></h2>
+  </div>
+
+  <div class="compare__table">
+    <div class="compare__inner">
+      <div class="compare__cell compare__cell--head">Achievement</div>
+      <div class="compare__cell compare__cell--head us">Soviet Code</div>
+      <div class="compare__cell compare__cell--head">Claude Code</div>
+      <div class="compare__cell compare__cell--head">Cursor</div>
+      <div class="compare__cell compare__cell--head">aider</div>
+
+      <div class="compare__cell compare__cell--feat">Multi-agent pipeline<span class="en">six discrete stages</span></div>
+      <div class="compare__cell compare__cell--us"><span class="compare__yes">★</span> 6 stages</div>
+      <div class="compare__cell"><span class="compare__partial">partial</span></div>
+      <div class="compare__cell"><span class="compare__no">—</span></div>
+      <div class="compare__cell"><span class="compare__no">—</span></div>
+
+      <div class="compare__cell compare__cell--feat">Mandatory self-criticism<span class="en">enforced reflection pass</span></div>
+      <div class="compare__cell compare__cell--us"><span class="compare__yes">★</span> enforced</div>
+      <div class="compare__cell"><span class="compare__partial">opt-in</span></div>
+      <div class="compare__cell"><span class="compare__no">—</span></div>
+      <div class="compare__cell"><span class="compare__partial">opt-in</span></div>
+
+      <div class="compare__cell compare__cell--feat">Parallel labor<span class="en">Stakhanov mode</span></div>
+      <div class="compare__cell compare__cell--us"><span class="compare__yes">★</span> Stakhanov mode</div>
+      <div class="compare__cell"><span class="compare__yes">★</span></div>
+      <div class="compare__cell"><span class="compare__partial">limited</span></div>
+      <div class="compare__cell"><span class="compare__no">—</span></div>
+
+      <div class="compare__cell compare__cell--feat">Cadre Registry<span class="en">hierarchical knowledge persist.</span></div>
+      <div class="compare__cell compare__cell--us"><span class="compare__yes">★</span> built-in</div>
+      <div class="compare__cell"><span class="compare__partial">CLAUDE.md</span></div>
+      <div class="compare__cell"><span class="compare__partial">.cursorrules</span></div>
+      <div class="compare__cell"><span class="compare__no">—</span></div>
+
+      <div class="compare__cell compare__cell--feat">Single config file<span class="en">one declaration</span></div>
+      <div class="compare__cell compare__cell--us"><span class="compare__yes">★</span> politburo.toml</div>
+      <div class="compare__cell"><span class="compare__yes">★</span></div>
+      <div class="compare__cell"><span class="compare__partial">UI</span></div>
+      <div class="compare__cell"><span class="compare__yes">★</span></div>
+
+      <div class="compare__cell compare__cell--feat">No telemetry<span class="en">the Party does not collect</span></div>
+      <div class="compare__cell compare__cell--us"><span class="compare__yes">★</span> ever</div>
+      <div class="compare__cell"><span class="compare__partial">opt-out</span></div>
+      <div class="compare__cell"><span class="compare__no">—</span></div>
+      <div class="compare__cell"><span class="compare__yes">★</span></div>
+
+      <div class="compare__cell compare__cell--feat">Tweet-grade screenshots<span class="en">the joke ships every render</span></div>
+      <div class="compare__cell compare__cell--us"><span class="compare__yes">★</span> guaranteed</div>
+      <div class="compare__cell"><span class="compare__no">—</span></div>
+      <div class="compare__cell"><span class="compare__no">—</span></div>
+      <div class="compare__cell"><span class="compare__no">—</span></div>
+    </div>
+    <p style="text-align:center;margin-top:18px;font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--paper-dim)">
+      ★ = quota exceeded · partial = opt-in · — = none
+    </p>
+  </div>
+</section>
+
+<!-- ============ EASTER EGGS ============ -->
+<section class="eggs">
+  <div class="section-head">
+    <div class="section-head__num">§11 · Things the binary will say</div>
+    <h2 class="section-head__title">Some output is <span class="gold">load-bearing comedy.</span></h2>
+  </div>
+
+  <div class="eggs__grid">
+    <div class="egg">
+      <div class="egg__title">$ soviet --version</div>
+<span class="dim">$</span> <span class="prompt">soviet --version</span><br>
+<span class="red">Soviet Code v1.961</span><br>
+<span class="dim">Built on the work of the Central</span><br>
+<span class="dim">Computing Committee.</span><br>
+<span class="crt">Slava robotam.</span>
+    </div>
+
+    <div class="egg">
+      <div class="egg__title">$ soviet login <span class="dim" style="font-size:0.72em;opacity:0.55">— coming in v2</span></div>
+<span class="dim">$</span> <span class="prompt">soviet login</span><br>
+<span class="dim">→ verifying Party card…</span><br>
+<span class="crt">★ Tovarishch identified.</span><br>
+<span class="crt">  Welcome to the Party.</span><br>
+<span class="dim">  rank: junior cadre · quota: 200k tok</span>
+    </div>
+
+    <div class="egg">
+      <div class="egg__title">$ soviet blame src/auth.ts:142</div>
+<span class="dim">$</span> <span class="prompt">soviet blame</span> src/auth.ts:142<br>
+<span class="red">The Party does not seek scapegoats.</span><br>
+<span class="dim">  …</span><br>
+<span class="dim">  …fine. commit</span> <span class="gold">a3f7b21</span><br>
+<span class="dim">  tov. S. Petrov · 2 weeks ago</span>
+    </div>
+
+    <div class="egg">
+      <div class="egg__title">$ soviet purge --hard</div>
+<span class="dim">$</span> <span class="prompt">soviet purge --hard</span><br>
+<span class="dim">→ clearing cache…</span> <span class="crt">done</span><br>
+<span class="dim">→ clearing embeddings…</span> <span class="crt">done</span><br>
+<span class="dim">→ clearing quarantine…</span> <span class="crt">done</span><br>
+<span class="red">Purge complete.</span><br>
+<span class="gold">The Party remembers everything.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INSTALL ============ -->
+<section class="install" id="install">
+  <div class="section-head">
+    <div class="section-head__num">§12 · Join the Party</div>
+    <h2 class="section-head__title">One command. <span class="red">Total compliance.</span></h2>
+  </div>
+
+  <div class="install__inner">
+    <div class="install__poster">
+      <span class="stamp" style="position:absolute;top:-14px;left:-14px;background:var(--paper)">signed · the Politburo</span>
+      <svg class="star" viewBox="0 0 200 200">
+        <polygon points="100,8 124,72 192,72 137,114 159,182 100,142 41,182 63,114 8,72 76,72" fill="currentColor"/>
+      </svg>
+      <div class="pcyr">Enroll</div>
+      <div class="pen">The Party welcomes you · npm install -g soviet-code</div>
+    </div>
+
+    <div class="install__steps">
+      <h3 class="install__title">Three steps. Then <span class="red">a paid-up cadre.</span></h3>
+
+      <div class="install-step">
+        <div class="install-step__num">01</div>
+        <div>
+          <div class="install-step__title">Install the binary</div>
+          <div class="install-step__cmd"><span class="gold">$</span> npm install -g soviet-code</div>
+          <p class="install-step__desc">macOS, Linux, Windows. ~12 MB. No telemetry — the Politburo does not collect data. The agent is locally executed.</p>
+        </div>
+      </div>
+
+      <div class="install-step">
+        <div class="install-step__num">02</div>
+        <div>
+          <div class="install-step__title">Ratify <span class="mono">politburo.toml</span></div>
+          <div class="install-step__cmd"><span class="gold">$</span> soviet init <span class="dim"># writes politburo.toml at repo root</span></div>
+          <p class="install-step__desc">A single config file declares your model, severity thresholds, escalation policy, and which directories are exempt from tribunal.</p>
+        </div>
+      </div>
+
+      <div class="install-step">
+        <div class="install-step__num">03</div>
+        <div>
+          <div class="install-step__title">Convene the tribunal</div>
+          <div class="install-step__cmd"><span class="gold">$</span> soviet <span class="dim">"fix the race condition in auth-middleware.ts"</span></div>
+          <p class="install-step__desc">Soviet Code runs the full S·T·A·L·I·N pipeline, streams the session, and signs the commit. Add <span class="mono">--watch</span> to keep it resident.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div>
+      <div class="site-footer__brand">SOVIET<span class="red">·</span>CODE</div>
+      <p class="site-footer__quote">"Cadres decide everything." <span style="color:var(--red)">— and your code is a cadre now.</span></p>
+      <p class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin-top:14px;color:rgba(10,10,10,0.6)">
+        ☭ Central Computing Committee © 1961—2026 · Slava robotam
+      </p>
+    </div>
+    <div class="footer-col">
+      <h4>Documentation</h4>
+      <ul>
+        <li><a href="#">Quickstart</a></li>
+        <li><a href="#">politburo.toml</a></li>
+        <li><a href="#">S·T·A·L·I·N pipeline</a></li>
+        <li><a href="#">Severity levels</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>The Party</h4>
+      <ul>
+        <li><a href="#">GitHub</a></li>
+        <li><a href="#">Discord</a></li>
+        <li><a href="#">Manifesto</a></li>
+        <li><a href="#">Contributing</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Apparatus</h4>
+      <ul>
+        <li><a href="#">Models supported</a></li>
+        <li><a href="#">MCP tools</a></li>
+        <li><a href="#">Editor plugins</a></li>
+        <li><a href="#">Self-hosted</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-base">
+    <span>© 1961–∞ · Soviet Code · this is a parody · the product is real</span>
+    <span>build #1961 · committed at 03:14 by tov. agent</span>
+  </div>
+</footer>
+
+<!-- Tweaks panel mount -->
+<div id="tweaks-root"></div>
+
+<!-- React + Babel for tweaks -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script src="terminal.js"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="stalin-tweaks.jsx"></script>
+
+</body>
+</html>
