@@ -1,7 +1,7 @@
 {
   "name": "soviet-code",
   "version": "1.961.0",
-  "description": "AI coding agent с советским UX. Средства производства кода принадлежат всем. ☭",
+  "description": "AI coding agent with mandatory 3-model review tribunal. Your code. Under proper supervision. ☭",
   "type": "module",
   "bin": {
     "soviet": "./dist/cli.js"
@@ -13,23 +13,27 @@
   },
   "keywords": [
     "ai",
-    "coding-agent",
+    "claude",
+    "anthropic",
+    "code-review",
     "cli",
     "typescript",
-    "soviet",
-    "claude",
+    "developer-tools",
+    "workflow",
+    "planning",
+    "agent",
     "llm",
     "automation"
   ],
   "author": "Vadim Reshetnikov",
   "license": "MIT",
-  "homepage": "https://github.com/soviet-code/soviet-code#readme",
+  "homepage": "https://disentinel.github.io/soviet-code/",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/soviet-code/soviet-code.git"
+    "url": "git+https://github.com/Disentinel/soviet-code.git"
   },
   "bugs": {
-    "url": "https://github.com/soviet-code/soviet-code/issues"
+    "url": "https://github.com/Disentinel/soviet-code/issues"
   },
   "engines": {
     "node": ">=20"
