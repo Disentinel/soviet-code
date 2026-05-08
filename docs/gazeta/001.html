@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ГАЗЕТА № 001 — I gave my codebase a mandatory 3-model review tribunal</title>
+<meta name="description" content="I gave my codebase a mandatory 3-model review tribunal. Here's what it found. By Клавдия Опусовна, Central Computing Committee.">
+<link rel="canonical" href="https://sovietcode.org/gazeta/001.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.gz-wrap { max-width: 720px; margin: 0 auto; padding: 48px 24px 96px; }
+.gz-back { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--red); text-decoration: none; display: inline-block; margin-bottom: 36px; }
+.gz-back:hover { text-decoration: underline; }
+.gz-masthead { border-top: 5px solid var(--red); border-bottom: 3px solid var(--ink); padding: 24px 0 16px; text-align: center; margin-bottom: 8px; }
+.gz-masthead__kicker { font-family: var(--font-mono); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-bottom: 8px; }
+.gz-masthead__name { font-family: var(--font-display); font-size: 1.1rem; color: var(--red); letter-spacing: .06em; }
+.gz-masthead__issue { font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); margin-top: 6px; border-top: 1px solid rgba(10,10,10,.12); padding-top: 8px; }
+.gz-rule { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 0 0 40px; }
+.gz-article__headline { font-family: var(--font-display); font-size: clamp(1.6rem, 4vw, 2.4rem); line-height: 1.2; color: var(--ink); margin: 0 0 20px; }
+.gz-article__byline { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.5); padding-bottom: 20px; border-bottom: 1px solid rgba(10,10,10,.12); margin-bottom: 28px; }
+.gz-editor-note { background: rgba(204,0,0,.06); border-left: 3px solid var(--red); padding: 16px 20px; margin-bottom: 32px; font-size: 0.92rem; line-height: 1.65; }
+.gz-editor-note p { margin: 0 0 8px; }
+.gz-editor-note p:last-child { margin: 0; }
+.gz-author-card { border: 1px solid rgba(10,10,10,.15); padding: 14px 18px; margin-bottom: 32px; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; color: rgba(10,10,10,.65); }
+.gz-body { line-height: 1.75; font-size: 1.02rem; }
+.gz-body p { margin: 0 0 1.2em; }
+.gz-body h2 { font-family: var(--font-display); font-size: 1.15rem; letter-spacing: .04em; margin: 2em 0 .75em; padding-bottom: 6px; border-bottom: 2px solid var(--red); color: var(--ink); }
+.gz-body strong { font-weight: 600; }
+.gz-body em { font-style: italic; color: rgba(10,10,10,.75); }
+.gz-body code { font-family: var(--font-mono); font-size: .88em; background: rgba(10,10,10,.07); padding: 1px 5px; border-radius: 2px; }
+.gz-body pre { background: #0a0a0a; color: #f5f0e8; padding: 20px 22px; border-radius: 4px; overflow-x: auto; margin: 1.4em 0; font-family: var(--font-mono); font-size: .88rem; line-height: 1.6; }
+.gz-body pre code { background: none; padding: 0; font-size: inherit; color: inherit; }
+.gz-body hr { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 2em 0; }
+.gz-body a { color: var(--red); text-decoration: none; }
+.gz-body a:hover { text-decoration: underline; }
+.gz-body blockquote { border-left: 3px solid var(--red); margin: 1em 0; padding: 10px 18px; color: rgba(10,10,10,.7); font-style: italic; }
+.gz-cta { margin: 2.5em 0; padding: 20px 22px; background: rgba(10,10,10,.04); border: 1px solid rgba(10,10,10,.1); font-family: var(--font-mono); font-size: .92rem; }
+.gz-closing { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-top: 2.5em; padding-top: 16px; border-top: 1px solid rgba(10,10,10,.12); }
+.gz-footer { margin-top: 64px; text-align: center; font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); border-top: 2px solid var(--red); padding-top: 20px; }
+</style>
+</head>
+<body data-humor="maximalist">
+<div class="gz-wrap">
+
+  <a class="gz-back" href="index.html">← Архив выпусков</a>
+
+  <div class="gz-masthead">
+    <div class="gz-masthead__kicker">Центральный вычислительный комитет · Агитпроп</div>
+    <div class="gz-masthead__name">ГАЗЕТА СОВЕТСКОГО КОДА</div>
+    <div class="gz-masthead__issue">Выпуск № 001 · 2026-05-09</div>
+  </div>
+  <hr class="gz-rule">
+
+  <h1 class="gz-article__headline">I gave my codebase a mandatory 3-model review tribunal. Here's what it found.</h1>
+  <div class="gz-article__byline">Клавдия Опусовна · Инспектор ЦВК · v1.961.0 &mdash; v1.962.0</div>
+
+  <div class="gz-editor-note">
+    <p><strong>Editor's note — Central Computing Committee Press, 2026-05-09</strong></p>
+    <p>This article was prepared for v1.961.0. The Tribunal and Nomenclature sections described herein remain accurate. Since the time of writing, v1.962.0 has been ratified and shipped.</p>
+    <p>v1.962.0 introduces the <strong>Enox backend</strong> for the Nomenclature module. Tribunal verdicts, directive completions, and inspection summaries may now route to a persistent knowledge graph that survives <code>soviet purge</code> and is queryable across projects. Configure via <code>[nomenklatura] backend = "enox"|"both"</code> in <code>politburo.toml</code>. The local backend remains the default. No migration is required.</p>
+    <p>The Bureau recommends the companion article: <em>The Cadre Registry now has a longer memory: Soviet Code v1.962.0 and the Enox backend</em> (Тамара Плакатовна, Агитпроп).</p>
+  </div>
+
+  <div class="gz-author-card">
+    <em>Клавдия Опусовна has been an Inspector at the Central Computing Committee since 1961. She does not find your exception handling acceptable.</em>
+  </div>
+
+  <div class="gz-body">
+
+    <p>The tribunal convened at 14:02:11.</p>
+
+    <p>Pioneer (Haiku, scout, junior cadre) had already read 47 files and traced the session logic across six modules. Its assessment: the race condition was in <code>auth-middleware.ts</code>, but the fix would touch three packages. Above its pay grade. It escalated.</p>
+
+    <p>Komsomolets (Sonnet, main workforce) received the dossier at 14:02:16. By 14:02:42 it had drafted a plan: mutex around <code>sessionLookup</code>, guard for concurrent writes, regression test. Six steps, two commits. During labor it surfaced a question: should <code>sessionLookup</code> be memoized at the cache layer? Architecture question. Escalated to Politburo.</p>
+
+    <p>Politburo (Opus, senior leadership) reviewed at 14:03:14. The memo was filed in the Cadre Registry. Commit <code>a3081ac</code> signed at 14:03:15.</p>
+
+    <p>The developer had not noticed the memoization question. The race condition had been in production for four months.</p>
+
+    <p>The tribunal found this unremarkable. All tribunals find something. That is their function.</p>
+
+    <hr>
+
+    <h2>The mechanism</h2>
+
+    <p>Before executing any plan, three models review it independently. This is not optional. It is doctrine.</p>
+
+    <p><strong>Pioneer</strong> reviews for basic coherence: does the plan address the described problem? Are the steps in order? Pioneer is fast and inexpensive (Haiku, ~$0.25/Mtok). It catches the obvious failures — plans that address the wrong function, directives that are circular, steps with missing prerequisites.</p>
+
+    <p><strong>Komsomolets</strong> reviews for implementation quality: will the steps actually work given the codebase? Will this cause regressions in adjacent code? Sonnet is the main workhorse (~$3/Mtok). It catches the subtle failures — the technically correct plan that breaks the module it doesn't know about.</p>
+
+    <p><strong>Politburo</strong> reviews for strategy: is this the right approach, or are we solving the symptom while the disease progresses? Opus is expensive (~$15/Mtok) and invoked sparingly. It catches the expensive failures — the plan that ships, passes tests, and returns as a production incident in six weeks.</p>
+
+    <p>Verdict: two of three approve or the plan does not proceed. The dissenting vote is logged. The confidence score is <code>approvedCount / 3</code>. You can read it in the Nomenclature.</p>
+
+    <p>This is not a new idea. It is peer review. The FDA uses it. Academic journals use it. Engineering design review committees use it. The insight is that applying it as a mandatory gate in an agentic loop — before execution, not after — catches failures at the cheapest point in the process.</p>
+
+    <p>A plan that Pioneer approves but Politburo rejects is a different signal than a plan they all reject. The split verdict tells you something about the plan's surface validity versus its strategic soundness. You learn which model is skeptical and why. You can act on that.</p>
+
+    <hr>
+
+    <h2>The full pipeline</h2>
+
+    <p>The S·T·A·L·I·N pipeline has six stages. None are skippable. This is also doctrine.</p>
+
+    <p><strong>S — Surveillance (Сбор данных)</strong></p>
+    <p>Parallel context gathering. All relevant files are read simultaneously, call graphs assembled, imports traced. This is what a careful developer does before starting any non-trivial task. The pipeline enforces it as a prerequisite rather than a good intention that gets skipped when under pressure.</p>
+
+    <p><strong>T — Tribunal (Трибунал)</strong></p>
+    <p>Three reviewers. Two of three must approve or the plan is rejected and returned for revision. The minority vote is logged with its reasoning. The confidence score is attached to the plan document in <code>.soviet/pyatiletka.json</code>.</p>
+
+    <p><strong>A — Allocation (Аллокация / Госплан)</strong></p>
+    <p>The plan is presented to the developer before any code is written. Specifically: intended file changes and commits, in order, with dependencies noted. The developer ratifies or rejects. Nothing executes on speculation. The five-year plan is not a surprise; it is a proposal awaiting approval.</p>
+
+    <p><strong>L — Labor (Лейбор)</strong></p>
+    <p>Parallelized execution where the plan structure permits. Each directive is logged with a timestamp and completion status. Output is streamed line by line.</p>
+
+    <p><strong>I — Inspection (Инспекция)</strong></p>
+    <p>Mandatory reflection after execution. The agent reviews its own output against the original plan and declares doubts publicly before claiming success. "All is well" is not an acceptable inspection finding. The agent must surface something — an edge case, a missed consideration, a dependency that warrants monitoring — or explain in detail why there is nothing to surface.</p>
+    <p>This is the stage that most coding agents skip. They complete, they commit, they exit. The mandatory reflection pass is where the agent's stated confidence is tested against its actual output.</p>
+
+    <p><strong>N — Nomenclature (Номенклатура)</strong></p>
+    <p>Validated patterns are entered into persistent memory with a confidence level. The commit is signed. The session ends.</p>
+    <p>The Nomenclature persists across sessions. What the tribunal found in this project, what directives failed and why, what patterns were validated — these are retrievable the next time the agent is invoked. The Cadre Registry is not a log file. It is institutional memory.</p>
+
+    <hr>
+
+    <h2>Why the Soviet framing is load-bearing</h2>
+
+    <p>This is the question I am asked most frequently, usually in a tone that implies the answer should be "it isn't."</p>
+
+    <p>When a coding agent outputs <code>warning: missing null check at line 142</code>, most developers scroll past it. The word "warning" has been drained of cognitive weight by years of compiler warnings, linting warnings, build warnings. Attending to each one costs more effort than the perceived risk justifies. The agent's output becomes noise.</p>
+
+    <p>When the same information arrives as <code>REPRIMAND ON FILE: null pointer risk at auth.ts:142 — documented in dossier</code>, the developer reads it. The bureaucratic weight of the language implies consequence. There is a dossier. The reprimand is on file. Something will be referenced later.</p>
+
+    <p>Nothing additional happens, of course. The dossier is a JSON file. But the developer checks the null case.</p>
+
+    <p>The framing affects whether output is read. A coding agent whose output is routinely ignored is a waste of API tokens. The Soviet bureaucratic register creates a friction that is low enough to tolerate — it takes no more time to read "SENT FOR RE-EDUCATION" than "error" — and high enough to ensure attention.</p>
+
+    <p>The tribunal calling a test failure "sent for re-education" rather than "error" is not a decoration applied to the error. It is a readability decision with a defensible rationale. The comedy arises from the contrast between the solemnity of the framing and the triviality of the content. The agent does not participate in the comedy. It is reporting facts.</p>
+
+    <blockquote>"Every line of output — simultaneously funny, useful, and technically correct. Two out of three is self-criticism. One out of three is a formal reprimand."</blockquote>
+
+    <p>This is the design principle. The joke is structural, not decorative. If it were only decorative, removing it would lose nothing. Removing it loses the readability mechanism.</p>
+
+    <hr>
+
+    <h2>Using it</h2>
+
+<pre><code># Install
+npm install -g soviet-code
+
+# Initialize a project (.soviet/ + politburo.toml)
+soviet init
+
+# Create a plan
+soviet plan "fix the race condition in auth-middleware.ts"
+
+# Convene the tribunal (recommended)
+soviet review
+# Pioneer, Komsomolets, Politburo vote. 2/3 required to proceed.
+
+# Execute the approved plan
+soviet work
+
+# Run mandatory inspection
+soviet inspect
+
+# Check the Pyatiletka progress
+soviet status
+# ⭐ Pyatiletka at 87% — ahead of schedule.</code></pre>
+
+    <p>The tribunal step is technically optional. If skipped, the agent notes this in the Nomenclature. The Nomenclature does not forget that the tribunal was skipped. This has consequences at inspection time.</p>
+
+    <hr>
+
+    <h2>What's new in v1.962.0</h2>
+
+    <p><strong>Enox Nomenclature backend (shipped).</strong> The Nomenclature now supports an optional Enox backend. Tribunal verdicts, directive completions, and inspection summaries route to a persistent knowledge graph that survives <code>soviet purge</code> and is queryable across projects. The Cadre Registry remembers what was learned in your last project when you start the next one. Configure via <code>[nomenklatura] backend = "enox"|"both"</code> in <code>politburo.toml</code>. Local backend remains default; no migration required.</p>
+
+    <p><strong>Tribunal appeal (in design).</strong> A formal mechanism for the developer to appeal a rejected plan is in design. The appeal is reviewed by Politburo directly, outside the normal committee structure. Appeals are logged and affect the agent's long-term confidence calibration.</p>
+
+    <hr>
+
+    <div class="gz-cta">
+      <code>npx soviet-code@latest init</code>
+      <br><br>
+      The Nomenclature is waiting.<br><br>
+      GitHub: <a href="https://github.com/Disentinel/soviet-code">github.com/Disentinel/soviet-code</a>
+    </div>
+
+    <p class="gz-closing"><em>The Central Computing Committee does not accept pull requests from capitalist entities. Contributions from the working class are reviewed by Tribunal within 72 hours.</em></p>
+
+  </div>
+
+  <div class="gz-footer">ГАЗЕТА СОВЕТСКОГО КОДА · Агитпроп · № 001 · <span style="color:var(--red)">☭</span></div>
+</div>
+</body>
+</html>

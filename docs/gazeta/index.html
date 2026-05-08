@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ГАЗЕТА СОВЕТСКОГО КОДА — Архив выпусков</title>
+<meta name="description" content="Архив выпусков ГАЗЕТЫ СОВЕТСКОГО КОДА. Официальный орган Центрального вычислительного комитета.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.gz-wrap { max-width: 760px; margin: 0 auto; padding: 48px 24px 80px; }
+.gz-back { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--red); text-decoration: none; display: inline-block; margin-bottom: 40px; }
+.gz-back:hover { text-decoration: underline; }
+.gz-masthead { border-top: 5px solid var(--red); border-bottom: 3px solid var(--ink); padding: 28px 0 20px; margin-bottom: 12px; text-align: center; }
+.gz-masthead__kicker { font-family: var(--font-mono); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: rgba(10,10,10,.45); margin-bottom: 10px; }
+.gz-masthead__title { font-family: var(--font-display); font-size: clamp(2.4rem, 7vw, 4.2rem); letter-spacing: .06em; color: var(--ink); margin: 0; line-height: 1; }
+.gz-masthead__title span { color: var(--red); }
+.gz-masthead__sub { font-family: var(--font-mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-top: 10px; border-top: 1px solid rgba(10,10,10,.15); padding-top: 10px; }
+.gz-rule { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 0 0 40px; }
+.gz-section-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-bottom: 16px; }
+.gz-issue-list { list-style: none; padding: 0; margin: 0; }
+.gz-issue { display: grid; grid-template-columns: 64px 1fr; gap: 20px; align-items: start; padding: 20px 0; border-bottom: 1px solid rgba(10,10,10,.1); }
+.gz-issue__num { font-family: var(--font-display); font-size: 1.4rem; color: var(--red); line-height: 1; padding-top: 4px; }
+.gz-issue__title { font-family: var(--font-display); font-size: 1.05rem; color: var(--ink); text-decoration: none; line-height: 1.35; }
+.gz-issue__title:hover { color: var(--red); }
+.gz-issue__byline { font-family: var(--font-mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-top: 6px; }
+.gz-footer { margin-top: 64px; text-align: center; font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); border-top: 2px solid var(--red); padding-top: 20px; }
+</style>
+</head>
+<body data-humor="maximalist">
+<div class="gz-wrap">
+
+  <a class="gz-back" href="https://sovietcode.org">← Назад в советский код</a>
+
+  <div class="gz-masthead">
+    <div class="gz-masthead__kicker">Официальный орган · Центральный вычислительный комитет</div>
+    <div class="gz-masthead__title">ГАЗЕТА <span>☭</span></div>
+    <div class="gz-masthead__sub">Советского кода · Агитпроп · Все выпуски</div>
+  </div>
+  <hr class="gz-rule">
+
+  <div class="gz-section-label">Архив выпусков</div>
+
+  <ul class="gz-issue-list">
+    <li class="gz-issue">
+      <div class="gz-issue__num">001</div>
+      <div>
+        <a class="gz-issue__title" href="001.html">I gave my codebase a mandatory 3-model review tribunal. Here's what it found.</a>
+        <div class="gz-issue__byline">Клавдия Опусовна · 2026-05-09 · v1.961.0 — v1.962.0</div>
+      </div>
+    </li>
+  </ul>
+
+  <div class="gz-footer">ГАЗЕТА СОВЕТСКОГО КОДА · Агитпроп · № 001 — <span style="color:var(--red)">☭</span></div>
+</div>
+</body>
+</html>
