@@ -1,8 +1,9 @@
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { watch, existsSync, unlinkSync } from "node:fs";
-import { loadConfig } from "./config.js";
+import { loadConfig, loadGosplanSection } from "./config.js";
 import { watchDepartments, watchConfig } from "./watcher.js";
+import { startBridge } from "./bridge.js";
 import { startDashboard } from "./dashboard.js";
 import { shutdown, setDraining, waitIdle } from "./dispatcher.js";
 import { bus } from "./log.js";
@@ -30,6 +31,18 @@ bus.emit("log", {
 const PORT = parseInt(process.env.SOVIET_PORT ?? process.env.MULTIFORA_PORT ?? "8109");
 startDashboard(depts, PORT);
 watchDepartments(depts);
+
+const gosplan = loadGosplanSection();
+if (gosplan.telegram?.bot_token) {
+  startBridge(gosplan.telegram, ROOT).catch((err: Error) =>
+    bus.emit("log", {
+      ts: new Date().toISOString(),
+      dept: "bridge",
+      event: "start_error",
+      detail: err.message,
+    }),
+  );
+}
 watchConfig((updatedDepts) => {
   bus.emit("log", {
     ts: new Date().toISOString(),

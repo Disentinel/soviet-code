@@ -23,6 +23,16 @@ export interface Config {
   }>;
 }
 
+export interface TelegramConfig {
+  bot_token: string;
+  chat_id: string;
+  notify_on: string[];
+}
+
+export interface GosplanSection {
+  telegram?: TelegramConfig;
+}
+
 export interface LogEntry {
   ts: string;
   dept: string;

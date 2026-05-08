@@ -1,7 +1,7 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import YAML from "yaml";
-import type { Config, Department } from "./types.js";
+import type { Config, Department, GosplanSection } from "./types.js";
 
 function configPath(): string {
   return resolve(process.cwd(), process.env.GOSPLAN_FILE ?? "gosplan.yaml");
@@ -22,6 +22,12 @@ export function loadConfig(): Department[] {
     allowedTools: dept.allowed_tools ?? [],
     extraDirs: dept.extra_dirs ?? [],
   }));
+}
+
+export function loadGosplanSection(): GosplanSection {
+  const raw = readFileSync(configPath(), "utf-8");
+  const parsed = YAML.parse(raw) as { gosplan?: GosplanSection };
+  return parsed.gosplan ?? {};
 }
 
 export function updateSessionId(deptName: string, sessionId: string): void {
