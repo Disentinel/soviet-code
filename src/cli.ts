@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { Command } from "commander";
+import { spawnSync } from "child_process";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import { BOOT_BANNER } from "./prompt.js";
 import {
@@ -215,6 +216,95 @@ program
     for (const r of slice) {
       console.log(JSON.stringify(r));
     }
+  });
+
+// soviet blame
+program
+  .command("blame <target>")
+  .description("Определить товарища, ответственного за строку кода")
+  .option("--theme <name>", "Тема оформления (kremlin|gazeta|zavod)", "")
+  .action((target: string, opts: { theme: string }) => {
+    const colonIdx = target.lastIndexOf(":");
+    let file: string;
+    let line: number | undefined;
+
+    if (colonIdx > 0) {
+      const lineStr = target.slice(colonIdx + 1);
+      const parsed = parseInt(lineStr, 10);
+      if (!isNaN(parsed) && parsed > 0) {
+        file = target.slice(0, colonIdx);
+        line = parsed;
+      } else {
+        file = target;
+      }
+    } else {
+      file = target;
+    }
+
+    const args =
+      line !== undefined
+        ? ["blame", "-L", `${line},${line}`, "--", file]
+        : ["blame", "--", file];
+
+    const result = spawnSync("git", args, { encoding: "utf-8" });
+
+    if (result.error || result.status !== 0 || !result.stdout.trim()) {
+      console.error("☭ История засекречена.");
+      process.exit(1);
+    }
+
+    const blameLines = result.stdout
+      .split("\n")
+      .filter((l) => l.trim().length > 0);
+
+    // git blame line format: "^a3f7b21 (Author Name 2024-01-15 10:30:00 +0300 42) code"
+    const parseBlame = (l: string) => {
+      const m =
+        /^[\^]?([0-9a-f]+)\s+\((.+?)\s+(\d{4}-\d{2}-\d{2})\s+[\d:]+\s+[+-]\d{4}\s+\d+\)/.exec(
+          l,
+        );
+      if (!m) return null;
+      return { hash: m[1], author: m[2].trim(), date: new Date(m[3]) };
+    };
+
+    let chosen: ReturnType<typeof parseBlame> = null;
+    if (line !== undefined) {
+      chosen = parseBlame(blameLines[0]);
+    } else {
+      // pick most recently changed line
+      for (const bl of blameLines) {
+        const parsed = parseBlame(bl);
+        if (!parsed) continue;
+        if (!chosen || parsed.date > chosen.date) chosen = parsed;
+      }
+    }
+
+    if (!chosen) {
+      console.error("☭ История засекречена.");
+      process.exit(1);
+    }
+
+    const shortHash = chosen.hash.replace(/^0+/, "").slice(0, 7);
+
+    const diffDays = Math.floor(
+      (Date.now() - chosen.date.getTime()) / 86400000,
+    );
+    let timeAgo: string;
+    if (diffDays < 1) timeAgo = "сегодня";
+    else if (diffDays === 1) timeAgo = "вчера";
+    else if (diffDays < 7) timeAgo = `${diffDays} дней назад`;
+    else if (diffDays < 30) timeAgo = `${Math.floor(diffDays / 7)} нед. назад`;
+    else if (diffDays < 365)
+      timeAgo = `${Math.floor(diffDays / 30)} мес. назад`;
+    else timeAgo = `${Math.floor(diffDays / 365)} лет назад`;
+
+    const red = opts.theme === "kremlin" ? "\x1b[31m" : "";
+    const reset = opts.theme === "kremlin" ? "\x1b[0m" : "";
+
+    console.log(`\n${red}The Party does not seek scapegoats.${reset}`);
+    console.log(`  …`);
+    console.log(`  …fine. commit ${shortHash}`);
+    console.log(`  tov. ${chosen.author} · ${timeAgo}\n`);
   });
 
 await initBackend(loadConfig());
