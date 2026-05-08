@@ -168,7 +168,12 @@ async function flushTelegramInbox(
         const errBody = await res.text().catch(() => "");
         throw new Error(`HTTP ${res.status}: ${errBody}`);
       }
-      renameSync(filePath, resolve(processedPath, filename));
+      try {
+        renameSync(filePath, resolve(processedPath, filename));
+      } catch (renameErr: any) {
+        if (renameErr.code !== "ENOENT") throw renameErr;
+        // File already moved by a concurrent flush — OK
+      }
       log("sent_from_inbox", filename);
     } catch (err) {
       log(
@@ -179,12 +184,16 @@ async function flushTelegramInbox(
   }
 }
 
-function watchInbox(token: string, chatId: string, workdir: string): void {
+async function watchInbox(token: string, chatId: string, workdir: string): Promise<void> {
   const inboxPath = resolve(workdir, "depts/tovarishch/inbox");
   const processedPath = resolve(workdir, "depts/tovarishch/processed");
 
   if (!existsSync(inboxPath)) mkdirSync(inboxPath, { recursive: true });
   if (!existsSync(processedPath)) mkdirSync(processedPath, { recursive: true });
+
+  // Await initial drain before setting up watcher to eliminate the race
+  // between the startup flush and the first watch event.
+  await flushTelegramInbox(token, chatId, inboxPath, processedPath);
 
   let flushTimer: NodeJS.Timeout | undefined;
   let flushing = false;
@@ -198,9 +207,6 @@ function watchInbox(token: string, chatId: string, workdir: string): void {
       finally { flushing = false; }
     }, 500);
   };
-
-  // Drain any deliver_via:telegram files already waiting
-  void flushTelegramInbox(token, chatId, inboxPath, processedPath);
 
   watch(inboxPath, (_, filename) => {
     if (!filename || !filename.endsWith(".md") || filename.startsWith(".")) return;
@@ -296,7 +302,7 @@ export async function startBridge(
 
   log("start", `chat_id=${telegram.chat_id}`);
   watchOutbox(telegram.bot_token, telegram.chat_id, workdir);
-  watchInbox(telegram.bot_token, telegram.chat_id, workdir);
+  await watchInbox(telegram.bot_token, telegram.chat_id, workdir);
   // Clear any active webhook to avoid 409 on getUpdates
   await fetch(apiUrl(telegram.bot_token, "deleteWebhook")).catch(() => {});
   // pollLoop runs indefinitely — intentionally fire-and-forget
