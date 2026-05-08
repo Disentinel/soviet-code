@@ -57,7 +57,7 @@ class EnoxBackend implements NomenklaturaBackend {
       args: cfg.enox_mcp_args ?? ["-y", "@enox/mcp-server"],
     });
 
-    this.client = new Client({ name: "soviet-code", version: "1.961.0" }, {});
+    this.client = new Client({ name: "soviet-code", version: "1.963.0" }, {});
     await this.client.connect(transport);
     this.connected = true;
   }
