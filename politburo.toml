@@ -20,3 +20,9 @@ allowed_domains = []
 max_directives = 10
 # Язык пятилетки
 language = "ru"
+
+[nomenklatura]
+# backend = "local"   # "local" (default) | "enox" | "both"
+# enox_domain = "cs"
+# enox_mcp_command = "npx"
+# enox_mcp_args = ["-y", "@enox/mcp-server"]
