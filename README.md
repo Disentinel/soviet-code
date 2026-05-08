@@ -107,6 +107,45 @@ language = "ru"       # Language for plans
 | `soviet purge [--hard]` | — | Archive pyatiletka to gulag; `--hard` also clears nomenclature |
 | `soviet rehabilitate` | — | Restore last archived pyatiletka from gulag |
 
+## Госплан — multi-agent conductor
+
+`soviet start` launches **Госплан**, a Soviet-themed multi-agent orchestration system embedded in Soviet Code. Six autonomous agents run in parallel, each with a dedicated role, communicating via file-based messaging.
+
+```bash
+soviet init       # creates politburo.toml (interactive: sets up Госплан on first run)
+soviet start      # launch all six departments + optional Telegram bridge
+soviet status     # check if Госплан is running (silent HTTP probe)
+```
+
+On first run, `soviet start` prompts for:
+- Working directory (where depts/ will live)
+- Telegram bot token (optional — skip to disable bridge)
+- Telegram chat ID
+
+Config is saved to `politburo.toml` under `[gosplan]` and `[gosplan.telegram]`.
+
+### Departments (отделы)
+
+| Dept | Role | Model |
+|------|------|-------|
+| **gensek** | General Secretary — coordination, delegation | Sonnet |
+| **razvedka** | Intelligence — research, investigation | Sonnet |
+| **stakhanovtsy** | Stakhanovites — implementation, commits | Sonnet |
+| **inspektsiya** | Inspection — QA, review | Haiku |
+| **agitprop** | Agitprop — propaganda, content | Sonnet |
+| **tovarishch** | Comrade — principal channel (Telegram) | Haiku |
+
+### Telegram bridge
+
+When configured, Госплан bridges your Telegram channel to the `tovarishch` department:
+- Messages you send → written to `tovarishch/inbox/`
+- Messages from `tovarishch/outbox/` → delivered to you via Telegram bot
+
+### Requirements
+
+- [Claude Code CLI](https://claude.ai/code) installed and authenticated
+- Node.js 18+ (for the conductor)
+
 ## Local state
 
 ```
