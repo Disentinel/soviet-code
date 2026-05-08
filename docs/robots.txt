@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /deployment.md
+Sitemap: https://sovietcode.org/sitemap.xml
