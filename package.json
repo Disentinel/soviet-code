@@ -11,6 +11,29 @@
     "dev": "tsx src/cli.ts",
     "start": "node dist/cli.js"
   },
+  "keywords": [
+    "ai",
+    "coding-agent",
+    "cli",
+    "typescript",
+    "soviet",
+    "claude",
+    "llm",
+    "automation"
+  ],
+  "author": "Vadim Reshetnikov",
+  "license": "MIT",
+  "homepage": "https://github.com/soviet-code/soviet-code#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/soviet-code/soviet-code.git"
+  },
+  "bugs": {
+    "url": "https://github.com/soviet-code/soviet-code/issues"
+  },
+  "engines": {
+    "node": ">=20"
+  },
   "dependencies": {
     "commander": "12.1.0"
   },
