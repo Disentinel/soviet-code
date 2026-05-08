@@ -2,7 +2,8 @@
 import { Command } from "commander";
 import { spawn, spawnSync } from "child_process";
 import { get } from "node:http";
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
+import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
+import { createInterface } from "node:readline";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 
@@ -22,6 +23,66 @@ import {
 } from "./stalin.js";
 import { loadConfig } from "./config.js";
 import { initBackend, closeBackend } from "./nomenklatura.js";
+
+function stripGosplanSections(content: string): string {
+  const lines = content.split("\n");
+  const result: string[] = [];
+  let inGosplan = false;
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (/^\[gosplan/.test(trimmed)) {
+      inGosplan = true;
+      continue;
+    }
+    if (trimmed.startsWith("[") && !/^\[gosplan/.test(trimmed)) {
+      inGosplan = false;
+    }
+    if (!inGosplan) result.push(line);
+  }
+  return result.join("\n").trimEnd();
+}
+
+async function setupGosplan(): Promise<void> {
+  const rl = createInterface({ input: process.stdin, output: process.stdout });
+  const ask = (q: string): Promise<string> => new Promise((r) => rl.question(q, r));
+
+  console.log("\n☭ ГОСПЛАН — первоначальная настройка\n");
+
+  const wdInput = await ask(
+    `Рабочая директория (путь к проекту):\n> [по умолчанию: ${process.cwd()}] `,
+  );
+  const workdir = wdInput.trim() || process.cwd();
+
+  const botToken = (await ask("\nTelegram bot token (получить у @BotFather):\n> ")).trim();
+  const chatId = (await ask("\nВаш Telegram chat ID (ваш личный ID, не группа):\n> ")).trim();
+
+  rl.close();
+
+  const tomlPath = join(workdir, "politburo.toml");
+  let existing = "";
+  try {
+    existing = readFileSync(tomlPath, "utf-8");
+  } catch { /* file may not exist yet */ }
+
+  const stripped = stripGosplanSections(existing);
+  const gosplanBlock =
+    `\n[gosplan]\nport = 8109\ndepartments_file = "gosplan.yaml"\n\n` +
+    `[gosplan.telegram]\nbot_token = "${botToken}"\nchat_id = "${chatId}"\n` +
+    `notify_on = ["done", "error"]\n`;
+
+  writeFileSync(tomlPath, (stripped ? stripped + "\n" : "") + gosplanBlock, "utf-8");
+
+  const gosplanYamlPath = join(workdir, "gosplan.yaml");
+  if (!existsSync(gosplanYamlPath)) {
+    const templatePath = join(__dirname, "../gosplan.yaml");
+    if (existsSync(templatePath)) {
+      copyFileSync(templatePath, gosplanYamlPath);
+      console.log(`\n☭ gosplan.yaml скопирован в ${gosplanYamlPath}`);
+    }
+  }
+
+  console.log("\n☭ Настройка сохранена в politburo.toml. Запускаю Госплан...\n");
+}
 
 const program = new Command();
 
@@ -78,6 +139,8 @@ language = "ru"
     console.log("   .soviet/gulag/      — исправительное учреждение");
     console.log("   politburo.toml      — директивы Политбюро");
     console.log("\nСледующий шаг: soviet plan \"<описание задачи>\"");
+    console.log("\nДля запуска Госплана (мультиагентной системы):");
+    console.log("  soviet start");
   });
 
 // soviet plan
@@ -166,10 +229,15 @@ program
   .command("start")
   .description("Запустить Госплан (conductor + агенты)")
   .option("--daemon", "Фоновый режим")
-  .action((opts: { daemon?: boolean }) => {
+  .action(async (opts: { daemon?: boolean }) => {
+    const config = loadConfig();
+    if (!(config.gosplan as { telegram?: { bot_token?: string } } | undefined)?.telegram?.bot_token) {
+      await setupGosplan();
+    }
+
     const conductorPath = join(__dirname, "../conductor/dist/index.js");
     if (!existsSync(conductorPath)) {
-      console.error("☭ Госплан не собран. Запустите: cd conductor && npm run build");
+      console.error("☭ Госплан не собран. Запустите: npm run build:conductor");
       process.exit(1);
     }
     const child = spawn("node", [conductorPath], {
