@@ -1,10 +1,14 @@
+gosplan:
+  telegram:
+    bot_token: 8715112240:AAG1ROQ0ldbA9wku6PHi2KRjvrp8sIEnq94
+    chat_id: "547893198"
 departments:
   gensek:
-    session_id: null
+    session_id: fa8658e8-e0d8-4658-ab19-5d55dc6bb502
     role: depts/gensek/role.md
     inbox: depts/gensek/inbox/
     outbox: depts/gensek/outbox/
-    description: "Генеральный Секретарь — координация, делегирование, эскалация"
+    description: Генеральный Секретарь — координация, делегирование, эскалация
     model: sonnet
     allowed_tools:
       - Read
@@ -12,28 +16,32 @@ departments:
       - Edit
       - Glob
       - Grep
-    extra_dirs: []
-
+    extra_dirs:
+      - ~/grafema
+      - ~/kami
+      - ~/enox
   razvedka:
-    session_id: null
+    session_id: 939c670d-5313-4c65-b28e-458f2a1f8694
     role: depts/razvedka/role.md
     inbox: depts/razvedka/inbox/
     outbox: depts/razvedka/outbox/
-    description: "Разведка — исследование, анализ, поиск первопричин"
+    description: Разведка — исследование, анализ, поиск первопричин
     model: sonnet
     allowed_tools:
       - Read
       - Glob
       - Grep
       - Bash
-    extra_dirs: []
-
+    extra_dirs:
+      - ~/grafema
+      - ~/kami
+      - ~/enox
   stakhanovtsy:
-    session_id: null
+    session_id: fa8cdc9a-5379-41df-ac56-9ef5824c25d3
     role: depts/stakhanovtsy/role.md
     inbox: depts/stakhanovtsy/inbox/
     outbox: depts/stakhanovtsy/outbox/
-    description: "Стахановцы — реализация, коммиты, ударный труд"
+    description: Стахановцы — реализация, коммиты, ударный труд
     model: sonnet
     allowed_tools:
       - Read
@@ -42,27 +50,30 @@ departments:
       - Glob
       - Grep
       - Bash
-    extra_dirs: []
-
+    extra_dirs:
+      - ~/grafema
+      - ~/kami
+      - ~/enox
+      - ~/soviet-code
   inspektsiya:
-    session_id: null
+    session_id: 7def8a5a-803b-49e1-89ef-f107d4ff10b4
     role: depts/inspektsiya/role.md
     inbox: depts/inspektsiya/inbox/
     outbox: depts/inspektsiya/outbox/
-    description: "Инспекция — контроль качества, аудит, самокритика"
+    description: Инспекция — контроль качества, аудит, самокритика
     model: haiku
     allowed_tools:
       - Read
+      - Write
       - Glob
       - Grep
     extra_dirs: []
-
   agitprop:
-    session_id: null
+    session_id: a6d94e99-c8f7-4f1d-bb18-64f59fa00fb8
     role: depts/agitprop/role.md
     inbox: depts/agitprop/inbox/
     outbox: depts/agitprop/outbox/
-    description: "Агитпроп — контент, газета, публикации"
+    description: Агитпроп — контент, газета, публикации
     model: sonnet
     allowed_tools:
       - Read
@@ -70,13 +81,12 @@ departments:
       - Edit
       - Glob
     extra_dirs: []
-
   tovarishch:
-    session_id: null
+    session_id: 9d84fac6-58bc-4f6c-aa2f-ad242f53e8a3
     role: depts/tovarishch/role.md
     inbox: depts/tovarishch/inbox/
     outbox: depts/tovarishch/outbox/
-    description: "Товарищ — канал связи с принципалом (Telegram)"
+    description: Товарищ — канал связи с принципалом (Telegram)
     model: haiku
     allowed_tools:
       - Read
