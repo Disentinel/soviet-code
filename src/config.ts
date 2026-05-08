@@ -7,50 +7,72 @@ export interface NomenklaturaConfig {
   enox_mcp_args?: string[];
 }
 
+export interface GosplanConfig {
+  port?: number;
+  departments_file?: string;
+  telegram?: {
+    bot_token: string;
+    chat_id: string;
+    notify_on: string[];
+  };
+}
+
 export interface Config {
   party?: { name?: string; version?: string; model?: string };
   nomenklatura?: NomenklaturaConfig;
+  gosplan?: GosplanConfig;
 }
 
 function parseTOML(content: string): Config {
   const result: Record<string, Record<string, unknown>> = {};
-  let section = "";
+  let sectionPath: string[] = [];
 
   for (const raw of content.split("\n")) {
     const line = raw.trim();
     if (!line || line.startsWith("#")) continue;
 
-    const sectionMatch = /^\[(\w+)\]$/.exec(line);
+    const sectionMatch = /^\[(\w+(?:\.\w+)*)\]$/.exec(line);
     if (sectionMatch) {
-      section = sectionMatch[1];
-      result[section] ??= {};
+      sectionPath = sectionMatch[1].split(".");
+      let cur = result as Record<string, unknown>;
+      for (const seg of sectionPath) {
+        if (!cur[seg] || typeof cur[seg] !== "object") cur[seg] = {};
+        cur = cur[seg] as Record<string, unknown>;
+      }
       continue;
     }
 
-    if (!section) continue;
+    if (sectionPath.length === 0) continue;
     const kvMatch = /^(\w+)\s*=\s*(.+)$/.exec(line);
     if (!kvMatch) continue;
 
     const [, key, rawVal] = kvMatch;
     const val = rawVal.trim().replace(/\s*#.*$/, "").trim();
 
+    let parsed: unknown;
     if (val.startsWith('"') && val.endsWith('"')) {
-      result[section][key] = val.slice(1, -1);
+      parsed = val.slice(1, -1);
     } else if (val.startsWith("[") && val.endsWith("]")) {
-      result[section][key] = val
+      parsed = val
         .slice(1, -1)
         .split(",")
         .map((s) => s.trim().replace(/^"|"$/g, ""))
         .filter(Boolean);
     } else if (val === "true") {
-      result[section][key] = true;
+      parsed = true;
     } else if (val === "false") {
-      result[section][key] = false;
+      parsed = false;
     } else if (val !== "" && !isNaN(Number(val))) {
-      result[section][key] = Number(val);
+      parsed = Number(val);
     } else {
-      result[section][key] = val;
+      parsed = val;
     }
+
+    let cur = result as Record<string, unknown>;
+    for (const seg of sectionPath) {
+      cur = cur[seg] as Record<string, unknown>;
+    }
+    cur[key] = parsed;
   }
 
   return result as unknown as Config;

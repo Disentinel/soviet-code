@@ -1,7 +1,13 @@
 #!/usr/bin/env node
 import { Command } from "commander";
-import { spawnSync } from "child_process";
+import { spawn, spawnSync } from "child_process";
+import { get } from "node:http";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 import { BOOT_BANNER } from "./prompt.js";
 import {
   SOVIET_DIR,
@@ -155,11 +161,33 @@ program
     });
   });
 
+// soviet start
+program
+  .command("start")
+  .description("Запустить Госплан (conductor + агенты)")
+  .option("--daemon", "Фоновый режим")
+  .action((opts: { daemon?: boolean }) => {
+    const conductorPath = join(__dirname, "../conductor/dist/index.js");
+    if (!existsSync(conductorPath)) {
+      console.error("☭ Госплан не собран. Запустите: cd conductor && npm run build");
+      process.exit(1);
+    }
+    const child = spawn("node", [conductorPath], {
+      detached: opts.daemon,
+      stdio: opts.daemon ? "ignore" : "inherit",
+      env: process.env,
+    });
+    if (opts.daemon) {
+      child.unref();
+      console.log(`\n⭐ Госплан запущен в фоне (PID: ${child.pid})`);
+    }
+  });
+
 // soviet status
 program
   .command("status")
   .description("Статус текущей пятилетки")
-  .action(() => {
+  .action(async () => {
     if (!existsSync(SOVIET_DIR)) {
       console.error("🔴 Проект не инициализирован. Запусти: soviet init");
       process.exit(1);
@@ -194,6 +222,20 @@ program
         console.log(`\nСледующая директива: soviet work ${next.id}`);
       }
     }
+
+    // Gosplan status check (silent if not running)
+    const gosplanPort = (loadConfig().gosplan as { port?: number } | undefined)?.port ?? 8109;
+    await new Promise<void>((resolve) => {
+      const req = get(`http://localhost:${gosplanPort}/api/status`, (res) => {
+        if (res.statusCode === 200) {
+          console.log(`\n☭ Госплан: работает (порт ${gosplanPort})`);
+        }
+        res.resume();
+        resolve();
+      });
+      req.on("error", () => resolve());
+      req.setTimeout(500, () => { req.destroy(); resolve(); });
+    });
   });
 
 // Read nomenklatura raw
