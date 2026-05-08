@@ -111,12 +111,25 @@ function watchOutbox(token: string, chatId: string, workdir: string): void {
   if (!existsSync(outboxPath)) mkdirSync(outboxPath, { recursive: true });
   if (!existsSync(processedPath)) mkdirSync(processedPath, { recursive: true });
 
+  let flushTimer: NodeJS.Timeout | undefined;
+  let flushing = false;
+
+  const debouncedFlush = () => {
+    if (flushing) return;
+    clearTimeout(flushTimer);
+    flushTimer = setTimeout(async () => {
+      flushing = true;
+      try { await flushOutbox(token, chatId, outboxPath, processedPath); }
+      finally { flushing = false; }
+    }, 500);
+  };
+
   // Drain any files already waiting
   void flushOutbox(token, chatId, outboxPath, processedPath);
 
   watch(outboxPath, (_, filename) => {
     if (!filename || !filename.endsWith(".md") || filename.startsWith(".")) return;
-    void flushOutbox(token, chatId, outboxPath, processedPath);
+    debouncedFlush();
   });
 
   log("outbox_watching", outboxPath);
@@ -173,12 +186,25 @@ function watchInbox(token: string, chatId: string, workdir: string): void {
   if (!existsSync(inboxPath)) mkdirSync(inboxPath, { recursive: true });
   if (!existsSync(processedPath)) mkdirSync(processedPath, { recursive: true });
 
+  let flushTimer: NodeJS.Timeout | undefined;
+  let flushing = false;
+
+  const debouncedFlush = () => {
+    if (flushing) return;
+    clearTimeout(flushTimer);
+    flushTimer = setTimeout(async () => {
+      flushing = true;
+      try { await flushTelegramInbox(token, chatId, inboxPath, processedPath); }
+      finally { flushing = false; }
+    }, 500);
+  };
+
   // Drain any deliver_via:telegram files already waiting
   void flushTelegramInbox(token, chatId, inboxPath, processedPath);
 
   watch(inboxPath, (_, filename) => {
     if (!filename || !filename.endsWith(".md") || filename.startsWith(".")) return;
-    void flushTelegramInbox(token, chatId, inboxPath, processedPath);
+    debouncedFlush();
   });
 
   log("inbox_watching", inboxPath);
