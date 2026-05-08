@@ -1,6 +1,6 @@
 {
   "name": "soviet-code",
-  "version": "1.961.0",
+  "version": "1.962.0",
   "description": "AI coding agent with mandatory 3-model review tribunal. Your code. Under proper supervision. ☭",
   "type": "module",
   "bin": {
@@ -8,6 +8,7 @@
   },
   "scripts": {
     "build": "tsc",
+    "prepublishOnly": "npm run build",
     "dev": "tsx src/cli.ts",
     "start": "node dist/cli.js"
   },
@@ -27,6 +28,13 @@
   ],
   "author": "Vadim Reshetnikov",
   "license": "MIT",
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE",
+    "IDEOLOGY.md",
+    "CONTRIBUTING.md"
+  ],
   "homepage": "https://disentinel.github.io/soviet-code/",
   "repository": {
     "type": "git",
