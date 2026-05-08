@@ -3,7 +3,6 @@ import {
   mkdirSync,
   readdirSync,
   readFileSync,
-  rmSync,
   unlinkSync,
   writeFileSync,
 } from "fs";
@@ -16,6 +15,7 @@ import {
   TRIBUNAL_KOMSOMOL_PROMPT,
   TRIBUNAL_POLITBURO_PROMPT,
 } from "./prompt.js";
+import { record } from "./nomenklatura.js";
 
 export const SOVIET_DIR = ".soviet";
 export const PYATILETKA_FILE = `${SOVIET_DIR}/pyatiletka.json`;
@@ -53,9 +53,7 @@ export function ensureSovietDir(): void {
 }
 
 export function runClaude(prompt: string, model?: string): Promise<string> {
-  const args = model
-    ? ["--model", model, "-p", prompt]
-    : ["-p", prompt];
+  const args = model ? ["--model", model, "-p", prompt] : ["-p", prompt];
 
   return new Promise((resolve, reject) => {
     const child = spawn("claude", args, {
@@ -94,21 +92,6 @@ export function savePyatiletka(data: Pyatiletka): void {
   writeFileSync(PYATILETKA_FILE, JSON.stringify(data, null, 2), "utf-8");
 }
 
-export function addToNomenklatura(entry: object): void {
-  let nomenklatura: object[] = [];
-  if (existsSync(NOMENKLATURA_FILE)) {
-    nomenklatura = JSON.parse(
-      readFileSync(NOMENKLATURA_FILE, "utf-8"),
-    ) as object[];
-  }
-  nomenklatura.push({ ts: new Date().toISOString(), ...entry });
-  writeFileSync(
-    NOMENKLATURA_FILE,
-    JSON.stringify(nomenklatura, null, 2),
-    "utf-8",
-  );
-}
-
 // С — Сбор данных + А — Аллокация (Госплан)
 export async function stalinPlan(description: string): Promise<void> {
   ensureSovietDir();
@@ -128,7 +111,7 @@ export async function stalinPlan(description: string): Promise<void> {
   pyatiletka.created_at = new Date().toISOString();
   savePyatiletka(pyatiletka);
 
-  addToNomenklatura({
+  await record({
     phase: "АЛЛОКАЦИЯ",
     event: "pyatiletka_created",
     title: pyatiletka.title,
@@ -181,12 +164,7 @@ export async function stalinTribunal(pyatiletka: Pyatiletka): Promise<boolean> {
       console.log(`  [${r.name}] ${vote}: ${reason}`);
     } catch (e) {
       const reason = `Рецензент не явился: ${(e as Error).message}`;
-      votes.push({
-        reviewer: r.name,
-        model: r.model,
-        vote: "ОТКЛОНЕНО",
-        reason,
-      });
+      votes.push({ reviewer: r.name, model: r.model, vote: "ОТКЛОНЕНО", reason });
       console.log(`  [${r.name}] ОТКЛОНЕНО: ${reason}`);
     }
   }
@@ -198,7 +176,7 @@ export async function stalinTribunal(pyatiletka: Pyatiletka): Promise<boolean> {
     `\n⭐ ВЕРДИКТ ТРИБУНАЛА: ${approvedCount}/3 одобрили — ${passed ? "ПЯТИЛЕТКА ПРИНЯТА ☭" : "🔴 ПЯТИЛЕТКА ОТКЛОНЕНА"}`,
   );
 
-  addToNomenklatura({
+  await record({
     phase: "ТРИБУНАЛ",
     event: "tribunal_verdict",
     verdict: passed ? "ОДОБРЕНО" : "ОТКЛОНЕНО",
@@ -237,11 +215,8 @@ export async function stalinWork(taskId?: string): Promise<void> {
     : pyatiletka.directives.find((d) => d.status === "pending");
 
   if (!directive) {
-    if (taskId) {
-      console.error(`🔴 ДИРЕКТИВА ${taskId} НЕ НАЙДЕНА.`);
-    } else {
-      console.log("☭ Все директивы выполнены. Коммунизм построен.");
-    }
+    if (taskId) console.error(`🔴 ДИРЕКТИВА ${taskId} НЕ НАЙДЕНА.`);
+    else console.log("☭ Все директивы выполнены. Коммунизм построен.");
     return;
   }
 
@@ -251,11 +226,13 @@ export async function stalinWork(taskId?: string): Promise<void> {
   directive.status = "done";
   savePyatiletka(pyatiletka);
 
-  addToNomenklatura({
+  await record({
     phase: "ЛЕЙБОР",
     event: "directive_done",
     id: directive.id,
     title: directive.title,
+    pyatiletka_title: pyatiletka.title,
+    priority: directive.priority,
   });
 }
 
@@ -272,15 +249,16 @@ export async function stalinInspect(): Promise<void> {
   console.log("\n☭ ИНСПЕКЦИЯ: Провожу самокритику...\n");
   const output = await runClaude(INSPECTION_PROMPT(pyatiletka));
 
-  addToNomenklatura({
+  await record({
     phase: "ИНСПЕКЦИЯ",
     event: "inspection_done",
+    pyatiletka_title: pyatiletka.title,
     summary: output.slice(0, 500),
   });
 }
 
 // Очистка (Purge)
-export function stalinPurge(hard: boolean): void {
+export async function stalinPurge(hard: boolean): Promise<void> {
   ensureSovietDir();
   mkdirSync(GULAG_DIR, { recursive: true });
 
@@ -288,27 +266,19 @@ export function stalinPurge(hard: boolean): void {
     const backup = `${GULAG_DIR}/${Date.now()}-pyatiletka.json`;
     writeFileSync(backup, readFileSync(PYATILETKA_FILE, "utf-8"), "utf-8");
     unlinkSync(PYATILETKA_FILE);
-    addToNomenklatura({
-      phase: "ЧИСТКА",
-      event: "purge",
-      hard,
-      backup,
-    });
+    await record({ phase: "ЧИСТКА", event: "purge", hard, backup });
   }
 
   if (hard && existsSync(NOMENKLATURA_FILE)) {
     unlinkSync(NOMENKLATURA_FILE);
   }
 
-  // Clear gulag except backups we just created — clear only gulag subdirs if any
   console.log("\n☭ Пятилетка стёрта из памяти Партии.");
-  if (hard) {
-    console.log("☭ Номенклатура уничтожена. Партия начинает с чистого листа.");
-  }
+  if (hard) console.log("☭ Номенклатура уничтожена. Партия начинает с чистого листа.");
 }
 
 // Реабилитация
-export function stalinRehabilitate(): void {
+export async function stalinRehabilitate(): Promise<void> {
   ensureSovietDir();
 
   if (!existsSync(GULAG_DIR)) {
@@ -329,14 +299,11 @@ export function stalinRehabilitate(): void {
   const backupPath = `${GULAG_DIR}/${latest}`;
   const pyatiletka = JSON.parse(readFileSync(backupPath, "utf-8")) as Pyatiletka;
 
-  // Clear tribunal status — requires fresh review
   delete pyatiletka.tribunal_status;
   savePyatiletka(pyatiletka);
-
-  // Remove from gulag after rehabilitation
   unlinkSync(backupPath);
 
-  addToNomenklatura({
+  await record({
     phase: "РЕАБИЛИТАЦИЯ",
     event: "rehabilitated",
     source: latest,
