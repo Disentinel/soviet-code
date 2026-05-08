@@ -5,7 +5,7 @@
 
 [![npm version](https://img.shields.io/npm/v/soviet-code.svg)](https://www.npmjs.com/package/soviet-code)
 [![License: MIT](https://img.shields.io/badge/License-MIT-red.svg)](LICENSE)
-[![CI](https://github.com/disentinel/soviet-code/actions/workflows/ci.yml/badge.svg)](https://github.com/disentinel/soviet-code/actions/workflows/ci.yml)
+[![CI](https://github.com/Disentinel/soviet-code/actions/workflows/ci.yml/badge.svg)](https://github.com/Disentinel/soviet-code/actions/workflows/ci.yml)
 
 ## What is it
 
