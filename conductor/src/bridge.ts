@@ -52,6 +52,13 @@ function stripFrontmatter(content: string): string {
   return match ? match[1].trim() : content.trim();
 }
 
+function parseFrontmatterField(content: string, field: string): string | undefined {
+  const block = /^---\n([\s\S]*?)\n---/.exec(content);
+  if (!block) return undefined;
+  const fieldMatch = new RegExp(`^${field}:\\s*(.+)$`, "m").exec(block[1]);
+  return fieldMatch ? fieldMatch[1].trim() : undefined;
+}
+
 function truncate(text: string): string {
   if (text.length <= TG_MAX) return text;
   return text.slice(0, TG_MAX - 15) + "\n[...обрезано]";
@@ -113,6 +120,68 @@ function watchOutbox(token: string, chatId: string, workdir: string): void {
   });
 
   log("outbox_watching", outboxPath);
+}
+
+async function flushTelegramInbox(
+  token: string,
+  chatId: string,
+  inboxPath: string,
+  processedPath: string,
+): Promise<void> {
+  const files = readdirSync(inboxPath).filter(
+    (f) => f.endsWith(".md") && !f.startsWith("."),
+  );
+  for (const filename of files) {
+    const filePath = resolve(inboxPath, filename);
+    if (!existsSync(filePath)) continue;
+
+    const content = readFileSync(filePath, "utf-8");
+    if (parseFrontmatterField(content, "deliver_via") !== "telegram") continue;
+
+    const body = truncate(stripFrontmatter(content));
+    if (!body) {
+      renameSync(filePath, resolve(processedPath, filename));
+      continue;
+    }
+
+    try {
+      const res = await fetch(apiUrl(token, "sendMessage"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: chatId, text: body }),
+        signal: AbortSignal.timeout(10_000),
+      });
+      if (!res.ok) {
+        const errBody = await res.text().catch(() => "");
+        throw new Error(`HTTP ${res.status}: ${errBody}`);
+      }
+      renameSync(filePath, resolve(processedPath, filename));
+      log("sent_from_inbox", filename);
+    } catch (err) {
+      log(
+        "send_error",
+        `${filename}: ${err instanceof Error ? err.message : String(err)}`,
+      );
+    }
+  }
+}
+
+function watchInbox(token: string, chatId: string, workdir: string): void {
+  const inboxPath = resolve(workdir, "depts/tovarishch/inbox");
+  const processedPath = resolve(workdir, "depts/tovarishch/processed");
+
+  if (!existsSync(inboxPath)) mkdirSync(inboxPath, { recursive: true });
+  if (!existsSync(processedPath)) mkdirSync(processedPath, { recursive: true });
+
+  // Drain any deliver_via:telegram files already waiting
+  void flushTelegramInbox(token, chatId, inboxPath, processedPath);
+
+  watch(inboxPath, (_, filename) => {
+    if (!filename || !filename.endsWith(".md") || filename.startsWith(".")) return;
+    void flushTelegramInbox(token, chatId, inboxPath, processedPath);
+  });
+
+  log("inbox_watching", inboxPath);
 }
 
 async function pollLoop(
@@ -201,6 +270,7 @@ export async function startBridge(
 
   log("start", `chat_id=${telegram.chat_id}`);
   watchOutbox(telegram.bot_token, telegram.chat_id, workdir);
+  watchInbox(telegram.bot_token, telegram.chat_id, workdir);
   // pollLoop runs indefinitely — intentionally fire-and-forget
   void pollLoop(telegram.bot_token, telegram.chat_id, workdir);
 }
