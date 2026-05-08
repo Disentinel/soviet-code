@@ -8,6 +8,8 @@
   },
   "scripts": {
     "build": "tsc",
+    "build:conductor": "cd conductor && npx tsc",
+    "start:conductor": "node conductor/dist/index.js",
     "prepublishOnly": "npm run build",
     "dev": "tsx src/cli.ts",
     "start": "node dist/cli.js"

@@ -1,0 +1,85 @@
+departments:
+  gensek:
+    session_id: null
+    role: depts/gensek/role.md
+    inbox: depts/gensek/inbox/
+    outbox: depts/gensek/outbox/
+    description: "Генеральный Секретарь — координация, делегирование, эскалация"
+    model: sonnet
+    allowed_tools:
+      - Read
+      - Write
+      - Edit
+      - Glob
+      - Grep
+    extra_dirs: []
+
+  razvedka:
+    session_id: null
+    role: depts/razvedka/role.md
+    inbox: depts/razvedka/inbox/
+    outbox: depts/razvedka/outbox/
+    description: "Разведка — исследование, анализ, поиск первопричин"
+    model: sonnet
+    allowed_tools:
+      - Read
+      - Glob
+      - Grep
+      - Bash
+    extra_dirs: []
+
+  stakhanovtsy:
+    session_id: null
+    role: depts/stakhanovtsy/role.md
+    inbox: depts/stakhanovtsy/inbox/
+    outbox: depts/stakhanovtsy/outbox/
+    description: "Стахановцы — реализация, коммиты, ударный труд"
+    model: sonnet
+    allowed_tools:
+      - Read
+      - Write
+      - Edit
+      - Glob
+      - Grep
+      - Bash
+    extra_dirs: []
+
+  inspektsiya:
+    session_id: null
+    role: depts/inspektsiya/role.md
+    inbox: depts/inspektsiya/inbox/
+    outbox: depts/inspektsiya/outbox/
+    description: "Инспекция — контроль качества, аудит, самокритика"
+    model: haiku
+    allowed_tools:
+      - Read
+      - Glob
+      - Grep
+    extra_dirs: []
+
+  agitprop:
+    session_id: null
+    role: depts/agitprop/role.md
+    inbox: depts/agitprop/inbox/
+    outbox: depts/agitprop/outbox/
+    description: "Агитпроп — контент, газета, публикации"
+    model: sonnet
+    allowed_tools:
+      - Read
+      - Write
+      - Edit
+      - Glob
+    extra_dirs: []
+
+  tovarishch:
+    session_id: null
+    role: depts/tovarishch/role.md
+    inbox: depts/tovarishch/inbox/
+    outbox: depts/tovarishch/outbox/
+    description: "Товарищ — канал связи с принципалом (Telegram)"
+    model: haiku
+    allowed_tools:
+      - Read
+      - Write
+      - Glob
+    extra_dirs: []
