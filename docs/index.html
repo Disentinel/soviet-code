@@ -8,6 +8,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<link rel="canonical" href="https://sovietcode.org">
+<meta property="og:url" content="https://sovietcode.org">
+<meta property="og:title" content="Soviet Code — Your code. Under proper supervision.">
+<meta property="og:description" content="AI coding agent with Soviet UX. The STALIN pipeline. Tribunal gates every plan. Nomenclature tracks every decision.">
+<meta property="og:image" content="https://sovietcode.org/og-image.png">
 </head>
 <body data-humor="maximalist">
 
@@ -68,8 +73,8 @@
       <div class="hero__cta-row">
         <div class="install-card">
           <div class="install-card__label">install</div>
-          <div class="install-card__cmd"><span class="prompt">$</span> brew install soviet-code</div>
-          <button class="install-card__copy" type="button" onclick="navigator.clipboard?.writeText('brew install soviet-code')">Copy</button>
+          <div class="install-card__cmd"><span class="prompt">$</span> npm install -g soviet-code</div>
+          <button class="install-card__copy" type="button" onclick="navigator.clipboard?.writeText('npm install -g soviet-code')">Copy</button>
         </div>
         <a class="btn btn--red" href="#terminal">Watch a session →</a>
       </div>
@@ -125,7 +130,7 @@
     <span>★</span>
     <span>Sputnik-1 in stable orbit</span>
     <span>★</span>
-    <span>brew install soviet-code</span>
+    <span>npm install -g soviet-code</span>
     <span>★</span>
     <span><svg viewBox="0 0 100 100" fill="currentColor"><polygon points="50,3 61,38 98,38 68,60 79,95 50,73 21,95 32,60 2,38 39,38"/></svg> politburo.toml ratified</span>
     <span>★</span>
@@ -135,7 +140,7 @@
     <span>★</span>
     <span>Sputnik-1 in stable orbit</span>
     <span>★</span>
-    <span>brew install soviet-code</span>
+    <span>npm install -g soviet-code</span>
     <span>★</span>
   </div>
 </div>
@@ -294,22 +299,6 @@
       </div>
     </div>
 
-    <div class="status-card status-card--gulag">
-      <div>
-        <span class="status-card__tag">quarantined / 5xx</span>
-        <svg class="status-card__icon" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="6">
-          <rect x="14" y="22" width="72" height="60" stroke-linejoin="miter"/>
-          <line x1="32" y1="22" x2="32" y2="82"/>
-          <line x1="50" y1="22" x2="50" y2="82"/>
-          <line x1="68" y1="22" x2="68" y2="82"/>
-        </svg>
-      </div>
-      <div>
-        <div class="status-card__cyr">SIBERIAN CLUSTER</div>
-        <div class="status-card__en">quarantined · awaiting tribunal</div>
-        <p class="status-card__desc">Suspect code that fails internal review but is not yet denounced. Held in <span class="mono">.soviet/quarantine/</span> until the next tribunal convenes.</p>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -398,7 +387,7 @@
       <span class="cmd__num">cmd / 02</span>
       <div class="cmd__name"><span class="dim">$</span> soviet purge</div>
       <div class="cmd__cyr">Purge</div>
-      <p class="cmd__desc">Clear the cache, embeddings, quarantine, and the symbol graph. Starts the next session from scratch.</p>
+      <p class="cmd__desc">Archive the current pyatiletka to the gulag. With --hard, also clears the Nomenclature.</p>
       <p class="cmd__quote">"Purge complete. The Party remembers everything."</p>
     </div>
 
@@ -769,7 +758,7 @@
         <polygon points="100,8 124,72 192,72 137,114 159,182 100,142 41,182 63,114 8,72 76,72" fill="currentColor"/>
       </svg>
       <div class="pcyr">Enroll</div>
-      <div class="pen">The Party welcomes you · brew install soviet-code</div>
+      <div class="pen">The Party welcomes you · npm install -g soviet-code</div>
     </div>
 
     <div class="install__steps">
@@ -779,7 +768,6 @@
         <div class="install-step__num">01</div>
         <div>
           <div class="install-step__title">Install the binary</div>
-          <div class="install-step__cmd"><span class="gold">$</span> brew install soviet-code <span class="dim"># or:</span></div>
           <div class="install-step__cmd"><span class="gold">$</span> npm install -g soviet-code</div>
           <p class="install-step__desc">macOS, Linux, Windows. ~12 MB. No telemetry — the Politburo does not collect data. The agent is locally executed.</p>
         </div>
@@ -799,7 +787,7 @@
         <div>
           <div class="install-step__title">Convene the tribunal</div>
           <div class="install-step__cmd"><span class="gold">$</span> soviet <span class="dim">"fix the race condition in auth-middleware.ts"</span></div>
-          <p class="install-step__desc">Soviet Code runs the full S·T·A·L·I·N pipeline, streams the session, and signs the commit. Add <span class="mono">--watch</span> to keep it resident.</p>
+          <p class="install-step__desc">Soviet Code runs the full S·T·A·L·I·N pipeline, streams the session, and signs the commit.</p>
         </div>
       </div>
     </div>

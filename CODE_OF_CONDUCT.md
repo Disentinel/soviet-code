@@ -25,7 +25,7 @@
 
 Нарушения сообщайте через:
 - GitHub Issues (для публичных случаев)
-- Email: conduct@soviet-code.dev (для конфиденциальных обращений)
+- GitHub Issues (all reports handled via public or private issues)
 
 Все обращения рассматриваются в течение 72 часов.
 
