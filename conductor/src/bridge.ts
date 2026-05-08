@@ -226,12 +226,16 @@ async function pollLoop(
 
   let lastOffset = 0;
   let backoff = 5_000;
+  let firstPoll = true;
 
   log("polling_start", `chat_id=${chatId}`);
 
   for (;;) {
     try {
-      const url = `${apiUrl(token, "getUpdates")}?offset=${lastOffset}&timeout=25`;
+      // First poll uses timeout=0 to clear any stale long-poll connection on Telegram's side
+      const timeout = firstPoll ? 0 : 25;
+      firstPoll = false;
+      const url = `${apiUrl(token, "getUpdates")}?offset=${lastOffset}&timeout=${timeout}`;
       const res = await fetch(url, { signal: AbortSignal.timeout(30_000) });
 
       if (res.status === 401) {
