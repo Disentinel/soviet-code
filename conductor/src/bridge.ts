@@ -271,6 +271,8 @@ export async function startBridge(
   log("start", `chat_id=${telegram.chat_id}`);
   watchOutbox(telegram.bot_token, telegram.chat_id, workdir);
   watchInbox(telegram.bot_token, telegram.chat_id, workdir);
+  // Clear any active webhook to avoid 409 on getUpdates
+  await fetch(apiUrl(telegram.bot_token, "deleteWebhook")).catch(() => {});
   // pollLoop runs indefinitely — intentionally fire-and-forget
   void pollLoop(telegram.bot_token, telegram.chat_id, workdir);
 }

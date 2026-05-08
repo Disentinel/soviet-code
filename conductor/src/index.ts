@@ -1,6 +1,6 @@
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { watch, existsSync, unlinkSync } from "node:fs";
+import { watch, existsSync, unlinkSync, readFileSync, writeFileSync } from "node:fs";
 import { loadConfig, loadGosplanSection } from "./config.js";
 import { watchDepartments, watchConfig } from "./watcher.js";
 import { startBridge } from "./bridge.js";
@@ -11,6 +11,20 @@ import { bus } from "./log.js";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "../..");
 process.chdir(ROOT);
+
+const PID_FILE = resolve(ROOT, ".conductor.pid");
+if (existsSync(PID_FILE)) {
+  const existingPid = parseInt(readFileSync(PID_FILE, "utf-8").trim());
+  try {
+    process.kill(existingPid, 0);
+    console.error(`[conductor] Already running (PID ${existingPid}). Exiting.`);
+    process.exit(1);
+  } catch {
+    console.warn(`[conductor] Stale PID file (PID ${existingPid}), overwriting.`);
+  }
+}
+writeFileSync(PID_FILE, String(process.pid), "utf-8");
+process.on("exit", () => { try { unlinkSync(PID_FILE); } catch {} });
 
 bus.emit("log", {
   ts: new Date().toISOString(),
