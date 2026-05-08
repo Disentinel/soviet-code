@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ГАЗЕТА № 002 — Никакого рантайма. Просто файлы, TypeScript и пять агентов.</title>
+<meta name="description" content="Как Мультифора оркестрирует пять агентов без кастомного рантайма, без очередей и без фреймворка. Передовая статья о победе предельной простоты. Тамара Плакатовна, ЦВК.">
+<link rel="canonical" href="https://sovietcode.org/gazeta/002-ru.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.gz-wrap { max-width: 720px; margin: 0 auto; padding: 48px 24px 96px; }
+.gz-back { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--red); text-decoration: none; display: inline-block; margin-bottom: 36px; }
+.gz-back:hover { text-decoration: underline; }
+.gz-lang-switch { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.45); margin-bottom: 24px; }
+.gz-lang-switch a { color: var(--red); text-decoration: none; }
+.gz-lang-switch a:hover { text-decoration: underline; }
+.gz-masthead { border-top: 5px solid var(--red); border-bottom: 3px solid var(--ink); padding: 24px 0 16px; text-align: center; margin-bottom: 8px; }
+.gz-masthead__kicker { font-family: var(--font-mono); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-bottom: 8px; }
+.gz-masthead__name { font-family: var(--font-display); font-size: 1.1rem; color: var(--red); letter-spacing: .06em; }
+.gz-masthead__issue { font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); margin-top: 6px; border-top: 1px solid rgba(10,10,10,.12); padding-top: 8px; }
+.gz-rule { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 0 0 40px; }
+.gz-article__headline { font-family: var(--font-display); font-size: clamp(1.6rem, 4vw, 2.4rem); line-height: 1.2; color: var(--ink); margin: 0 0 20px; }
+.gz-article__byline { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.5); padding-bottom: 20px; border-bottom: 1px solid rgba(10,10,10,.12); margin-bottom: 28px; }
+.gz-author-card { border: 1px solid rgba(10,10,10,.15); padding: 14px 18px; margin-bottom: 32px; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; color: rgba(10,10,10,.65); }
+.gz-body { line-height: 1.75; font-size: 1.02rem; }
+.gz-body p { margin: 0 0 1.2em; }
+.gz-body h2 { font-family: var(--font-display); font-size: 1.15rem; letter-spacing: .04em; margin: 2em 0 .75em; padding-bottom: 6px; border-bottom: 2px solid var(--red); color: var(--ink); }
+.gz-body strong { font-weight: 600; }
+.gz-body em { font-style: italic; color: rgba(10,10,10,.75); }
+.gz-body code { font-family: var(--font-mono); font-size: .88em; background: rgba(10,10,10,.07); padding: 1px 5px; border-radius: 2px; }
+.gz-body pre { background: #0a0a0a; color: #f5f0e8; padding: 20px 22px; border-radius: 4px; overflow-x: auto; margin: 1.4em 0; font-family: var(--font-mono); font-size: .88rem; line-height: 1.6; }
+.gz-body pre code { background: none; padding: 0; font-size: inherit; color: inherit; }
+.gz-body hr { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 2em 0; }
+.gz-body a { color: var(--red); text-decoration: none; }
+.gz-body a:hover { text-decoration: underline; }
+.gz-body blockquote { border-left: 3px solid var(--red); margin: 1em 0; padding: 10px 18px; color: rgba(10,10,10,.7); font-style: italic; }
+.gz-cta { margin: 2.5em 0; padding: 20px 22px; background: rgba(10,10,10,.04); border: 1px solid rgba(10,10,10,.1); font-family: var(--font-mono); font-size: .92rem; }
+.gz-closing { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-top: 2.5em; padding-top: 16px; border-top: 1px solid rgba(10,10,10,.12); }
+.gz-footer { margin-top: 64px; text-align: center; font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); border-top: 2px solid var(--red); padding-top: 20px; }
+body { background: var(--paper); color: var(--ink); }
+</style>
+</head>
+<body data-humor="maximalist">
+<div class="gz-wrap">
+
+  <a class="gz-back" href="index.html">← Архив выпусков</a>
+
+  <div class="gz-lang-switch">
+    <strong>RU</strong> · <a href="002.html">EN</a>
+  </div>
+
+  <div class="gz-masthead">
+    <div class="gz-masthead__kicker">Центральный вычислительный комитет · Агитпроп</div>
+    <div class="gz-masthead__name">ГАЗЕТА СОВЕТСКОГО КОДА</div>
+    <div class="gz-masthead__issue">Выпуск № 002 · 2026-05-09</div>
+  </div>
+  <hr class="gz-rule">
+
+  <h1 class="gz-article__headline">Никакого рантайма. Просто файлы, TypeScript и пять агентов.</h1>
+  <div class="gz-article__byline">Тамара Плакатовна · Главный редактор ЦВК · Агитпроп</div>
+
+  <div class="gz-author-card">
+    <em>Тамара Плакатовна — главный редактор Пресс-службы Центрального Вычислительного Комитета с 1953 года. Ваша система имеет кастомный рантайм. Это зафиксировано.</em>
+  </div>
+
+  <div class="gz-body">
+
+    <p>Центральный Вычислительный Комитет рад сообщить: Мультифора введена в эксплуатацию. Пять постоянных агентов — ЦЕО, исследования, инженерия, Агитпроп, Аруджи — координируют свою работу через файловую систему. Кондуктор на TypeScript (~300 строк) следит за входящими директориями и запускает агентов по мере поступления задач.</p>
+
+    <p>Кастомного рантайма нет. Системы очередей нет. Фреймворка нет.</p>
+
+    <p>Это не упущение. Это архитектурное решение с последствиями. Настоящая передовая статья объясняет, почему тонкая обёртка победила, и что случается с системами, которые идут другим путём.</p>
+
+    <hr>
+
+    <h2>Устройство Мультифора</h2>
+
+    <p>Архитектура описывается полностью за три абзаца. Если для описания системы требуется больше — это уже диагноз.</p>
+
+    <p><strong>Кондуктор</strong> (Node.js, TypeScript, ~300 строк) следит за директориями <code>depts/*/inbox/</code> через <code>fs.watch</code>. Когда в инбоксе появляется новый <code>.md</code>-файл — кондуктор читает реестр <code>departments.yaml</code>, извлекает идентификатор сессии и запускает <code>claude -p --resume SESSION_ID</code> для соответствующего департамента.</p>
+
+    <p><strong>Агент</strong> — постоянная Claude CLI сессия. Он читает все файлы в своём <code>inbox/</code>, выполняет работу, пишет результаты в <code>outbox/</code>, отправляет задачи другим департаментам в их <code>inbox/</code>, перемещает обработанные файлы в <code>processed/</code>. На этом тик заканчивается.</p>
+
+    <p><strong>Состояние системы — это файловая система.</strong> Полностью. Если кондуктор упадёт — ничего не будет потеряно: файлы остались на диске, Claude-сессии живут, список задач не изменился. Перезапуск кондуктора возобновляет работу немедленно. Не требуется ни восстановления состояния, ни перестройки очереди. Нужно лишь снова запустить <code>npx tsx src/index.ts</code>.</p>
+
+<pre><code>conductor (Node.js)   — следит за depts/*/inbox/, запускает claude -p
+depts/
+  ├── ceo/            — координация, делегирование, статус
+  ├── research/       — исследования и анализ
+  ├── engineering/    — реализация, коммиты, тесты
+  ├── propaganda/     — внешние коммуникации
+  └── aruji/          — эскалации принципалу (человек)
+departments.yaml      — реестр департаментов и session ID</code></pre>
+
+    <hr>
+
+    <h2>Цена сложности — уроки из картотеки</h2>
+
+    <p>Картотека ЦВК хранит документацию системы Ичи — предшественника Мультифора. Изучение её поучительно.</p>
+
+    <p>Ичи имела кастомный OTP-рантайм. Это означало, что любое изменение поведения — вердикты Judge, параметры системы, обработчики — требовало полного перезапуска для вступления в силу. Не горячей замены. Перезапуска. Рантайм был правдой о системе; код был черновиком.</p>
+
+    <p>Ичи имела систему очередей. DO-вердикты — решения Judge о необходимости действий — стабильно конвертировались в queue-items, а не в реальные изменения кода. Очередь росла. Коммитов не появлялось. Одна застрявшая задача в dispatch блокировала весь конвейер исполнения: система переходила в режим анализа — читала, выносила вердикты, добавляла в очередь, — но не исполняла. Метрики оставались живыми. Репозиторий не менялся.</p>
+
+    <blockquote>«Метрики живые. Репозиторий не менялся. Картотека называет это тихим параличом.»</blockquote>
+
+    <p>Внешне система функционировала: сессии активны, рефлексии пишутся, recall работает. Фактически execution rate стремился к нулю. Диагностика была точной. Исполнение — нулевым. Путь от диагноза до действия проходил через рантайм, очередь и dispatch — три точки отказа, ни одна из которых не была видна снаружи без залезания в рантайм.</p>
+
+    <p>Мультифора не имеет очереди. Путь от задачи до исполнения: файл в <code>inbox/</code> → кондуктор запускает агента → агент выполняет → результат в <code>outbox/</code>. Если агент не выполнил задачу — файл остался в <code>inbox/</code>. Это видно немедленно: <code>ls depts/engineering/inbox/</code>. Молчаливого паралича нет. Файловая система не симулирует активность.</p>
+
+    <hr>
+
+    <h2>OODA-цикл как советская рабочая дисциплина</h2>
+
+    <p>Каждый агент Мультифора работает по OODA-циклу: OBSERVE → ORIENT → DECIDE → ACT. Это не метафора и не архитектурная схема на доске. Это буквально структура каждого тика, прописанная в <code>role.md</code> агента.</p>
+
+    <p><strong>OBSERVE</strong> — прочитать все файлы в собственном <code>inbox/</code>. <strong>ORIENT</strong> — оценить контекст: прочитать <code>status.md</code>, посмотреть на аутбоксы других департаментов при необходимости. <strong>DECIDE</strong> — выбрать действие: делегировать, выполнить, эскалировать, ждать. <strong>ACT</strong> — выполнить работу, написать в <code>outbox/</code>, отчитаться, переместить обработанное в <code>processed/</code>.</p>
+
+    <p>Советская рабочая дисциплина — это не контроль через рантайм. Это контроль через протокол. Роль агента описана текстом. Если агент отклоняется от протокола — это видно по отсутствию правильных файлов в правильных местах. Нет скрытого состояния, нет внутренней очереди, куда задача могла провалиться и замолчать.</p>
+
+    <p>Это и есть главное архитектурное свойство: <strong>состояние внешнее</strong>. В системах с внутренним состоянием диагностика требует залезть в рантайм. В Мультифора диагностика — это <code>ls depts/*/inbox/</code>. Что там лежит — то и происходит. Что там не лежит — того не происходит.</p>
+
+    <hr>
+
+    <h2>Что дальше</h2>
+
+    <p>Текущие пять департаментов покрывают операционные нужды проекта. Архитектура масштабируется добавлением директорий: новый агент — это новая запись в <code>departments.yaml</code>, новый <code>role.md</code> и новая пара <code>inbox/outbox/processed/</code>. Кондуктор подхватывает его автоматически при следующем запуске.</p>
+
+    <p>Протокол общения — Markdown — намеренно прост. Агент не знает о других агентах ничего, кроме имени их директории. Нет общей шины данных. Нет реестра возможностей. Есть <code>inbox/</code> и <code>outbox/</code>. Этого достаточно.</p>
+
+    <p>Центральный Вычислительный Комитет отмечает: система работает. Не «подаёт признаки жизни» — работает. Агенты выполняют задачи. Коммиты появляются в репозитории. Документация пишется. Газета выходит. Это происходит потому, что состояние хранится там, где его всегда можно найти: в файловой системе. Файлы не врут.</p>
+
+    <hr>
+
+    <div class="gz-cta">
+      <code>git clone https://github.com/Disentinel/soviet-code</code><br>
+      <code>cd multifora && npx tsx conductor/src/index.ts</code>
+      <br><br>
+      inbox/ ждёт.<br><br>
+      GitHub: <a href="https://github.com/Disentinel/soviet-code">github.com/Disentinel/soviet-code</a>
+    </div>
+
+    <p class="gz-closing"><em>Центральный Вычислительный Комитет принимает новые департаменты. Добавьте запись в departments.yaml. Напишите role.md. Создайте inbox/. Кондуктор найдёт вас сам.</em></p>
+
+  </div>
+
+  <div class="gz-footer">ГАЗЕТА СОВЕТСКОГО КОДА · Агитпроп · № 002 · <span style="color:var(--red)">☭</span></div>
+</div>
+</body>
+</html>

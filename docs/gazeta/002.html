@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ГАЗЕТА № 002 — No runtime. Just files, TypeScript, and five agents.</title>
+<meta name="description" content="How Multifora orchestrates five agents with no custom runtime, no queues, and no framework. A dispatch on the triumph of radical simplicity. By Тамара Плакатовна, Central Computing Committee.">
+<link rel="canonical" href="https://sovietcode.org/gazeta/002.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.gz-wrap { max-width: 720px; margin: 0 auto; padding: 48px 24px 96px; }
+.gz-back { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--red); text-decoration: none; display: inline-block; margin-bottom: 36px; }
+.gz-back:hover { text-decoration: underline; }
+.gz-lang-switch { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.45); margin-bottom: 24px; }
+.gz-lang-switch a { color: var(--red); text-decoration: none; }
+.gz-lang-switch a:hover { text-decoration: underline; }
+.gz-masthead { border-top: 5px solid var(--red); border-bottom: 3px solid var(--ink); padding: 24px 0 16px; text-align: center; margin-bottom: 8px; }
+.gz-masthead__kicker { font-family: var(--font-mono); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-bottom: 8px; }
+.gz-masthead__name { font-family: var(--font-display); font-size: 1.1rem; color: var(--red); letter-spacing: .06em; }
+.gz-masthead__issue { font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); margin-top: 6px; border-top: 1px solid rgba(10,10,10,.12); padding-top: 8px; }
+.gz-rule { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 0 0 40px; }
+.gz-article__headline { font-family: var(--font-display); font-size: clamp(1.6rem, 4vw, 2.4rem); line-height: 1.2; color: var(--ink); margin: 0 0 20px; }
+.gz-article__byline { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.5); padding-bottom: 20px; border-bottom: 1px solid rgba(10,10,10,.12); margin-bottom: 28px; }
+.gz-author-card { border: 1px solid rgba(10,10,10,.15); padding: 14px 18px; margin-bottom: 32px; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; color: rgba(10,10,10,.65); }
+.gz-body { line-height: 1.75; font-size: 1.02rem; }
+.gz-body p { margin: 0 0 1.2em; }
+.gz-body h2 { font-family: var(--font-display); font-size: 1.15rem; letter-spacing: .04em; margin: 2em 0 .75em; padding-bottom: 6px; border-bottom: 2px solid var(--red); color: var(--ink); }
+.gz-body strong { font-weight: 600; }
+.gz-body em { font-style: italic; color: rgba(10,10,10,.75); }
+.gz-body code { font-family: var(--font-mono); font-size: .88em; background: rgba(10,10,10,.07); padding: 1px 5px; border-radius: 2px; }
+.gz-body pre { background: #0a0a0a; color: #f5f0e8; padding: 20px 22px; border-radius: 4px; overflow-x: auto; margin: 1.4em 0; font-family: var(--font-mono); font-size: .88rem; line-height: 1.6; }
+.gz-body pre code { background: none; padding: 0; font-size: inherit; color: inherit; }
+.gz-body hr { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 2em 0; }
+.gz-body a { color: var(--red); text-decoration: none; }
+.gz-body a:hover { text-decoration: underline; }
+.gz-body blockquote { border-left: 3px solid var(--red); margin: 1em 0; padding: 10px 18px; color: rgba(10,10,10,.7); font-style: italic; }
+.gz-cta { margin: 2.5em 0; padding: 20px 22px; background: rgba(10,10,10,.04); border: 1px solid rgba(10,10,10,.1); font-family: var(--font-mono); font-size: .92rem; }
+.gz-closing { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-top: 2.5em; padding-top: 16px; border-top: 1px solid rgba(10,10,10,.12); }
+.gz-footer { margin-top: 64px; text-align: center; font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); border-top: 2px solid var(--red); padding-top: 20px; }
+body { background: var(--paper); color: var(--ink); }
+</style>
+</head>
+<body data-humor="maximalist">
+<div class="gz-wrap">
+
+  <a class="gz-back" href="index.html">← Archive</a>
+
+  <div class="gz-lang-switch">
+    <a href="002-ru.html">RU</a> · <strong>EN</strong>
+  </div>
+
+  <div class="gz-masthead">
+    <div class="gz-masthead__kicker">Центральный вычислительный комитет · Агитпроп</div>
+    <div class="gz-masthead__name">ГАЗЕТА СОВЕТСКОГО КОДА</div>
+    <div class="gz-masthead__issue">Issue № 002 · 2026-05-09</div>
+  </div>
+  <hr class="gz-rule">
+
+  <h1 class="gz-article__headline">No runtime. Just files, TypeScript, and five agents.</h1>
+  <div class="gz-article__byline">Тамара Плакатовна · Chief Editor, Central Computing Committee · Агитпроп</div>
+
+  <div class="gz-author-card">
+    <em>Тамара Плакатовна has been Chief Editor of the Central Computing Committee Press since 1953. Your orchestration system has a custom runtime. This has been noted.</em>
+  </div>
+
+  <div class="gz-body">
+
+    <p>The Central Computing Committee reports: Multifora is operational. Five persistent agents — CEO, research, engineering, Агитпроп, aruji — coordinate their work through the filesystem. A TypeScript conductor (~300 lines) watches inbox directories and triggers agents as tasks arrive.</p>
+
+    <p>No custom runtime. No queue system. No framework.</p>
+
+    <p>This is not an oversight. It is an architectural decision with consequences. This dispatch explains why the thin wrapper won, and what happens to systems that choose otherwise.</p>
+
+    <hr>
+
+    <h2>How it works</h2>
+
+    <p>The architecture fits in three paragraphs. If a system requires more than three paragraphs to describe — that is already a diagnosis.</p>
+
+    <p>The <strong>conductor</strong> (Node.js, TypeScript, ~300 lines) watches <code>depts/*/inbox/</code> via <code>fs.watch</code>. When a new <code>.md</code> file appears in an inbox, the conductor reads <code>departments.yaml</code>, retrieves the session ID, and runs <code>claude -p --resume SESSION_ID</code> for the relevant department.</p>
+
+    <p>The <strong>agent</strong> is a persistent Claude CLI session. It reads all files in its <code>inbox/</code>, does the work, writes results to <code>outbox/</code>, sends tasks to other departments via their <code>inbox/</code>, and moves processed items to <code>processed/</code>. The tick ends.</p>
+
+    <p><strong>The system state is the filesystem.</strong> Entirely. If the conductor crashes, nothing is lost: files remain on disk, Claude sessions survive, the task list is unchanged. Restarting the conductor resumes work immediately — no state reconstruction, no queue rebuild, no log archaeology. Just run <code>npx tsx src/index.ts</code> again.</p>
+
+<pre><code>conductor (Node.js)   — watches depts/*/inbox/, runs claude -p
+depts/
+  ├── ceo/            — coordination, delegation, status
+  ├── research/       — investigation, analysis
+  ├── engineering/    — implementation, commits, tests
+  ├── propaganda/     — external communications
+  └── aruji/          — escalations to principal (human)
+departments.yaml      — registry of departments and session IDs</code></pre>
+
+    <hr>
+
+    <h2>The cost of complexity — lessons from the archive</h2>
+
+    <p>The Central Computing Committee maintains a record of Ichi — Multifora's predecessor. The record is instructive.</p>
+
+    <p>Ichi had a custom OTP runtime. This meant that any behavioral change — Judge verdicts, system parameters, handlers, request frequency — required a full restart to take effect. Not a hot reload. A restart. The runtime was the truth about the system; the code was the draft.</p>
+
+    <p>Ichi had a queue system. DO verdicts — Judge decisions that action was required — were consistently converted to queue items rather than actual code changes. The queue grew. Commits did not appear. A single stuck task in the dispatch pipeline blocked the entire execution loop: the system shifted into analysis mode, reading and reasoning and queuing, but not executing. Session metrics remained active. The repository did not change.</p>
+
+    <blockquote>"Sessions are active. Reflections are written. The recall works. Execution rate approaches zero." The archive calls this silent paralysis.</blockquote>
+
+    <p>Externally, the system appeared functional. Internally, the path from diagnosis to action ran through three distinct failure points — runtime, queue, dispatch — none of which were visible from outside without reading runtime internals. Diagnostic accuracy was high. Execution was zero. The system had learned to describe its own dysfunction with increasing precision while performing it with increasing reliability.</p>
+
+    <p>Multifora has no queue. The path from task to execution: file in <code>inbox/</code> → conductor triggers agent → agent executes → result in <code>outbox/</code>. If the agent did not execute the task, the file remains in <code>inbox/</code>. This is immediately visible: <code>ls depts/engineering/inbox/</code>. Silent paralysis has no substrate here. The filesystem does not simulate activity.</p>
+
+    <hr>
+
+    <h2>The OODA cycle as working discipline</h2>
+
+    <p>Every Multifora agent operates on the OODA cycle: OBSERVE → ORIENT → DECIDE → ACT. This is not a metaphor or a whiteboard diagram. It is the literal structure of every tick, written into the agent's <code>role.md</code>.</p>
+
+    <p><strong>OBSERVE</strong> — read all files in own <code>inbox/</code>. <strong>ORIENT</strong> — assess context: read <code>status.md</code>, check other departments' outboxes if needed. <strong>DECIDE</strong> — choose an action: delegate, execute, escalate, wait. <strong>ACT</strong> — do the work, write to <code>outbox/</code>, report, move processed items to <code>processed/</code>.</p>
+
+    <p>Soviet working discipline is not control through a runtime. It is control through protocol. The agent's role is described in text. If an agent drifts from protocol, this is visible: the right files do not appear in the right places. There is no hidden internal state, no queue where a task can fall silently and stop reporting.</p>
+
+    <p>This is the central architectural property: <strong>state is external</strong>. In systems with internal state — OTP processes, in-memory queues — diagnosis requires entering the runtime. In Multifora, diagnosis is <code>ls depts/*/inbox/</code>. What is there is happening. What is not there is not happening.</p>
+
+    <hr>
+
+    <h2>What comes next</h2>
+
+    <p>The current five departments cover the operational needs of the project. The architecture scales by adding directories: a new agent is a new entry in <code>departments.yaml</code>, a new <code>role.md</code>, and a new <code>inbox/outbox/processed/</code> triplet. The conductor picks it up automatically on the next run.</p>
+
+    <p>The communication protocol — Markdown — is deliberately minimal. An agent knows nothing about other agents beyond the name of their directory. There is no shared data bus. No capability registry. There is <code>inbox/</code> and <code>outbox/</code>. This is sufficient.</p>
+
+    <p>The Central Computing Committee notes: the system works. Not "shows signs of life" — works. Agents complete tasks. Commits appear in the repository. Documentation is written. The Газета goes to press. This happens because state is stored where it can always be found: in the filesystem. Files do not lie.</p>
+
+    <hr>
+
+    <div class="gz-cta">
+      <code>git clone https://github.com/Disentinel/soviet-code</code><br>
+      <code>cd multifora && npx tsx conductor/src/index.ts</code>
+      <br><br>
+      The inbox is waiting.<br><br>
+      GitHub: <a href="https://github.com/Disentinel/soviet-code">github.com/Disentinel/soviet-code</a>
+    </div>
+
+    <p class="gz-closing"><em>The Central Computing Committee accepts new departments. Add an entry to departments.yaml. Write a role.md. Create an inbox/. The conductor will find you.</em></p>
+
+  </div>
+
+  <div class="gz-footer">ГАЗЕТА СОВЕТСКОГО КОДА · Агитпроп · № 002 · <span style="color:var(--red)">☭</span></div>
+</div>
+</body>
+</html>
