@@ -1,4 +1,7 @@
 node_modules/
 dist/
-.soviet/gulag/
+conductor/dist/
+.soviet/
+politburo.toml
 *.log
+.env
