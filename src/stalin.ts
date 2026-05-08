@@ -9,6 +9,7 @@ import {
 import { spawn } from "child_process";
 import {
   PYATILETKA_PROMPT,
+  SURVEILLANCE_PROMPT,
   LABOR_PROMPT,
   INSPECTION_PROMPT,
   TRIBUNAL_PIONEER_PROMPT,
@@ -97,7 +98,13 @@ export async function stalinPlan(description: string): Promise<void> {
   ensureSovietDir();
   console.log("\n☭ ГОСПЛАН: Составляю пятилетку...\n");
 
-  const output = await runClaude(PYATILETKA_PROMPT(description));
+  // Фаза С — Сыскарёв собирает данные перед составлением пятилетки
+  console.log("\n  [Сыскарёв] Провожу наблюдение...\n");
+  const surveillance = await runClaude(SURVEILLANCE_PROMPT(description));
+
+  // Фаза А — Сметкин составляет план на основе данных Сыскарёва
+  const planInput = `${description}\n\nДанные наблюдения:\n${surveillance}`;
+  const output = await runClaude(PYATILETKA_PROMPT(planInput));
 
   const jsonMatch = output.match(/\{[\s\S]*\}/);
   if (!jsonMatch) {
@@ -151,10 +158,11 @@ export async function stalinTribunal(pyatiletka: Pyatiletka): Promise<boolean> {
     process.stdout.write(`\n  [${r.name}] проводит рецензию...\n`);
     try {
       const output = await runClaude(r.prompt, r.model);
-      const jsonMatch = output.match(/\{[^{}]+\}/);
+      const cleaned = output.replace(/```(?:json)?\n?([\s\S]*?)\n?```/g, "$1");
+      const jsonMatch = cleaned.match(/\{[^{}]+\}/);
       const parsed = jsonMatch
         ? (JSON.parse(jsonMatch[0]) as { vote?: string; reason?: string })
-        : { vote: "ОТКЛОНЕНО", reason: "Рецензент не вернул вердикт" };
+        : { vote: "ОТКЛОНЕНО", reason: "Рецензент вернул неразборчивый вердикт" };
 
       const vote: "ОДОБРЕНО" | "ОТКЛОНЕНО" =
         parsed.vote === "ОДОБРЕНО" ? "ОДОБРЕНО" : "ОТКЛОНЕНО";
