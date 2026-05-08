@@ -89,7 +89,7 @@ const program = new Command();
 program
   .name("soviet")
   .description("☭ AI coding agent. Средства производства кода принадлежат всем.")
-  .version("1.961.0", "-v, --version", "Версия Партии")
+  .version("1.964.0", "-v, --version", "Версия Партии")
   .hook("preAction", () => console.log(BOOT_BANNER));
 
 // soviet init

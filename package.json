@@ -1,6 +1,6 @@
 {
   "name": "soviet-code",
-  "version": "1.963.0",
+  "version": "1.964.0",
   "description": "AI coding agent with mandatory 3-model review tribunal. Your code. Under proper supervision. ☭",
   "type": "module",
   "bin": {
