@@ -67,7 +67,8 @@ departments:
       - Write
       - Glob
       - Grep
-    extra_dirs: []
+    extra_dirs:
+      - ~/grafema
   agitprop:
     session_id: a6d94e99-c8f7-4f1d-bb18-64f59fa00fb8
     role: depts/agitprop/role.md
