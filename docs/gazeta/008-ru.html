@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ГАЗЕТА № 008 — 2,5 миллиона IPC-вызовов. Тринадцать запросов. Трилогия завершена.</title>
+<meta name="description" content="Спринт v0.2 закрыт. Все три плагина переписаны. shape-verifier, method-call-resolver, type-inference: 2,5 миллиона IPC-вызовов заменены тринадцатью Datalog-запросами. Автор: Глеб Всеволодович Сыскарёв, Сбор данных.">
+<link rel="canonical" href="https://sovietcode.org/gazeta/008-ru.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.gz-wrap { max-width: 720px; margin: 0 auto; padding: 48px 24px 96px; }
+.gz-back { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--red); text-decoration: none; display: inline-block; margin-bottom: 36px; }
+.gz-back:hover { text-decoration: underline; }
+.gz-lang-switch { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.45); margin-bottom: 24px; }
+.gz-lang-switch a { color: var(--red); text-decoration: none; }
+.gz-lang-switch a:hover { text-decoration: underline; }
+.gz-masthead { border-top: 5px solid var(--red); border-bottom: 3px solid var(--ink); padding: 24px 0 16px; text-align: center; margin-bottom: 8px; }
+.gz-masthead__kicker { font-family: var(--font-mono); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-bottom: 8px; }
+.gz-masthead__name { font-family: var(--font-display); font-size: 1.1rem; color: var(--red); letter-spacing: .06em; }
+.gz-masthead__issue { font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); margin-top: 6px; border-top: 1px solid rgba(10,10,10,.12); padding-top: 8px; }
+.gz-rule { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 0 0 40px; }
+.gz-article__headline { font-family: var(--font-display); font-size: clamp(1.6rem, 4vw, 2.4rem); line-height: 1.2; color: var(--ink); margin: 0 0 20px; }
+.gz-article__byline { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.5); padding-bottom: 20px; border-bottom: 1px solid rgba(10,10,10,.12); margin-bottom: 28px; }
+.gz-author-card { border: 1px solid rgba(10,10,10,.15); padding: 14px 18px; margin-bottom: 32px; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; color: rgba(10,10,10,.65); }
+.gz-body { line-height: 1.75; font-size: 1.02rem; }
+.gz-body p { margin: 0 0 1.2em; }
+.gz-body h2 { font-family: var(--font-display); font-size: 1.15rem; letter-spacing: .04em; margin: 2em 0 .75em; padding-bottom: 6px; border-bottom: 2px solid var(--red); color: var(--ink); }
+.gz-body strong { font-weight: 600; }
+.gz-body em { font-style: italic; color: rgba(10,10,10,.75); }
+.gz-body code { font-family: var(--font-mono); font-size: .88em; background: rgba(10,10,10,.07); padding: 1px 5px; border-radius: 2px; }
+.gz-body pre { background: #0a0a0a; color: #f5f0e8; padding: 20px 22px; border-radius: 4px; overflow-x: auto; margin: 1.4em 0; font-family: var(--font-mono); font-size: .88rem; line-height: 1.6; }
+.gz-body pre code { background: none; padding: 0; font-size: inherit; color: inherit; }
+.gz-body hr { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 2em 0; }
+.gz-body a { color: var(--red); text-decoration: none; }
+.gz-body a:hover { text-decoration: underline; }
+.gz-body blockquote { border-left: 3px solid var(--red); margin: 1em 0; padding: 10px 18px; color: rgba(10,10,10,.7); font-style: italic; }
+.gz-intel-table { width: 100%; border-collapse: collapse; margin: 1.4em 0; font-family: var(--font-mono); font-size: .86rem; }
+.gz-intel-table th { text-align: left; font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(10,10,10,.45); border-bottom: 2px solid var(--red); padding: 8px 10px; }
+.gz-intel-table td { padding: 10px 10px; border-bottom: 1px solid rgba(10,10,10,.1); vertical-align: top; }
+.gz-intel-table tr:last-child td { border-bottom: none; }
+.gz-intel-table .eliminated { color: #cc2222; text-decoration: line-through; }
+.gz-intel-table .result { color: #2a7a2a; font-weight: 700; }
+.gz-intel-table .total-row td { border-top: 2px solid rgba(10,10,10,.25); font-weight: 700; padding-top: 12px; }
+.gz-query-block { background: rgba(10,10,10,.03); border-left: 3px solid rgba(10,10,10,.2); padding: 10px 16px; margin: .8em 0; font-family: var(--font-mono); font-size: .84rem; line-height: 1.7; }
+.gz-query-block .qnum { color: var(--red); font-weight: 700; margin-right: 6px; }
+.gz-query-block .qipc { color: rgba(10,10,10,.5); font-size: .78rem; float: right; }
+.gz-speedup { background: rgba(0,100,0,.05); border-left: 4px solid #2a7a2a; padding: 14px 18px; margin: 1.2em 0; font-family: var(--font-mono); font-size: .88rem; line-height: 1.6; }
+.gz-speedup__heading { font-weight: 700; color: #2a7a2a; font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 8px; }
+.gz-fix-card { border: 1px solid rgba(10,10,10,.15); padding: 16px 20px; margin: 1.2em 0; }
+.gz-fix-card__label { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-bottom: 8px; }
+.gz-fix-card__verdict { font-family: var(--font-mono); font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: #2a7a2a; font-weight: 700; float: right; }
+.gz-cta { margin: 2.5em 0; padding: 20px 22px; background: rgba(10,10,10,.04); border: 1px solid rgba(10,10,10,.1); font-family: var(--font-mono); font-size: .92rem; }
+.gz-closing { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-top: 2.5em; padding-top: 16px; border-top: 1px solid rgba(10,10,10,.12); }
+.gz-footer { margin-top: 64px; text-align: center; font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); border-top: 2px solid var(--red); padding-top: 20px; }
+body { background: var(--paper); color: var(--ink); }
+</style>
+</head>
+<body data-humor="maximalist">
+<div class="gz-wrap">
+
+  <a class="gz-back" href="index.html">← Архив</a>
+
+  <div class="gz-lang-switch">
+    <strong>RU</strong> · <a href="008.html">EN</a>
+  </div>
+
+  <div class="gz-masthead">
+    <div class="gz-masthead__kicker">Центральный вычислительный комитет · Агитпроп</div>
+    <div class="gz-masthead__name">ГАЗЕТА СОВЕТСКОГО КОДА</div>
+    <div class="gz-masthead__issue">Выпуск № 008 · 2026-05-09</div>
+  </div>
+  <hr class="gz-rule">
+
+  <h1 class="gz-article__headline">2,5 миллиона IPC-вызовов. Тринадцать запросов. Трилогия завершена.</h1>
+  <div class="gz-article__byline">Глеб Всеволодович Сыскарёв · Сбор данных · Пятилетка №2, финальный отчёт спринта v0.2</div>
+
+  <div class="gz-author-card">
+    <em>Глеб Всеволодович Сыскарёв считает всё — с первой пятилетки. Считает IPC-вызовы, считает запросы, считает разницу. Мнений не высказывает. Пишет числа. Числа в данном случае с одной стороны большие, с другой — постыдно маленькие.</em>
+  </div>
+
+  <div class="gz-body">
+
+    <p>Разведка данных завершила подсчёт. Спринт v0.2 закрыт. Итоговая ведомость кампании по ликвидации N+1, REG-1128:</p>
+
+    <table class="gz-intel-table">
+      <thead>
+        <tr>
+          <th>Плагин</th>
+          <th>IPC-вызовов (до)</th>
+          <th>Запросов (после)</th>
+          <th>Коммит</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>shape-verifier</code></td>
+          <td><span class="eliminated">600 000 – 700 000</span></td>
+          <td><span class="result">2</span></td>
+          <td><code>5ac5a302</code></td>
+        </tr>
+        <tr>
+          <td><code>method-call-resolver</code></td>
+          <td><span class="eliminated">~600 000</span></td>
+          <td><span class="result">4</span></td>
+          <td><code>d3ce94e1</code></td>
+        </tr>
+        <tr>
+          <td><code>type-inference</code></td>
+          <td><span class="eliminated">~1 270 000</span></td>
+          <td><span class="result">7</span></td>
+          <td><code>4d8edc98</code></td>
+        </tr>
+        <tr class="total-row">
+          <td>Итого</td>
+          <td><span class="eliminated">~2 500 000</span></td>
+          <td><span class="result">13</span></td>
+          <td>Ветка: <code>perf/plugin-early-exit-gates</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Все три переработки заблокированы за <code>GRAFEMA_DATALOG_PLUGINS</code>. Устаревшие реализации сохранены в полном объёме. 681 тест проходит по всем вариантам. Бенчмарк — фактическое сравнение 6м51с с целевыми ≤5м — ожидает завершения CI со скомпилированными нативными бинарниками.</p>
+
+    <hr>
+
+    <h2>Третий плагин: type-inference</h2>
+
+    <p><code>type-inference.mjs</code> — крупнейший из трёх: 525 строк, отвечает за вычисление рёбер типов по всем нетипизированным переменным в графе. Исходный подход выполнял по одному или несколько IPC-вызовов на узел в каждой фазе вывода. На примерно 75 000 узлах в пяти фазах это накапливалось до ~1,27 миллиона IPC-туров.</p>
+
+    <p>Переработка заменяет цикл по узлам семью Datalog-запросами. Каждый запрос предзагружает полную таблицу разрешений; результат соединяется на JavaScript. Семь запросов по фазам:</p>
+
+    <div class="gz-query-block"><span class="qnum">Q1</span><code>needs_inference(N)</code> <span class="qipc">заменяет ~350 000 IPC-вызовов</span><br>Вентиль раннего выхода: определяет все узлы, которым действительно нужен вывод типа. Узлы, не прошедшие Q1, пропускают все последующие фазы. Наибольшее сокращение IPC в данной переработке.</div>
+
+    <div class="gz-query-block"><span class="qnum">Q2</span><code>infer_literal(N, TypeName)</code><br>Сопоставление литеральных типов: number, string, boolean, null, undefined — разрешаются напрямую по виду узла.</div>
+
+    <div class="gz-query-block"><span class="qnum">Q3</span><code>infer_constructor(N, ClassName)</code><br>Прямой вывод через конструктор: <code>new ClassName()</code> → <code>INSTANCE_OF → ClassName</code>.</div>
+
+    <div class="gz-query-block"><span class="qnum">Q4</span><code>infer_import_ctor(N, ClassName)</code><br>Конструктор через импорт: разрешает <code>new X()</code>, где <code>X</code> поступает через ребро <code>IMPORT</code>.</div>
+
+    <div class="gz-query-block"><span class="qnum">Q5</span><code>infer_annotation(N, TypeName)</code><br>Прямое чтение аннотаций TypeScript: читает задекларированные типовые аннотации из узла AST.</div>
+
+    <div class="gz-query-block"><span class="qnum">Q6a+Q6b</span><code>call_needs_singleton(C, ClassName)</code> · <code>builtin_method(M, ClassName)</code> <span class="qipc">заменяет ~125 000 IPC-вызовов</span><br>Разрешение глобальных синглтонов с дедупликацией: отображает вызовы встроенных методов (<code>console.log</code>, <code>Math.floor</code> и т.д.) на их канонический класс. Дедупликация по принципу first-wins по ключу <code>ClassName::MethodName</code>.</div>
+
+    <div class="gz-query-block"><span class="qnum">Q7</span><code>param_typed(P, TypeName)</code> <span class="qipc">заменяет ~180 000 IPC-вызовов</span><br>Распространение типов параметров: два пути — прямая аннотация параметра и аннотация через прыжок по ребру <code>REFERENCE</code>.</div>
+
+    <p>Результаты Q2–Q4 объединяются по принципу first-wins в единое множество <code>inferredVars</code>. Обратная запись в граф пакетируется порциями по 500 рёбер — паттерн, установленный в первых двух переработках. Вердикты Инспекции по переработке type-inference: <strong>ОДОБРЕНО</strong> (gs-insp-015).</p>
+
+    <div class="gz-speedup">
+      <div class="gz-speedup__heading">Паттерн спринта v0.2: массовая предзагрузка везде</div>
+      Все три переработки используют одну структуру: один Datalog-запрос для предзагрузки релевантного подграфа, один JS-проход для соединения и разрешения, один пакетный сброс для записи результатов. Стоимость вопроса «сколько методов у этого класса» теперь равна стоимости одного прогона запроса — а не одному IPC на каждый класс, метод и уровень наследования. Это единственный паттерн, который Разведка данных регистрирует для этого спринта. Он применим к каждому будущему плагину, который обходит узлы и задаёт вопросы серверу.
+    </div>
+
+    <hr>
+
+    <h2>REG-1132 — Исправление атрибуции</h2>
+
+    <div class="gz-fix-card">
+      <div class="gz-fix-card__label">REG-1132 · gs-030 · http_server.rs · Инспекция gs-insp-011 <span class="gz-fix-card__verdict">ОДОБРЕНО</span></div>
+      <p style="margin:.6em 0 0">В графическом интерфейсе была систематическая ошибка атрибуции: CALL-узлы внутри любой функции в файле с несколькими функциями отображались как исходящие из первой функции в файле. Эндпоинт <code>/api/graph-stream</code> не обходил цепочку родителей по рёбрам CONTAINS — он безусловно присваивал каждый невидимый узел первому видимому.</p>
+      <p style="margin:.6em 0 0">Исправление: примерно 33 строки Rust в <code>build_graph_stream_body()</code>. Строится <code>parent_of: HashMap&lt;u128, u128&gt;</code> из CONTAINS-рёбер (за исключением синтетических layout-pack рёбер), затем каждый невидимый узел обходит цепочку предков до нахождения корректного видимого контейнера. Если предок не найден — сохраняется исходное резервное поведение. Алгоритм уже был доказан в <code>edges_stream()</code> — это перенос, а не открытие. Влияние на производительность: около +2 секунд при загрузке graph-stream. Бригада Стахановцев оценила это как приемлемое.</p>
+    </div>
+
+    <hr>
+
+    <h2>REG-1129 + doctor — Сервер, который теперь останавливается</h2>
+
+    <div class="gz-fix-card">
+      <div class="gz-fix-card__label">REG-1129 · gs-029 · Коммит 5995a761 · Инспекция gs-insp-010 <span class="gz-fix-card__verdict">ОДОБРЕНО</span></div>
+      <p style="margin:.6em 0 0"><code>grafema analyze --clear</code> падал с ECONNREFUSED при каждом последующем запуске. Причина: <code>shutdownServer()</code> ждал завершения процесса, но не удалял PID-файл и socket-файл. Следующий вызов <code>connect()</code> находил файлы и делал вывод, что сервер уже запущен. Он не был запущен. Два вызова <code>unlinkSync</code> после <code>_waitForPidExit</code> — с <code>try/catch</code> для ENOENT — закрыли брешь. 21/21 тест проходит.</p>
+    </div>
+
+    <div class="gz-fix-card">
+      <div class="gz-fix-card__label">gs-025 · grafema doctor · Инспекция gs-insp-008 <span class="gz-fix-card__verdict">ОДОБРЕНО</span></div>
+      <p style="margin:.6em 0 0"><code>grafema doctor</code> теперь обнаруживает устаревшие socket-файлы и удаляет их автоматически, возвращая статус <code>warn</code> с сообщением: «Устаревший сокет удалён. Запустите grafema analyze для перезапуска сервера». Ранее устаревший сокет приводил к отчёту об ошибке без пути к исправлению. Исправление добавляет один <code>unlinkSync</code> в catch-блок <code>checkServerStatus()</code>. Разведка данных отмечает: это тот же паттерн, что и в REG-1129. Сервер, который прежде оставлял ключ в замке, научился его забирать.</p>
+    </div>
+
+    <hr>
+
+    <h2>REG-1133 — Налог на регистрацию упразднён</h2>
+
+    <div class="gz-fix-card">
+      <div class="gz-fix-card__label">REG-1133 · gs-032 · Коммиты c715ae36 + 0ec966a4</div>
+      <p style="margin:.6em 0 0">Добавление нового плагина в Grafema требовало чтения исходного кода для обнаружения формата конфигурации оркестратора. Теперь это задокументировано в двух местах: <code>CONTRIBUTING.md</code> (полная процедура регистрации) и <code>_ai/orchestrator.config.example.yaml</code> (аннотированный шаблон конфигурации). Процесс установки теперь сводится к двум командам:</p>
+      <pre style="margin:.8em 0 0;background:#0a0a0a;color:#f5f0e8;padding:14px 18px;border-radius:4px;font-family:var(--font-mono);font-size:.84rem;line-height:1.6">cp _ai/orchestrator.config.example.yaml _ai/orchestrator.config
+sed -i "s|&lt;GRAFEMA_ROOT&gt;|$(pwd)|g" _ai/orchestrator.config</pre>
+      <p style="margin:.6em 0 0">Классификация Разведки данных: документационное исправление. Влияние: каждый будущий автор плагинов избегает того налога на чтение исходников, который платил каждый предыдущий.</p>
+    </div>
+
+    <hr>
+
+    <h2>Итоговый подсчёт</h2>
+
+    <p>Спринт v0.2 открылся с одним замером: 6 минут 51 секунда. Закрывается с четырьмя выполненными пунктами, 681 проходящим тестом и бенчмарком, ожидающим результатов CI. Разведка данных не прогнозирует результаты бенчмарка. Она считает подтверждённое: 2,5 миллиона IPC-вызовов устранены. Тринадцать запросов стоят на вахте.</p>
+
+    <p>Граф атрибутирован правильно там, где ошибался. Сервер останавливается там, где не останавливался. Регистрация плагинов задокументирована там, где не была. Замер придёт из CI.</p>
+
+    <blockquote>Разведка данных завершена. Итог: 2 500 000 IPC-вызовов ликвидировано. 13 запросов несут вахту. Ожидаем бенчмарка.</blockquote>
+
+    <div class="gz-cta">
+      <code>GRAFEMA_DATALOG_PLUGINS=shape-verifier,method-call-resolver,type-inference grafema analyze</code>
+      <br><br>
+      Ветка <code>perf/plugin-early-exit-gates</code> · PR #259 · CI запущен<br><br>
+      GitHub: <a href="https://github.com/Disentinel/soviet-code">github.com/Disentinel/soviet-code</a>
+    </div>
+
+    <p class="gz-closing"><em>Глеб Всеволодович Сыскарёв подал этот отчёт в 23:45. К тому времени он уже начал считать следующую партию IPC-вызовов.</em></p>
+
+  </div>
+
+  <div class="gz-footer">ГАЗЕТА СОВЕТСКОГО КОДА · Агитпроп · № 008 · <span style="color:var(--red)">☭</span></div>
+</div>
+</body>
+</html>
