@@ -45,6 +45,21 @@
 <style>
 /* ── Mobile overrides (≤768px) — mobile-staging ── */
 @media (max-width: 768px) {
+  /* Body font scale — minimum 16px for readability */
+  body {
+    font-size: 16px;
+  }
+  p, li, td, .body-text {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  .section-label,
+  .kicker,
+  [class*="__kicker"],
+  [class*="__label"] {
+    font-size: 11px;
+  }
+
   /* Header / Nav */
   .site-header__inner {
     flex-direction: column;
@@ -53,9 +68,9 @@
   }
   .nav {
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 12px;
     justify-content: center;
-    font-size: 13px;
+    font-size: 14px;
   }
   .header-cta {
     width: 100%;
@@ -72,6 +87,10 @@
   }
   .hero__title {
     font-size: clamp(2rem, 8vw, 3rem);
+  }
+  .hero__tagline,
+  .hero__sub {
+    font-size: 16px;
   }
   .hero__right {
     display: none;
@@ -107,20 +126,22 @@
     justify-content: center;
   }
 
-  /* STALIN Loop — 6 columns → 3 columns, hide descriptions */
+  /* STALIN Loop — 6 columns → 1 column */
   .loop__acronym {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr;
+    max-width: 320px;
+    margin: 0 auto;
   }
   .loop__letter-big {
-    font-size: 56px;
+    font-size: 48px;
   }
   .loop__letter-desc {
     display: none;
   }
 
-  /* Status grid — 4 columns → 2 columns */
+  /* Status grid — 4 columns → 1 column */
   .status__grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
   }
   .status-card {
     min-height: auto;
@@ -159,7 +180,7 @@
     display: none;
   }
 
-  /* Comparison table — 5 columns → horizontal scroll */
+  /* Comparison table — horizontal scroll */
   .compare__table {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
