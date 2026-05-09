@@ -106,6 +106,78 @@
     align-items: center;
     justify-content: center;
   }
+
+  /* STALIN Loop — 6 columns → 3 columns, hide descriptions */
+  .loop__acronym {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .loop__letter-big {
+    font-size: 56px;
+  }
+  .loop__letter-desc {
+    display: none;
+  }
+
+  /* Status grid — 4 columns → 2 columns */
+  .status__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .status-card {
+    min-height: auto;
+    padding: 20px;
+  }
+
+  /* Escalation ladder — 5 columns → 1 column */
+  .ladder__rail {
+    grid-template-columns: 1fr;
+  }
+  .rung {
+    border-right: none;
+    border-bottom: 1px solid rgba(232,223,200,0.18);
+  }
+
+  /* Theme cards — 3 columns → 1 column */
+  .themes__grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Five-year plan — 2 columns → 1 column */
+  .fiveyear__inner {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .fiveyear__big {
+    font-size: clamp(56px, 18vw, 100px);
+  }
+
+  /* Install section — 2 columns → 1 column, hide poster */
+  .install__inner {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .install__poster {
+    display: none;
+  }
+
+  /* Comparison table — 5 columns → horizontal scroll */
+  .compare__table {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .compare__inner {
+    min-width: 560px;
+  }
+
+  /* Footer — 4 columns → 1 column */
+  .site-footer__inner {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .footer-base {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
 }
 </style>
 </head>
