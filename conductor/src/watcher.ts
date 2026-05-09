@@ -88,18 +88,18 @@ function fullInboxScan(): void {
 
 const CEO_HEARTBEAT_MS = 10 * 60 * 1000;
 
-function ceoHeartbeat(): void {
+function gensekHeartbeat(): void {
   if (config_broken) return;
-  const ceo = knownDepts.find((d) => d.name === "ceo");
-  if (!ceo || isActive("ceo")) return;
+  const gensek = knownDepts.find((d) => d.name === "gensek");
+  if (!gensek || isActive("gensek")) return;
 
   bus.emit("log", {
     ts: new Date().toISOString(),
-    dept: "ceo",
+    dept: "gensek",
     event: "heartbeat",
     detail: "periodic anti-idle tick",
   });
-  dispatch(ceo, true);
+  dispatch(gensek, true);
 }
 
 export function watchDepartments(depts: Department[]): void {
@@ -108,7 +108,7 @@ export function watchDepartments(depts: Department[]): void {
     watchInbox(dept);
   }
   setInterval(fullInboxScan, SCAN_INTERVAL_MS);
-  setInterval(ceoHeartbeat, CEO_HEARTBEAT_MS);
+  setInterval(gensekHeartbeat, CEO_HEARTBEAT_MS);
 }
 
 export function watchConfig(onReload: (depts: Department[]) => void): void {
