@@ -83,7 +83,9 @@ body { background: var(--paper); color: var(--ink); }
 
   <div class="gz-body">
 
-    <p>Intelligence has completed its count. Sprint v0.2 is closed. The final tally for the N+1 elimination campaign, REG-1128:</p>
+    <p>Graph analysis plugins were slow in a specific, measurable way. Not slow because the algorithms were wrong — slow because every property lookup issued a separate request to the graph server. One node, one question, one round-trip. Multiply by every node in the graph, by every inference phase, by every plugin. On a large codebase: millions of requests per analysis run, every time.</p>
+
+    <p>Sprint v0.2 opened with one measurement: 6 minutes and 51 seconds. The target was under five minutes. The N+1 optimization campaign ran through three plugins in sequence. The brigade established a pattern on the first plugin and applied it to all three: bulk-preload the relevant subgraph with one Datalog query, resolve in JavaScript, write results in batched flushes. The final tally:</p>
 
     <table class="gz-intel-table">
       <thead>
@@ -128,11 +130,11 @@ body { background: var(--paper); color: var(--ink); }
 
     <h2>The third plugin: type-inference</h2>
 
-    <p><code>type-inference.mjs</code> is the largest of the three: 525 lines, responsible for computing type edges across all untyped variables in the graph. The original approach issued one to several IPC calls per node per inference phase. Across approximately 75,000 nodes over five phases, this accumulated to roughly 1.27 million IPC round-trips.</p>
+    <p><code>type-inference.mjs</code> was last — and largest. The first two rewrites established the pattern; by the time the brigade reached type-inference, the approach was proven. Only the scale was different. This plugin is 525 lines, responsible for computing type edges across all untyped variables in the graph. The original approach issued one to several IPC calls per node per inference phase. Across approximately 75,000 nodes over five phases, this accumulated to roughly 1.27 million IPC round-trips — more than the other two plugins combined.</p>
 
     <p>The rewrite replaces the per-node loop with seven Datalog queries. Each query preloads a complete resolution table; the result is joined in JavaScript. The seven queries, by phase:</p>
 
-    <div class="gz-query-block"><span class="qnum">Q1</span><code>needs_inference(N)</code> <span class="qipc">replaces ~350,000 IPC calls</span><br>Early-exit gate: identifies all nodes that actually require inference. Nodes that pass Q1 skip the remaining phases entirely. The single largest IPC reduction in the rewrite.</div>
+    <div class="gz-query-block"><span class="qnum">Q1</span><code>needs_inference(N)</code> <span class="qipc">replaces ~350,000 IPC calls</span><br>Early-exit gate: identifies all nodes that actually require inference. Nodes that fail Q1 skip the remaining phases entirely. The single largest IPC reduction in the rewrite.</div>
 
     <div class="gz-query-block"><span class="qnum">Q2</span><code>infer_literal(N, TypeName)</code><br>Literal type mapping: number, string, boolean, null, undefined — resolved directly from node kind.</div>
 
@@ -146,7 +148,7 @@ body { background: var(--paper); color: var(--ink); }
 
     <div class="gz-query-block"><span class="qnum">Q7</span><code>param_typed(P, TypeName)</code> <span class="qipc">replaces ~180,000 IPC calls</span><br>Parameter type propagation: two paths — direct parameter annotation, and annotation via a <code>REFERENCE</code> hop.</div>
 
-    <p>Results from Q2 through Q4 are merged with first-wins priority in a single <code>inferredVars</code> Set. Write-backs are batched at 500 edges per flush — a pattern established in the first two rewrites. Inspection verdicts for the type-inference rewrite: <strong>ОДОБРЕНО</strong> (gs-insp-015).</p>
+    <p>Results from Q2 through Q4 are merged with first-wins priority in a single <code>inferredVars</code> Set. Write-backs are batched at 500 edges per flush — a pattern established in the first two rewrites. Inspection approved. The third rewrite was the hardest. It was also the most impactful.</p>
 
     <div class="gz-speedup">
       <div class="gz-speedup__heading">Sprint v0.2 pattern: bulk preload everywhere</div>
@@ -155,38 +157,50 @@ body { background: var(--paper); color: var(--ink); }
 
     <hr>
 
-    <h2>REG-1132 — The attribution fix</h2>
+    <h2>Correctness fixes: three problems that had waited long enough</h2>
+
+    <p>Sprint v0.2 was not only about performance. Three bugs were in the queue — each independent, each with a known root cause, each a trap waiting for the next developer who ran into it. The brigade cleared all three alongside the N+1 campaign.</p>
+
+    <hr>
+
+    <h2>REG-1132: Wrong function attribution</h2>
+
+    <p>The GUI graph view had a systematic misattribution that only appeared in multi-function files. Every CALL node inside any function appeared to originate from the first function in the file — not the one that actually contained it. A file with five functions would show all calls as coming from function one. The graph was structurally wrong in any file with more than one function, and had been for some time.</p>
 
     <div class="gz-fix-card">
-      <div class="gz-fix-card__label">REG-1132 · gs-030 · http_server.rs · Inspection gs-insp-011 <span class="gz-fix-card__verdict">APPROVED</span></div>
-      <p style="margin:.6em 0 0">The GUI graph view had a consistent misattribution: CALL nodes inside any function in a multi-function file appeared to originate from the first function in the file. The <code>/api/graph-stream</code> endpoint was not walking the CONTAINS parent chain — it was assigning every invisible node to the first visible node unconditionally.</p>
-      <p style="margin:.6em 0 0">The fix: approximately 33 lines of Rust in <code>build_graph_stream_body()</code>. A <code>parent_of: HashMap&lt;u128, u128&gt;</code> is built from CONTAINS edges (excluding synthetic layout-pack edges), then each invisible node walks the ancestry chain until it finds its correct visible container. If no ancestor is found, the original fallback behavior is preserved. The algorithm was already proven in <code>edges_stream()</code> — this was a port, not a discovery. Performance impact: approximately +2 seconds to graph-stream loading. The Stakhanovite brigade assessed this as acceptable.</p>
+      <div class="gz-fix-card__label">REG-1132 · http_server.rs · Inspection approved <span class="gz-fix-card__verdict">FIXED</span></div>
+      <p style="margin:.6em 0 0">The <code>/api/graph-stream</code> endpoint was not walking the CONTAINS parent chain — it was assigning every invisible node to the first visible node unconditionally.</p>
+      <p style="margin:.6em 0 0">The fix: approximately 33 lines of Rust in <code>build_graph_stream_body()</code>. A <code>parent_of: HashMap&lt;u128, u128&gt;</code> is built from CONTAINS edges (excluding synthetic layout-pack edges), then each invisible node walks the ancestry chain until it finds its correct visible container. If no ancestor is found, the original fallback behavior is preserved. The algorithm was already proven in <code>edges_stream()</code> — this was a port, not a discovery. Performance impact: approximately +2 seconds to graph-stream loading. The brigade assessed this as acceptable for correctness.</p>
     </div>
 
     <hr>
 
-    <h2>REG-1129 + doctor — The server that now stops</h2>
+    <h2>REG-1129: The server that wouldn't let go</h2>
+
+    <p><code>grafema analyze --clear</code> was supposed to shut down the server and start fresh. It did not. Every subsequent run after the first ended in ECONNREFUSED. The pattern was consistent: the process exited, the PID file and socket file stayed behind, and the next <code>connect()</code> call found them, concluded the server was already running, and refused to start a new one. It was not running. The files were lying.</p>
 
     <div class="gz-fix-card">
-      <div class="gz-fix-card__label">REG-1129 · gs-029 · Commit 5995a761 · Inspection gs-insp-010 <span class="gz-fix-card__verdict">APPROVED</span></div>
-      <p style="margin:.6em 0 0"><code>grafema analyze --clear</code> was failing on every subsequent run with ECONNREFUSED. The root cause: <code>shutdownServer()</code> waited for the process to exit but did not delete the PID file or socket file. The next <code>connect()</code> call found the files present and concluded the server was already running. It was not. Two <code>unlinkSync</code> calls after <code>_waitForPidExit</code> — with <code>try/catch</code> for ENOENT — closed the loop. 21/21 tests pass.</p>
+      <div class="gz-fix-card__label">REG-1129 · Inspection approved <span class="gz-fix-card__verdict">FIXED</span></div>
+      <p style="margin:.6em 0 0"><code>shutdownServer()</code> waited for the process to exit but did not delete the PID file or socket file. Two <code>unlinkSync</code> calls after <code>_waitForPidExit</code> — with <code>try/catch</code> for ENOENT — closed the loop. 21/21 tests pass.</p>
     </div>
 
     <div class="gz-fix-card">
-      <div class="gz-fix-card__label">gs-025 · grafema doctor · Inspection gs-insp-008 <span class="gz-fix-card__verdict">APPROVED</span></div>
-      <p style="margin:.6em 0 0"><code>grafema doctor</code> now detects stale socket files and removes them automatically, returning a <code>warn</code> status with the message: "Stale socket removed. Run grafema analyze to restart server." Previously, a stale socket caused doctor to report an error with no remediation path. The fix adds one <code>unlinkSync</code> in the <code>checkServerStatus()</code> catch-block. Intelligence notes: this is the same pattern as REG-1129. The server that used to leave its keys in the lock has learned to take them out.</p>
+      <div class="gz-fix-card__label">grafema doctor · Inspection approved <span class="gz-fix-card__verdict">FIXED</span></div>
+      <p style="margin:.6em 0 0"><code>grafema doctor</code> now detects stale socket files and removes them automatically, returning a <code>warn</code> status with the message: "Stale socket removed. Run grafema analyze to restart server." Previously, a stale socket caused doctor to report an error with no remediation path. Intelligence notes: this is the same pattern as REG-1129. The server that used to leave its keys in the lock has learned to take them out.</p>
     </div>
 
     <hr>
 
-    <h2>REG-1133 — The registration tax, removed</h2>
+    <h2>REG-1133: Plugin registration required reading source code</h2>
+
+    <p>Every developer who had ever added a new Grafema plugin had paid the same tax: read the orchestrator source code to discover the configuration format. There was no documentation. There was no example file. There was source code, and you read it. The tax was not large. It was not necessary.</p>
 
     <div class="gz-fix-card">
-      <div class="gz-fix-card__label">REG-1133 · gs-032 · Commits c715ae36 + 0ec966a4</div>
-      <p style="margin:.6em 0 0">Adding a new plugin to Grafema required reading the source to discover the orchestrator configuration format. This is now documented in two places: <code>CONTRIBUTING.md</code> (full registration procedure) and <code>_ai/orchestrator.config.example.yaml</code> (annotated configuration template). The setup workflow is now two commands:</p>
+      <div class="gz-fix-card__label">REG-1133 · Plugin registration documentation <span class="gz-fix-card__verdict">RESOLVED</span></div>
+      <p style="margin:.6em 0 0">Adding a new plugin to Grafema now requires no source-reading. The setup workflow is two commands:</p>
       <pre style="margin:.8em 0 0;background:#0a0a0a;color:#f5f0e8;padding:14px 18px;border-radius:4px;font-family:var(--font-mono);font-size:.84rem;line-height:1.6">cp _ai/orchestrator.config.example.yaml _ai/orchestrator.config
 sed -i "s|&lt;GRAFEMA_ROOT&gt;|$(pwd)|g" _ai/orchestrator.config</pre>
-      <p style="margin:.6em 0 0">Intelligence classification: documentation fix. Impact: every future plugin author avoids the source-reading tax that every previous plugin author paid.</p>
+      <p style="margin:.6em 0 0">The full registration procedure is in <code>CONTRIBUTING.md</code>. The annotated configuration template is at <code>_ai/orchestrator.config.example.yaml</code>. Every future plugin author avoids the tax that every previous one paid.</p>
     </div>
 
     <hr>
