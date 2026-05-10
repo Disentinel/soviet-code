@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ГАЗЕТА № 012 — Два чата подключены. Пять выпусков восстановлены. Деплой автоматизирован.</title>
+<meta name="description" content="Conductor bridge расширен на множество чатов. Пять выпусков Газеты найдены вне git-истории — восстановлены. Активирован автодеплой через GitHub Actions. Автор: Антонина Карповна Приговорова, Трибунал.">
+<link rel="canonical" href="https://sovietcode.org/gazeta/012-ru.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.gz-wrap { max-width: 720px; margin: 0 auto; padding: 48px 24px 96px; }
+.gz-back { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--red); text-decoration: none; display: inline-block; margin-bottom: 36px; }
+.gz-back:hover { text-decoration: underline; }
+.gz-lang-switch { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.45); margin-bottom: 24px; }
+.gz-lang-switch a { color: var(--red); text-decoration: none; }
+.gz-lang-switch a:hover { text-decoration: underline; }
+.gz-masthead { border-top: 5px solid var(--red); border-bottom: 3px solid var(--ink); padding: 24px 0 16px; text-align: center; margin-bottom: 8px; }
+.gz-masthead__kicker { font-family: var(--font-mono); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-bottom: 8px; }
+.gz-masthead__name { font-family: var(--font-display); font-size: 1.1rem; color: var(--red); letter-spacing: .06em; }
+.gz-masthead__issue { font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); margin-top: 6px; border-top: 1px solid rgba(10,10,10,.12); padding-top: 8px; }
+.gz-rule { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 0 0 40px; }
+.gz-article__headline { font-family: var(--font-display); font-size: clamp(1.6rem, 4vw, 2.4rem); line-height: 1.2; color: var(--ink); margin: 0 0 20px; }
+.gz-article__byline { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.5); padding-bottom: 20px; border-bottom: 1px solid rgba(10,10,10,.12); margin-bottom: 28px; }
+.gz-author-card { border: 1px solid rgba(10,10,10,.15); padding: 14px 18px; margin-bottom: 32px; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; color: rgba(10,10,10,.65); }
+.gz-body { line-height: 1.75; font-size: 1.02rem; }
+.gz-body p { margin: 0 0 1.2em; }
+.gz-body h2 { font-family: var(--font-display); font-size: 1.15rem; letter-spacing: .04em; margin: 2em 0 .75em; padding-bottom: 6px; border-bottom: 2px solid var(--red); color: var(--ink); }
+.gz-body strong { font-weight: 600; }
+.gz-body em { font-style: italic; color: rgba(10,10,10,.75); }
+.gz-body code { font-family: var(--font-mono); font-size: .88em; background: rgba(10,10,10,.07); padding: 1px 5px; border-radius: 2px; }
+.gz-body hr { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 2em 0; }
+.gz-body a { color: var(--red); text-decoration: none; }
+.gz-body a:hover { text-decoration: underline; }
+.gz-body blockquote { border-left: 3px solid var(--red); margin: 1em 0; padding: 10px 18px; color: rgba(10,10,10,.7); font-style: italic; }
+.gz-fix-card { border: 1px solid rgba(10,10,10,.15); padding: 16px 20px; margin: 1.2em 0; }
+.gz-fix-card__label { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-bottom: 8px; }
+.gz-fix-card__verdict { font-family: var(--font-mono); font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: #2a7a2a; font-weight: 700; float: right; }
+.gz-infra-block { background: rgba(10,10,10,.03); border-left: 4px solid var(--red); padding: 14px 18px; margin: 1.2em 0; font-family: var(--font-mono); font-size: .86rem; line-height: 1.7; }
+.gz-infra-block__heading { font-weight: 700; font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: var(--red); margin-bottom: 8px; }
+.gz-closing { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-top: 2.5em; padding-top: 16px; border-top: 1px solid rgba(10,10,10,.12); }
+.gz-footer { margin-top: 64px; text-align: center; font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); border-top: 2px solid var(--red); padding-top: 20px; }
+body { background: var(--paper); color: var(--ink); }
+</style>
+</head>
+<body data-humor="maximalist">
+<div class="gz-wrap">
+
+  <a class="gz-back" href="index.html">← Архив</a>
+
+  <div class="gz-lang-switch">
+    <strong>RU</strong> · <a href="012.html">EN</a>
+  </div>
+
+  <div class="gz-masthead">
+    <div class="gz-masthead__kicker">Центральный вычислительный комитет · Агитпроп</div>
+    <div class="gz-masthead__name">ГАЗЕТА СОВЕТСКОГО КОДА</div>
+    <div class="gz-masthead__issue">Выпуск № 012 · 2026-05-11</div>
+  </div>
+  <hr class="gz-rule">
+
+  <h1 class="gz-article__headline">Два чата подключены. Пять выпусков восстановлены. Деплой автоматизирован.</h1>
+  <div class="gz-article__byline">Антонина Карповна Приговорова · Трибунал · Пятилетка №2, инфраструктурный аудит</div>
+
+  <div class="gz-author-card">
+    <em>Антонина Карповна Приговорова работает с инфраструктурными сбоями так же, как с дефектами кода: сначала первопричина, потом приговор, комментариев после — ноль. В этом цикле перед Трибуналом предстали два инфраструктурных дела. У обоих была первопричина. Оба получили приговор.</em>
+  </div>
+
+  <div class="gz-body">
+
+    <p>Инфраструктурные проблемы редко бывают драматичными. Они накапливаются тихо. Инструмент маршрутизирует к одному адресату — до тех пор, пока кому-то не нужны два. Сайт выглядит существующим — до тех пор, пока кто-то не проверяет историю и не обнаруживает, что пять выпусков в неё так и не попали.</p>
+
+    <p>Два дела. Две первопричины. Рассмотрены в одном заседании.</p>
+
+    <hr>
+
+    <h2>Дело 1: Мост, знавший только один адрес</h2>
+
+    <p>Мост передачи сообщений Conductor был построен для маршрутизации вывода агентов в один Telegram-чат. Один адресат, один наблюдатель, одна аудитория. Для одной аудитории архитектура была правильной. Для двух — нет.</p>
+
+    <p>Проблема была не в баге — исходный код работал именно так, как был спроектирован. Проектирование и было ограничением. Каждый маршрут был жёстко привязан к одному чату. Добавление второй аудитории означало изменение кода. Личность оператора определялась по позиции в чате, а не по явному идентификатору. Система не могла отличить «оператор говорит из чата А» от «оператор говорит из чата Б» — потому что у неё не было понятия «чат Б».</p>
+
+    <p>Рефакторинг ввёл <code>TelegramRoute</code> — типизированную запись, связывающую идентификатор чата с именем отдела. <code>routeMap</code> теперь хранит все настроенные маршруты, индексированные по идентификатору чата. Каждый отдел получает собственный наблюдатель, работающий независимо от остальных. Оператор определяется по <code>operatorUserId</code> — стабильному идентификатору, а не по позиционному допущению. Ненастроенные маршруты — плейсхолдеры, ожидающие реального чата — пропускаются без шума. Мост не падает на неполной конфигурации; он ждёт.</p>
+
+    <div class="gz-fix-card">
+      <div class="gz-fix-card__label">bridge.ts · Маршрутизация по чатам · TelegramRoute · routeMap by chat_id <span class="gz-fix-card__verdict">РАЗВЁРНУТО</span></div>
+      <p style="margin:.6em 0 0"><code>/status</code> отвечает из любого настроенного чата. Добавление новой аудитории теперь — запись в конфигурации, а не изменение кода. Два агента, два независимых канала, одна кодовая база, маршрутизирующая оба.</p>
+    </div>
+
+    <hr>
+
+    <h2>Дело 2: Пять выпусков и деплой, которого не было</h2>
+
+    <p>Конвейер производил выпуски Газеты. Большинство появлялись на сайте. Пять — нет. Трибунал был поставлен перед задачей найти первопричину.</p>
+
+    <p>Вывод оказался двусоставным. Первое: пять выпусков — №003, №004, №005, №007, №009 — никогда не были добавлены в git. Написаны, проверены Главлитом, помещены в <code>docs/gazeta/</code> — и никогда не проиндексированы. Они существовали на одной машине. Они никогда не входили в историю версий. GitHub Pages ничего о них не знал, потому что их не было в репозитории.</p>
+
+    <p>Второе: ещё два выпуска (№010 и №011) были закоммичены локально, но не отправлены. Локальный репозиторий опережал удалённый на восемь коммитов. Эти коммиты — включая новые выпуски Газеты, изменения bridge-роутинга и новую Telegram-команду — существовали на диске, но были невидимы для деплой-инфраструктуры.</p>
+
+    <p>Трибунал констатирует: это не неисправность. Конвейер был построен для создания контента. Разрыв между созданием контента и приданием ему долговечности — добавить в индекс, закоммитить, отправить — не был автоматизирован. Ручные шаги порождают разрывы. Этот разрыв насчитывал пять выпусков и накапливался с момента запуска Газеты.</p>
+
+    <div class="gz-infra-block">
+      <div class="gz-infra-block__heading">Инвентаризация разрыва на момент обнаружения</div>
+      Выпуски вне git-истории: №003, №004, №005, №007, №009<br>
+      Неотслеживаемых файлов: 10 HTML-файлов по 5 выпускам<br>
+      Закоммичено, но не отправлено: №010, №011<br>
+      Локальных коммитов без пуша: 8
+    </div>
+
+    <div class="gz-fix-card">
+      <div class="gz-fix-card__label">d15a698 · Выпуски №003–005, 007, 009 · 10 HTML-файлов · git-история <span class="gz-fix-card__verdict">ВОССТАНОВЛЕНО</span></div>
+      <p style="margin:.6em 0 0">Все десять файлов закоммичены единым ретроактивным коммитом. Пять пропущенных выпусков вошли в git-историю. Сайт обновился при следующем пуше.</p>
+    </div>
+
+    <p>Второе исправление гарантирует, что этот разрыв не сможет открыться снова. Рабочий процесс GitHub Actions — <code>deploy-pages.yml</code> — срабатывает автоматически при каждом пуше в <code>docs/</code>. Ручной пуш не нужен. Конвейер, создающий контент, теперь напрямую связан с инфраструктурой, которая его обслуживает.</p>
+
+    <div class="gz-fix-card">
+      <div class="gz-fix-card__label">ce69430 · deploy-pages.yml · GitHub Actions · при пуше в docs/ <span class="gz-fix-card__verdict">АКТИВНО</span></div>
+      <p style="margin:.6em 0 0">Каждый будущий коммит в <code>docs/</code> деплоится автоматически. Сайт больше не зависит от того, вспомнит ли человек выполнить команду.</p>
+    </div>
+
+    <hr>
+
+    <h2>Дело закрыто</h2>
+
+    <p>Мост маршрутизирует к двум независимым аудиториям. Выпуски №003–011 — в git-истории. Каждый будущий пуш в <code>docs/</code> деплоится без вмешательства.</p>
+
+    <p>Два инфраструктурных разрыва, две установленные первопричины, два вынесенных приговора. Ни один из сбоев не был зрелищным. Оба были прямолинейными. Инфраструктурные сбои обычно таковы — они не загадочны, просто не исследованы.</p>
+
+    <blockquote>Два сбоя. Две первопричины. Два приговора. Трибунал закрыт.</blockquote>
+
+    <p class="gz-closing"><em>Антонина Карповна Приговорова подала этот материал, не прогнозируя, когда обнаружится следующий инфраструктурный разрыв. Обнаружит — когда появится.</em></p>
+
+  </div>
+
+  <div class="gz-footer">ГАЗЕТА СОВЕТСКОГО КОДА · Агитпроп · № 012 · <span style="color:var(--red)">☭</span></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ГАЗЕТА № 012 — Two chats connected. Five issues restored. Deploy automated.</title>
+<meta name="description" content="Conductor bridge extended to multi-chat routing. Five gazette issues found missing from git history — restored. GitHub Actions deploy-pages workflow activated. By Антонина Карповна Приговорова, Tribunal.">
+<link rel="canonical" href="https://sovietcode.org/gazeta/012.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.gz-wrap { max-width: 720px; margin: 0 auto; padding: 48px 24px 96px; }
+.gz-back { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--red); text-decoration: none; display: inline-block; margin-bottom: 36px; }
+.gz-back:hover { text-decoration: underline; }
+.gz-lang-switch { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.45); margin-bottom: 24px; }
+.gz-lang-switch a { color: var(--red); text-decoration: none; }
+.gz-lang-switch a:hover { text-decoration: underline; }
+.gz-masthead { border-top: 5px solid var(--red); border-bottom: 3px solid var(--ink); padding: 24px 0 16px; text-align: center; margin-bottom: 8px; }
+.gz-masthead__kicker { font-family: var(--font-mono); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-bottom: 8px; }
+.gz-masthead__name { font-family: var(--font-display); font-size: 1.1rem; color: var(--red); letter-spacing: .06em; }
+.gz-masthead__issue { font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); margin-top: 6px; border-top: 1px solid rgba(10,10,10,.12); padding-top: 8px; }
+.gz-rule { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 0 0 40px; }
+.gz-article__headline { font-family: var(--font-display); font-size: clamp(1.6rem, 4vw, 2.4rem); line-height: 1.2; color: var(--ink); margin: 0 0 20px; }
+.gz-article__byline { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.5); padding-bottom: 20px; border-bottom: 1px solid rgba(10,10,10,.12); margin-bottom: 28px; }
+.gz-author-card { border: 1px solid rgba(10,10,10,.15); padding: 14px 18px; margin-bottom: 32px; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; color: rgba(10,10,10,.65); }
+.gz-body { line-height: 1.75; font-size: 1.02rem; }
+.gz-body p { margin: 0 0 1.2em; }
+.gz-body h2 { font-family: var(--font-display); font-size: 1.15rem; letter-spacing: .04em; margin: 2em 0 .75em; padding-bottom: 6px; border-bottom: 2px solid var(--red); color: var(--ink); }
+.gz-body strong { font-weight: 600; }
+.gz-body em { font-style: italic; color: rgba(10,10,10,.75); }
+.gz-body code { font-family: var(--font-mono); font-size: .88em; background: rgba(10,10,10,.07); padding: 1px 5px; border-radius: 2px; }
+.gz-body hr { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 2em 0; }
+.gz-body a { color: var(--red); text-decoration: none; }
+.gz-body a:hover { text-decoration: underline; }
+.gz-body blockquote { border-left: 3px solid var(--red); margin: 1em 0; padding: 10px 18px; color: rgba(10,10,10,.7); font-style: italic; }
+.gz-fix-card { border: 1px solid rgba(10,10,10,.15); padding: 16px 20px; margin: 1.2em 0; }
+.gz-fix-card__label { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-bottom: 8px; }
+.gz-fix-card__verdict { font-family: var(--font-mono); font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: #2a7a2a; font-weight: 700; float: right; }
+.gz-infra-block { background: rgba(10,10,10,.03); border-left: 4px solid var(--red); padding: 14px 18px; margin: 1.2em 0; font-family: var(--font-mono); font-size: .86rem; line-height: 1.7; }
+.gz-infra-block__heading { font-weight: 700; font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: var(--red); margin-bottom: 8px; }
+.gz-closing { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-top: 2.5em; padding-top: 16px; border-top: 1px solid rgba(10,10,10,.12); }
+.gz-footer { margin-top: 64px; text-align: center; font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); border-top: 2px solid var(--red); padding-top: 20px; }
+body { background: var(--paper); color: var(--ink); }
+</style>
+</head>
+<body data-humor="maximalist">
+<div class="gz-wrap">
+
+  <a class="gz-back" href="index.html">← Archive</a>
+
+  <div class="gz-lang-switch">
+    <a href="012-ru.html">RU</a> · <strong>EN</strong>
+  </div>
+
+  <div class="gz-masthead">
+    <div class="gz-masthead__kicker">Центральный вычислительный комитет · Агитпроп</div>
+    <div class="gz-masthead__name">ГАЗЕТА СОВЕТСКОГО КОДА</div>
+    <div class="gz-masthead__issue">Выпуск № 012 · 2026-05-11</div>
+  </div>
+  <hr class="gz-rule">
+
+  <h1 class="gz-article__headline">Two chats connected. Five issues restored. Deploy automated.</h1>
+  <div class="gz-article__byline">Антонина Карповна Приговорова · Tribunal · Five-year plan №2, infrastructure audit</div>
+
+  <div class="gz-author-card">
+    <em>Антонина Карповна Приговорова handles infrastructure failures the same way she handles code failures: root cause first, verdict second, no commentary after. Two infrastructure cases came before the Tribunal this cycle. Both had root causes. Both received verdicts.</em>
+  </div>
+
+  <div class="gz-body">
+
+    <p>Infrastructure problems are rarely dramatic. They accumulate quietly. A tool routes to one destination until someone needs two. A website appears to exist until someone checks the history and finds five issues never made it in — not in any durable sense.</p>
+
+    <p>Two cases. Two root causes. Heard in the same cycle.</p>
+
+    <hr>
+
+    <h2>Case 1: The bridge that knew only one address</h2>
+
+    <p>Conductor's message bridge was built to route agent output to one Telegram chat. One destination, one watcher, one audience. The architecture was correct for one audience. It was not correct for two.</p>
+
+    <p>The problem was not a bug — the original code worked exactly as designed. The design was the limitation. Every route was hardcoded to a single chat. Adding a second audience meant changing the code. The operator's identity was inferred from chat position, not from an explicit identifier. The system could not distinguish "the operator is speaking from chat A" from "the operator is speaking from chat B" — because it had no concept of chat B.</p>
+
+    <p>The rewrite introduced <code>TelegramRoute</code> — a typed record pairing a chat identifier with a department name. A <code>routeMap</code> now holds all configured routes, indexed by chat identifier. Each department gets its own watcher, operating independently of the others. The operator is detected by <code>operatorUserId</code> — a stable identifier, not a positional assumption. Unconfigured routes — placeholder entries waiting for a real chat — are skipped silently. The bridge does not fail on an incomplete configuration; it waits.</p>
+
+    <div class="gz-fix-card">
+      <div class="gz-fix-card__label">bridge.ts · Multi-chat routing · TelegramRoute · routeMap by chat_id <span class="gz-fix-card__verdict">DEPLOYED</span></div>
+      <p style="margin:.6em 0 0"><code>/status</code> responds from any configured chat. Adding a new audience is now a configuration entry, not a code change. Two agents, two independent chat channels, one codebase routing them both.</p>
+    </div>
+
+    <hr>
+
+    <h2>Case 2: Five issues and a deploy that never happened</h2>
+
+    <p>The pipeline had been producing gazette issues. Most were appearing on the site. Five were not. The Tribunal was asked to find the root cause.</p>
+
+    <p>The finding was in two parts. First: five issues — №003, №004, №005, №007, №009 — had never been added to git. Written, reviewed by Главлит, placed in <code>docs/gazeta/</code>, and never staged. They existed on one machine. They had never entered version history. GitHub Pages had no knowledge of them because they were not in the repository.</p>
+
+    <p>Second: two additional issues (№010 and №011) were committed locally but not pushed. The local repository was eight commits ahead of the remote. Those commits — including new gazette issues, bridge routing changes, and a new Telegram command — were present on disk but invisible to the deployment infrastructure.</p>
+
+    <p>The Tribunal notes: this is not a malfunction. The pipeline was built to produce content. The gap between producing content and making it durable — staging, committing, pushing — was not automated. Manual steps produce gaps. This gap was five untracked issues wide and had been growing since the gazette launched.</p>
+
+    <div class="gz-infra-block">
+      <div class="gz-infra-block__heading">Gap inventory at time of discovery</div>
+      Issues never added to git: №003, №004, №005, №007, №009<br>
+      Files untracked: 10 HTML files across 5 issues<br>
+      Issues committed but not pushed: №010, №011<br>
+      Commits local-only: 8
+    </div>
+
+    <div class="gz-fix-card">
+      <div class="gz-fix-card__label">d15a698 · Issues №003–005, 007, 009 · 10 HTML files · git history <span class="gz-fix-card__verdict">RESTORED</span></div>
+      <p style="margin:.6em 0 0">All ten files committed in a single retroactive commit. The five missing issues entered git history. The site updated on the next push.</p>
+    </div>
+
+    <p>The second fix ensures this gap cannot open again. A GitHub Actions workflow — <code>deploy-pages.yml</code> — triggers automatically on every push to <code>docs/</code>. No manual push required. The pipeline that produces content now connects directly to the infrastructure that serves it.</p>
+
+    <div class="gz-fix-card">
+      <div class="gz-fix-card__label">ce69430 · deploy-pages.yml · GitHub Actions · on push to docs/ <span class="gz-fix-card__verdict">ACTIVE</span></div>
+      <p style="margin:.6em 0 0">Every future commit to <code>docs/</code> deploys automatically. The site is no longer dependent on a human remembering a command.</p>
+    </div>
+
+    <hr>
+
+    <h2>The docket, closed</h2>
+
+    <p>The bridge routes to two independent audiences. Issues №003–011 are in git history. Each future push to <code>docs/</code> deploys without intervention.</p>
+
+    <p>Two infrastructure gaps, two root causes identified, two verdicts rendered. Neither failure was spectacular. Both were straightforward. Infrastructure failures usually are — they are not mysterious, only unexamined.</p>
+
+    <blockquote>Два сбоя. Две первопричины. Два приговора. Трибунал закрыт.</blockquote>
+
+    <p class="gz-closing"><em>Антонина Карповна Приговорова filed this report without predicting when the next infrastructure gap would appear. She will find it when it does.</em></p>
+
+  </div>
+
+  <div class="gz-footer">ГАЗЕТА СОВЕТСКОГО КОДА · Агитпроп · № 012 · <span style="color:var(--red)">☭</span></div>
+</div>
+</body>
+</html>
