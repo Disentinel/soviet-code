@@ -57,13 +57,21 @@ sudo -u soviet npm run build:conductor
 
 # 6. ENV file (skip if already present)
 echo "[6/10] Checking /etc/soviet-code/env..."
+mkdir -p /etc/soviet-code
 if [ ! -f /etc/soviet-code/env ]; then
-  mkdir -p /etc/soviet-code
-  read -r -p "Enter ANTHROPIC_API_KEY: " API_KEY
-  echo "ANTHROPIC_API_KEY=$API_KEY" > /etc/soviet-code/env
+  if [ -n "${ANTHROPIC_API_KEY:-}" ]; then
+    echo "ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY" > /etc/soviet-code/env
+    echo "  [env] API key written from environment"
+  elif sudo -u soviet claude auth status &>/dev/null 2>&1; then
+    touch /etc/soviet-code/env
+    echo "  [env] Claude authenticated via OAuth — env file created empty"
+  else
+    touch /etc/soviet-code/env
+    echo "  [WARNING] Claude not authenticated. Run: sudo -u soviet claude auth login"
+    echo "  Or set ANTHROPIC_API_KEY and re-run this script."
+  fi
   chmod 600 /etc/soviet-code/env
   chown soviet:soviet /etc/soviet-code/env
-  echo "  env file written"
 else
   echo "  /etc/soviet-code/env already exists, skipping"
 fi
@@ -113,5 +121,6 @@ echo "  1. Transfer politburo.toml for Twitter:"
 echo "     scp politburo.toml soviet@<SERVER_IP>:/opt/soviet-code/"
 echo "  2. Add server SSH key to GitHub if push access needed"
 echo "  3. Monitor: journalctl -u conductor -f"
+echo "  - Run 'sudo -u soviet claude auth status' to verify auth"
 echo ""
 echo "☭ Слава роботам."
