@@ -16,9 +16,19 @@ const TG_MAX = 4096;
 const conductorStart = Date.now();
 let lastHeartbeatTs: Date | null = null;
 
+interface TgPhotoSize {
+  file_id: string;
+  file_unique_id: string;
+  width: number;
+  height: number;
+  file_size?: number;
+}
+
 interface TgMessage {
   message_id: number;
   text?: string;
+  caption?: string;
+  photo?: TgPhotoSize[];
   chat: { id: number };
   from?: { id: number; username?: string; is_bot?: boolean };
   reply_to_message?: { from?: { id: number; is_bot?: boolean } };
@@ -50,6 +60,19 @@ function log(event: string, detail?: string): void {
 
 function sleep(ms: number): Promise<void> {
   return new Promise((r) => setTimeout(r, ms));
+}
+
+async function downloadPhoto(token: string, fileId: string, destPath: string): Promise<void> {
+  const getFileRes = await fetch(apiUrl(token, `getFile?file_id=${fileId}`), {
+    signal: AbortSignal.timeout(10_000),
+  });
+  if (!getFileRes.ok) throw new Error(`getFile HTTP ${getFileRes.status}`);
+  const fileData = (await getFileRes.json()) as { ok: boolean; result?: { file_path: string } };
+  if (!fileData.ok || !fileData.result?.file_path) throw new Error("getFile: no file_path");
+  const downloadUrl = `https://api.telegram.org/file/bot${token}/${fileData.result.file_path}`;
+  const imgRes = await fetch(downloadUrl, { signal: AbortSignal.timeout(30_000) });
+  if (!imgRes.ok) throw new Error(`photo download HTTP ${imgRes.status}`);
+  writeFileSync(destPath, Buffer.from(await imgRes.arrayBuffer()));
 }
 
 function stripFrontmatter(content: string): string {
@@ -289,8 +312,8 @@ async function pollLoop(
       for (const update of data.result) {
         const msg = update.message;
 
-        // No text content — ack and skip
-        if (!msg?.text) {
+        // No processable content — ack and skip
+        if (!msg?.text && !msg?.photo) {
           lastOffset = update.update_id + 1;
           continue;
         }
@@ -303,7 +326,7 @@ async function pollLoop(
         }
 
         // Handle /status command — reply to the originating chat
-        if (msg.text.trim() === "/status") {
+        if (msg.text?.trim() === "/status") {
           const report = buildStatusReport(depts);
           await fetch(apiUrl(token, "sendMessage"), {
             method: "POST",
@@ -324,6 +347,21 @@ async function pollLoop(
         const isOperator = msg.from != null && String(msg.from.id) === operatorUserId;
         const isReplyToBot = botUserId != null && msg.reply_to_message?.from?.id === botUserId;
 
+        let imagePath: string | undefined;
+        if (msg.photo) {
+          const largest = msg.photo[msg.photo.length - 1];
+          const imagesDir = resolve(inboxPath, "images");
+          if (!existsSync(imagesDir)) mkdirSync(imagesDir, { recursive: true });
+          const imageFile = resolve(imagesDir, `tg-${msg.message_id}.jpg`);
+          try {
+            await downloadPhoto(token, largest.file_id, imageFile);
+            imagePath = `depts/${route.dept}/inbox/images/tg-${msg.message_id}.jpg`;
+            log("photo_saved", `message_id=${msg.message_id}`);
+          } catch (err) {
+            log("photo_error", `${msg.message_id}: ${err instanceof Error ? err.message : String(err)}`);
+          }
+        }
+
         const frontmatterLines: string[] = [
           "---",
           "from: telegram",
@@ -333,9 +371,10 @@ async function pollLoop(
           ...(msg.from?.username ? [`username: ${msg.from.username}`] : []),
           ...(isOperator ? ["operator: true"] : []),
           ...(isReplyToBot ? ["is_reply_to_bot: true"] : []),
+          ...(imagePath ? [`image: ${imagePath}`] : []),
           "---",
           "",
-          msg.text,
+          msg.text ?? msg.caption ?? "",
           "",
         ];
 
