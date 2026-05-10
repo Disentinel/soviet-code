@@ -5,7 +5,9 @@ gosplan:
     routes:
       - chat_id: "547893198"
         dept: tovarishch
-      - chat_id: "TBD_ABSTRACTDL"
+      - chat_id: "-1002330505518"
+        dept: pressluzhba
+      - chat_id: "-1001240718803"
         dept: pressluzhba
 departments:
   gensek:
@@ -106,7 +108,7 @@ departments:
       - Glob
     extra_dirs: []
   pressluzhba:
-    session_id: null
+    session_id: 2118dec1-fd81-4cb4-b0e2-caa291a6592a
     role: depts/pressluzhba/role.md
     inbox: depts/pressluzhba/inbox/
     outbox: depts/pressluzhba/outbox/
@@ -118,6 +120,10 @@ departments:
       - Edit
       - Glob
       - Grep
-      - "mcp__claude_ai_Enox__*"
+      - WebFetch
+      - WebSearch
+      - mcp__claude_ai_Bright_Data__scrape_as_markdown
+      - mcp__claude_ai_Bright_Data__search_engine
+      - mcp__claude_ai_Enox__*
     extra_dirs:
       - ~/soviet-code

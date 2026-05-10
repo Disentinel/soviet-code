@@ -20,7 +20,8 @@ interface TgMessage {
   message_id: number;
   text?: string;
   chat: { id: number };
-  from?: { id: number; username?: string };
+  from?: { id: number; username?: string; is_bot?: boolean };
+  reply_to_message?: { from?: { id: number; is_bot?: boolean } };
   date: number;
 }
 
@@ -74,11 +75,11 @@ function isPlaceholderChatId(chatId: string): boolean {
 
 async function flushOutbox(
   token: string,
-  chatId: string,
+  defaultChatId: string,
   outboxPath: string,
   processedPath: string,
 ): Promise<void> {
-  if (isPlaceholderChatId(chatId)) return;
+  if (isPlaceholderChatId(defaultChatId)) return;
 
   const files = readdirSync(outboxPath).filter(
     (f) => f.endsWith(".md") && !f.startsWith("."),
@@ -88,14 +89,18 @@ async function flushOutbox(
     if (!existsSync(filePath)) continue;
 
     const content = readFileSync(filePath, "utf-8");
+    const targetChatId = parseFrontmatterField(content, "target_chat_id") ?? defaultChatId;
+    const replyTo = parseFrontmatterField(content, "reply_to_message_id");
     const body = truncate(stripFrontmatter(content));
     if (!body) continue;
 
     try {
+      const payload: Record<string, unknown> = { chat_id: targetChatId, text: body };
+      if (replyTo) payload.reply_to_message_id = Number(replyTo);
       const res = await fetch(apiUrl(token, "sendMessage"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ chat_id: chatId, text: body }),
+        body: JSON.stringify(payload),
         signal: AbortSignal.timeout(10_000),
       });
       if (!res.ok) {
@@ -249,8 +254,16 @@ async function pollLoop(
   let lastOffset = 0;
   let backoff = 5_000;
   let firstPoll = true;
+  let botUserId: number | null = null;
 
-  log("polling_start", `routes=${[...routeMap.keys()].map(id => `${id}→${routeMap.get(id)!.dept}`).join(",")}`);
+  // Get bot's own user ID for reply_to_bot detection
+  try {
+    const meRes = await fetch(apiUrl(token, "getMe"), { signal: AbortSignal.timeout(5_000) });
+    const meData = (await meRes.json()) as { ok: boolean; result?: { id: number } };
+    if (meData.ok && meData.result) botUserId = meData.result.id;
+  } catch { /* non-fatal */ }
+
+  log("polling_start", `routes=${[...routeMap.keys()].map(id => `${id}→${routeMap.get(id)!.dept}`).join(",")}, bot_id=${botUserId}`);
 
   for (;;) {
     try {
@@ -309,6 +322,7 @@ async function pollLoop(
         const filePath = resolve(inboxPath, filename);
 
         const isOperator = msg.from != null && String(msg.from.id) === operatorUserId;
+        const isReplyToBot = botUserId != null && msg.reply_to_message?.from?.id === botUserId;
 
         const frontmatterLines: string[] = [
           "---",
@@ -318,6 +332,7 @@ async function pollLoop(
           `message_id: ${msg.message_id}`,
           ...(msg.from?.username ? [`username: ${msg.from.username}`] : []),
           ...(isOperator ? ["operator: true"] : []),
+          ...(isReplyToBot ? ["is_reply_to_bot: true"] : []),
           "---",
           "",
           msg.text,
