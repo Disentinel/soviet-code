@@ -45,6 +45,17 @@
 <style>
 /* ── Mobile overrides (≤768px) — mobile-staging ── */
 @media (max-width: 768px) {
+  /* Override the global --pad-x (56px → 16px) used by all section inners */
+  :root {
+    --pad-x: 16px;
+  }
+
+  /* Prevent decorative absolutely-positioned elements (hero__wedge, gold-rule)
+     from creating page-level horizontal scroll */
+  html, body {
+    overflow-x: hidden;
+  }
+
   /* Body font scale — minimum 16px for readability */
   body {
     font-size: 16px;
