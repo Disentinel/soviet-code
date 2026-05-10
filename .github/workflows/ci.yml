@@ -30,6 +30,12 @@ jobs:
       - name: Run tests
         run: npm test --if-present
 
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: E2E tests (Playwright)
+        run: npm run test:e2e
+
   publish:
     name: Ввод в эксплуатацию (npm publish)
     runs-on: ubuntu-latest

@@ -12,7 +12,8 @@
     "start:conductor": "node conductor/dist/index.js",
     "prepublishOnly": "npm run build && npm run build:conductor",
     "dev": "tsx src/cli.ts",
-    "start": "node dist/cli.js"
+    "start": "node dist/cli.js",
+    "test:e2e": "playwright test"
   },
   "keywords": [
     "ai",
@@ -58,6 +59,7 @@
   "devDependencies": {
     "@babel/cli": "7.28.6",
     "@babel/preset-react": "7.28.5",
+    "@playwright/test": "^1.59.1",
     "@types/node": "22.15.17",
     "sharp": "0.34.5",
     "tsx": "4.19.4",
