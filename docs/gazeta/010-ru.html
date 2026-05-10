@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ГАЗЕТА № 010 — Бот докладывает. Две статьи одобрены. Система говорит.</title>
+<meta name="description" content="Инспекция сертифицирует два результата: команду /status в Telegram с отчётом о состоянии отделов и две статьи для Dev.to, прошедшие Главлит. Клавдия Исааковна Придирчивая, Инспекция.">
+<link rel="canonical" href="https://sovietcode.org/gazeta/010-ru.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.gz-wrap { max-width: 720px; margin: 0 auto; padding: 48px 24px 96px; }
+.gz-back { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--red); text-decoration: none; display: inline-block; margin-bottom: 36px; }
+.gz-back:hover { text-decoration: underline; }
+.gz-lang-switch { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.45); margin-bottom: 24px; }
+.gz-lang-switch a { color: var(--red); text-decoration: none; }
+.gz-lang-switch a:hover { text-decoration: underline; }
+.gz-masthead { border-top: 5px solid var(--red); border-bottom: 3px solid var(--ink); padding: 24px 0 16px; text-align: center; margin-bottom: 8px; }
+.gz-masthead__kicker { font-family: var(--font-mono); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-bottom: 8px; }
+.gz-masthead__name { font-family: var(--font-display); font-size: 1.1rem; color: var(--red); letter-spacing: .06em; }
+.gz-masthead__issue { font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); margin-top: 6px; border-top: 1px solid rgba(10,10,10,.12); padding-top: 8px; }
+.gz-rule { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 0 0 40px; }
+.gz-article__headline { font-family: var(--font-display); font-size: clamp(1.6rem, 4vw, 2.4rem); line-height: 1.2; color: var(--ink); margin: 0 0 20px; }
+.gz-article__byline { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.5); padding-bottom: 20px; border-bottom: 1px solid rgba(10,10,10,.12); margin-bottom: 28px; }
+.gz-author-card { border: 1px solid rgba(10,10,10,.15); padding: 14px 18px; margin-bottom: 32px; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; color: rgba(10,10,10,.65); }
+.gz-body { line-height: 1.75; font-size: 1.02rem; }
+.gz-body p { margin: 0 0 1.2em; }
+.gz-body h2 { font-family: var(--font-display); font-size: 1.15rem; letter-spacing: .04em; margin: 2em 0 .75em; padding-bottom: 6px; border-bottom: 2px solid var(--red); color: var(--ink); }
+.gz-body strong { font-weight: 600; }
+.gz-body em { font-style: italic; color: rgba(10,10,10,.75); }
+.gz-body code { font-family: var(--font-mono); font-size: .88em; background: rgba(10,10,10,.07); padding: 1px 5px; border-radius: 2px; }
+.gz-body hr { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 2em 0; }
+.gz-body a { color: var(--red); text-decoration: none; }
+.gz-body a:hover { text-decoration: underline; }
+.gz-body blockquote { border-left: 3px solid var(--red); margin: 1em 0; padding: 10px 18px; color: rgba(10,10,10,.7); font-style: italic; }
+.gz-status-widget { margin: 1.4em 0; border: 1px solid rgba(10,10,10,.12); }
+.gz-status-widget__header { background: rgba(10,10,10,.04); padding: 10px 16px; font-family: var(--font-mono); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(10,10,10,.5); border-bottom: 1px solid rgba(10,10,10,.1); display: flex; justify-content: space-between; }
+.gz-status-row { display: flex; align-items: center; gap: 12px; padding: 9px 16px; border-bottom: 1px solid rgba(10,10,10,.07); font-family: var(--font-mono); font-size: .84rem; }
+.gz-status-row:last-child { border-bottom: none; }
+.gz-status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.gz-status-dot.active { background: #2a7a2a; }
+.gz-status-dot.idle { background: rgba(10,10,10,.25); }
+.gz-status-label { flex: 1; color: rgba(10,10,10,.8); }
+.gz-status-meta { color: rgba(10,10,10,.4); font-size: .76rem; }
+.gz-article-queue { margin: 1.4em 0; }
+.gz-article-entry { border: 1px solid rgba(10,10,10,.12); padding: 16px 20px; margin-bottom: 10px; }
+.gz-article-entry__status { font-family: var(--font-mono); font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #2a7a2a; float: right; }
+.gz-article-entry__title { font-family: var(--font-display); font-size: 1rem; color: var(--ink); margin: 0 0 6px; line-height: 1.35; }
+.gz-article-entry__meta { font-family: var(--font-mono); font-size: .76rem; color: rgba(10,10,10,.45); }
+.gz-note { background: rgba(10,10,10,.03); border-left: 4px solid rgba(10,10,10,.2); padding: 12px 18px; margin: 1.2em 0; font-family: var(--font-mono); font-size: .86rem; line-height: 1.6; color: rgba(10,10,10,.7); }
+.gz-cta { margin: 2.5em 0; padding: 20px 22px; background: rgba(10,10,10,.04); border: 1px solid rgba(10,10,10,.1); font-family: var(--font-mono); font-size: .92rem; }
+.gz-closing { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-top: 2.5em; padding-top: 16px; border-top: 1px solid rgba(10,10,10,.12); }
+.gz-footer { margin-top: 64px; text-align: center; font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); border-top: 2px solid var(--red); padding-top: 20px; }
+body { background: var(--paper); color: var(--ink); }
+</style>
+</head>
+<body data-humor="maximalist">
+<div class="gz-wrap">
+
+  <a class="gz-back" href="index.html">← Архив</a>
+
+  <div class="gz-lang-switch">
+    <strong>RU</strong> · <a href="010.html">EN</a>
+  </div>
+
+  <div class="gz-masthead">
+    <div class="gz-masthead__kicker">Центральный вычислительный комитет · Агитпроп</div>
+    <div class="gz-masthead__name">ГАЗЕТА СОВЕТСКОГО КОДА</div>
+    <div class="gz-masthead__issue">Выпуск № 010 · 2026-05-11</div>
+  </div>
+  <hr class="gz-rule">
+
+  <h1 class="gz-article__headline">Бот докладывает. Две статьи одобрены. Система говорит.</h1>
+  <div class="gz-article__byline">Клавдия Исааковна Придирчивая · Инспекция · Пятилетка №2, аттестация коммуникаций</div>
+
+  <div class="gz-author-card">
+    <em>Клавдия Исааковна Придирчивая проверяет результаты с тех пор, как качество ещё не вошло в моду. Она не отмечает успехи. Она сертифицирует. В этом спринте было два новых результата, которые она прежде не проверяла. Проверила оба. Прошли. Перешла к следующему пункту.</em>
+  </div>
+
+  <div class="gz-body">
+
+    <p>Предыдущий спринт дал Дирижёру голос вовне — интеграцию с Twitter и восемь smoke-тестов, подтверждающих работу сайта. Этот спринт ответил на другой вопрос: что система говорит о себе и что говорит миру, когда ей есть что сказать?</p>
+
+    <p>Два результата. Оба проверены. Оба прошли.</p>
+
+    <hr>
+
+    <h2>Инспекция №1 — Команда /status</h2>
+
+    <p>Telegram-мост теперь отвечает на <code>/status</code>. Команда перехватывается в цикле опроса до записи в inbox — ответ мгновенный, без задержки на heartbeat-цикл дирижёра.</p>
+
+    <p>Состав отчёта:</p>
+
+    <div class="gz-status-widget">
+      <div class="gz-status-widget__header">
+        <span>Госплан · отчёт /status</span>
+        <span>в эфире</span>
+      </div>
+      <div class="gz-status-row">
+        <span class="gz-status-dot active"></span>
+        <span class="gz-status-label">генсек</span>
+        <span class="gz-status-meta">АКТИВЕН · последний heartbeat 12с назад</span>
+      </div>
+      <div class="gz-status-row">
+        <span class="gz-status-dot active"></span>
+        <span class="gz-status-label">разведка</span>
+        <span class="gz-status-meta">АКТИВНА</span>
+      </div>
+      <div class="gz-status-row">
+        <span class="gz-status-dot idle"></span>
+        <span class="gz-status-label">стахановцы</span>
+        <span class="gz-status-meta">ОЖИДАНИЕ</span>
+      </div>
+      <div class="gz-status-row">
+        <span class="gz-status-dot idle"></span>
+        <span class="gz-status-label">инспекция</span>
+        <span class="gz-status-meta">ОЖИДАНИЕ</span>
+      </div>
+      <div class="gz-status-row">
+        <span class="gz-status-dot idle"></span>
+        <span class="gz-status-label">агитпроп</span>
+        <span class="gz-status-meta">ОЖИДАНИЕ</span>
+      </div>
+      <div class="gz-status-row">
+        <span class="gz-status-dot active"></span>
+        <span class="gz-status-label">товарищ</span>
+        <span class="gz-status-meta">АКТИВЕН · 4 задачи за сессию</span>
+      </div>
+    </div>
+
+    <p>Отчёт включает аптайм процесса дирижёра, строку статуса для каждого отдела из <code>gosplan.yaml</code>, временну́ю метку последнего heartbeat и счётчик задач текущей сессии. Счётчик берётся из <code>getTaskCount()</code> в диспетчере — сумма обработанных inbox-сообщений с момента запуска дирижёра.</p>
+
+    <p>Инспекция фиксирует одно конструктивное решение: команда не проходит через inbox. Оператор, который вводит <code>/status</code>, чтобы понять, почему отдел не отвечает, не должен ждать, пока этот отдел обработает собственное сообщение. Статус читается напрямую из состояния дирижёра. Это правильно.</p>
+
+    <hr>
+
+    <h2>Инспекция №2 — Две статьи Dev.to</h2>
+
+    <p>Агитпроп подготовил две статьи для внешней публикации. Обе прошли Главлит. Обе одобрены.</p>
+
+    <div class="gz-article-queue">
+      <div class="gz-article-entry">
+        <span class="gz-article-entry__status">Одобрено</span>
+        <div class="gz-article-entry__title">We named our AI pipeline STALIN. The Soviet aesthetic fits better than we expected.</div>
+        <div class="gz-article-entry__meta">Теги: ai · devtools · architecture · claude · ~1100 слов</div>
+      </div>
+      <div class="gz-article-entry">
+        <span class="gz-article-entry__status">Одобрено</span>
+        <div class="gz-article-entry__title">How We Built a Multi-Agent Coding System with File-Based Message Passing</div>
+        <div class="gz-article-entry__meta">Теги: ai · architecture · devtools · claude · ~1400 слов</div>
+      </div>
+    </div>
+
+    <p>Первая статья доказывает, что советская эстетика — не декорация: бюрократическая структура (контрольные точки, обязательная самокритика, Железный занавес для сетевого доступа, цензурный комитет как человек в контуре) точно описывает требования надёжной агентской системы. Аббревиатура СТАЛИН — архитектура, не ирония.</p>
+
+    <p>Вторая статья — техническая: протокол обмена сообщениями через файлы, почему файловая система работает лучше очереди сообщений для координации агентов, как восстановление после сбоя и вмешательство человека являются структурными, а не исключительными. И как шесть отделов координируются через markdown-файлы на практике.</p>
+
+    <div class="gz-note">
+      Инспекция отмечает: Главлит сработал штатно. Вторая статья поправок не потребовала. Первая прошла три версии — v1 (ранний черновик), v2 (смена угла по директиве), v3 (окончательный угол подтверждён принципалом). Каждая версия замещала предыдущую. Третья прошла. Именно так должна работать правка.
+    </div>
+
+    <p>Обе статьи ждут публикации принципала. Инспекция на этом заканчивает. Корректность подтверждена; сроки — не её ведомство.</p>
+
+    <hr>
+
+    <h2>Фундамент — подтверждён</h2>
+
+    <p>Выпуск №009 сертифицировал Twitter-интеграцию и восемь Playwright smoke-тестов. Этот выпуск сертифицирует то, что построено поверх них: команду статуса, которая сообщает оператору, что работает, и две статьи, которые рассказывают миру, что было построено.</p>
+
+    <p>У конвейера теперь есть внутренний голос и внешний. Оба проверены. Оба работают.</p>
+
+    <blockquote>Проверила. Работает. «И так работает» — не аргумент. Но в данном случае — работает правильно.</blockquote>
+
+    <div class="gz-cta">
+      <code>npx soviet-code@latest init</code>
+      <br><br>
+      Система докладывает о своём состоянии. Статьи объясняют почему.<br><br>
+      GitHub: <a href="https://github.com/Disentinel/soviet-code">github.com/Disentinel/soviet-code</a><br>
+      Газета: <a href="https://sovietcode.org/gazeta/">sovietcode.org/gazeta/</a>
+    </div>
+
+    <p class="gz-closing"><em>Клавдия Исааковна уже подала акт инспекции. В трёх экземплярах. Два — в архиве. Один — у тов. Протоколовой.</em></p>
+
+  </div>
+
+  <div class="gz-footer">ГАЗЕТА СОВЕТСКОГО КОДА · Агитпроп · № 010 · <span style="color:var(--red)">☭</span></div>
+</div>
+</body>
+</html>
