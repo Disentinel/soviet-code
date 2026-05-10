@@ -10,7 +10,7 @@ import {
 import { resolve } from "node:path";
 import { bus } from "./log.js";
 import { isActive, getTaskCount } from "./dispatcher.js";
-import type { TelegramConfig, Department } from "./types.js";
+import type { TelegramConfig, TelegramRoute, Department } from "./types.js";
 
 const TG_MAX = 4096;
 const conductorStart = Date.now();
@@ -20,6 +20,7 @@ interface TgMessage {
   message_id: number;
   text?: string;
   chat: { id: number };
+  from?: { id: number; username?: string };
   date: number;
 }
 
@@ -67,12 +68,18 @@ function truncate(text: string): string {
   return text.slice(0, TG_MAX - 15) + "\n[...обрезано]";
 }
 
+function isPlaceholderChatId(chatId: string): boolean {
+  return chatId.startsWith("TBD") || chatId === "";
+}
+
 async function flushOutbox(
   token: string,
   chatId: string,
   outboxPath: string,
   processedPath: string,
 ): Promise<void> {
+  if (isPlaceholderChatId(chatId)) return;
+
   const files = readdirSync(outboxPath).filter(
     (f) => f.endsWith(".md") && !f.startsWith("."),
   );
@@ -107,35 +114,40 @@ async function flushOutbox(
   }
 }
 
-function watchOutbox(token: string, chatId: string, workdir: string): void {
-  const outboxPath = resolve(workdir, "depts/tovarishch/outbox");
-  const processedPath = resolve(workdir, "depts/tovarishch/processed");
+function watchAllOutboxes(
+  token: string,
+  routes: TelegramRoute[],
+  workdir: string,
+): void {
+  for (const route of routes) {
+    const outboxPath = resolve(workdir, `depts/${route.dept}/outbox`);
+    const processedPath = resolve(workdir, `depts/${route.dept}/processed`);
 
-  if (!existsSync(outboxPath)) mkdirSync(outboxPath, { recursive: true });
-  if (!existsSync(processedPath)) mkdirSync(processedPath, { recursive: true });
+    if (!existsSync(outboxPath)) mkdirSync(outboxPath, { recursive: true });
+    if (!existsSync(processedPath)) mkdirSync(processedPath, { recursive: true });
 
-  let flushTimer: NodeJS.Timeout | undefined;
-  let flushing = false;
+    let flushTimer: NodeJS.Timeout | undefined;
+    let flushing = false;
 
-  const debouncedFlush = () => {
-    if (flushing) return;
-    clearTimeout(flushTimer);
-    flushTimer = setTimeout(async () => {
-      flushing = true;
-      try { await flushOutbox(token, chatId, outboxPath, processedPath); }
-      finally { flushing = false; }
-    }, 500);
-  };
+    const debouncedFlush = () => {
+      if (flushing) return;
+      clearTimeout(flushTimer);
+      flushTimer = setTimeout(async () => {
+        flushing = true;
+        try { await flushOutbox(token, route.chat_id, outboxPath, processedPath); }
+        finally { flushing = false; }
+      }, 500);
+    };
 
-  // Drain any files already waiting
-  void flushOutbox(token, chatId, outboxPath, processedPath);
+    void flushOutbox(token, route.chat_id, outboxPath, processedPath);
 
-  watch(outboxPath, (_, filename) => {
-    if (!filename || !filename.endsWith(".md") || filename.startsWith(".")) return;
-    debouncedFlush();
-  });
+    watch(outboxPath, (_, filename) => {
+      if (!filename || !filename.endsWith(".md") || filename.startsWith(".")) return;
+      debouncedFlush();
+    });
 
-  log("outbox_watching", outboxPath);
+    log("outbox_watching", `${outboxPath} → chat_id=${route.chat_id}`);
+  }
 }
 
 async function flushTelegramInbox(
@@ -221,22 +233,27 @@ async function watchInbox(token: string, chatId: string, workdir: string): Promi
 
 async function pollLoop(
   token: string,
-  chatId: string,
+  routes: TelegramRoute[],
+  operatorUserId: string,
   workdir: string,
   depts: Department[],
 ): Promise<void> {
-  const inboxPath = resolve(workdir, "depts/tovarishch/inbox");
-  if (!existsSync(inboxPath)) mkdirSync(inboxPath, { recursive: true });
+  // Build chat_id → route map, skipping placeholders
+  const routeMap = new Map<string, TelegramRoute>();
+  for (const route of routes) {
+    if (!isPlaceholderChatId(route.chat_id)) {
+      routeMap.set(route.chat_id, route);
+    }
+  }
 
   let lastOffset = 0;
   let backoff = 5_000;
   let firstPoll = true;
 
-  log("polling_start", `chat_id=${chatId}`);
+  log("polling_start", `routes=${[...routeMap.keys()].map(id => `${id}→${routeMap.get(id)!.dept}`).join(",")}`);
 
   for (;;) {
     try {
-      // First poll uses timeout=0 to clear any stale long-poll connection on Telegram's side
       const timeout = firstPoll ? 0 : 25;
       firstPoll = false;
       const url = `${apiUrl(token, "getUpdates")}?offset=${lastOffset}&timeout=${timeout}`;
@@ -265,19 +282,20 @@ async function pollLoop(
           continue;
         }
 
-        // Security: reject messages not from configured chat_id
-        if (String(msg.chat.id) !== String(chatId)) {
+        // Lookup route by incoming chat_id
+        const route = routeMap.get(String(msg.chat.id));
+        if (!route) {
           lastOffset = update.update_id + 1;
           continue;
         }
 
-        // Handle /status command — reply immediately, skip file write
+        // Handle /status command — reply to the originating chat
         if (msg.text.trim() === "/status") {
           const report = buildStatusReport(depts);
           await fetch(apiUrl(token, "sendMessage"), {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ chat_id: chatId, text: report }),
+            body: JSON.stringify({ chat_id: String(msg.chat.id), text: report }),
             signal: AbortSignal.timeout(10_000),
           }).catch((err) => log("status_send_error", String(err)));
           lastOffset = update.update_id + 1;
@@ -286,23 +304,28 @@ async function pollLoop(
 
         const ts = new Date(msg.date * 1000).toISOString();
         const filename = `tg-${msg.message_id}.md`;
+        const inboxPath = resolve(workdir, `depts/${route.dept}/inbox`);
+        if (!existsSync(inboxPath)) mkdirSync(inboxPath, { recursive: true });
         const filePath = resolve(inboxPath, filename);
 
-        const fileContent = [
+        const isOperator = msg.from != null && String(msg.from.id) === operatorUserId;
+
+        const frontmatterLines: string[] = [
           "---",
           "from: telegram",
           `ts: ${ts}`,
           `chat_id: ${msg.chat.id}`,
           `message_id: ${msg.message_id}`,
+          ...(msg.from?.username ? [`username: ${msg.from.username}`] : []),
+          ...(isOperator ? ["operator: true"] : []),
           "---",
           "",
           msg.text,
           "",
-        ].join("\n");
+        ];
 
-        // Write file FIRST, advance offset only after successful write
-        writeFileSync(filePath, fileContent, "utf-8");
-        log("received", `message_id=${msg.message_id}`);
+        writeFileSync(filePath, frontmatterLines.join("\n"), "utf-8");
+        log("received", `message_id=${msg.message_id} → ${route.dept}`);
 
         lastOffset = update.update_id + 1;
       }
@@ -356,11 +379,21 @@ export async function startBridge(
     }
   });
 
-  log("start", `chat_id=${telegram.chat_id}`);
-  watchOutbox(telegram.bot_token, telegram.chat_id, workdir);
+  // Build effective routes: use routes[] if present, else default single-route to tovarishch
+  const routes: TelegramRoute[] = telegram.routes?.length
+    ? telegram.routes
+    : [{ chat_id: telegram.chat_id, dept: "tovarishch" }];
+
+  // Operator user_id is the personal chat_id (same number)
+  const operatorUserId = telegram.chat_id;
+
+  log("start", `routes=${routes.map(r => `${r.chat_id}→${r.dept}`).join(",")}`);
+
+  watchAllOutboxes(telegram.bot_token, routes, workdir);
+  // Also watch tovarishch/inbox for deliver_via:telegram outgoing notifications to principal
   await watchInbox(telegram.bot_token, telegram.chat_id, workdir);
   // Clear any active webhook to avoid 409 on getUpdates
   await fetch(apiUrl(telegram.bot_token, "deleteWebhook")).catch(() => {});
   // pollLoop runs indefinitely — intentionally fire-and-forget
-  void pollLoop(telegram.bot_token, telegram.chat_id, workdir, depts);
+  void pollLoop(telegram.bot_token, routes, operatorUserId, workdir, depts);
 }

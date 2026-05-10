@@ -2,9 +2,14 @@ gosplan:
   telegram:
     bot_token: 8715112240:AAG1ROQ0ldbA9wku6PHi2KRjvrp8sIEnq94
     chat_id: "547893198"
+    routes:
+      - chat_id: "547893198"
+        dept: tovarishch
+      - chat_id: "TBD_ABSTRACTDL"
+        dept: pressluzhba
 departments:
   gensek:
-    session_id: fa8658e8-e0d8-4658-ab19-5d55dc6bb502
+    session_id: 8692e5dc-e590-4700-8542-1af896c8693f
     role: depts/gensek/role.md
     inbox: depts/gensek/inbox/
     outbox: depts/gensek/outbox/
@@ -16,12 +21,15 @@ departments:
       - Edit
       - Glob
       - Grep
+      - mcp__linear__*
+      - mcp__claude_ai_Linear__*
+      - mcp__claude_ai_Enox__*
     extra_dirs:
       - ~/grafema
       - ~/kami
       - ~/enox
   razvedka:
-    session_id: 939c670d-5313-4c65-b28e-458f2a1f8694
+    session_id: 0a26e8a4-6ff2-4f63-8fdb-f86c34c534e3
     role: depts/razvedka/role.md
     inbox: depts/razvedka/inbox/
     outbox: depts/razvedka/outbox/
@@ -32,6 +40,9 @@ departments:
       - Glob
       - Grep
       - Bash
+      - mcp__linear__*
+      - mcp__claude_ai_Linear__*
+      - mcp__claude_ai_Enox__*
     extra_dirs:
       - ~/grafema
       - ~/kami
@@ -94,3 +105,19 @@ departments:
       - Write
       - Glob
     extra_dirs: []
+  pressluzhba:
+    session_id: null
+    role: depts/pressluzhba/role.md
+    inbox: depts/pressluzhba/inbox/
+    outbox: depts/pressluzhba/outbox/
+    description: Пресс-служба ЦВК — тов. Узлова И.М. в объекте «Серпентарий»
+    model: sonnet
+    allowed_tools:
+      - Read
+      - Write
+      - Edit
+      - Glob
+      - Grep
+      - "mcp__claude_ai_Enox__*"
+    extra_dirs:
+      - ~/soviet-code

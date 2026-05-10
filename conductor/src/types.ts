@@ -23,10 +23,16 @@ export interface Config {
   }>;
 }
 
+export interface TelegramRoute {
+  chat_id: string;
+  dept: string;
+}
+
 export interface TelegramConfig {
   bot_token: string;
   chat_id: string;
   notify_on: string[];
+  routes?: TelegramRoute[];
 }
 
 export interface GosplanSection {
