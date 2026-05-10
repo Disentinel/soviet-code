@@ -63,6 +63,7 @@
       <a href="#terminal">Terminal</a>
       <a href="#compare">Achievements</a>
       <a href="#install">Install</a>
+      <a href="#contact">Contact</a>
       <a href="/gazeta/">ГАЗЕТА</a>
     </nav>
     <div class="header-cta">
@@ -821,6 +822,59 @@
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="contact" id="contact" style="background:var(--paper);padding:80px 0 72px;border-top:3px solid rgba(10,10,10,.1)">
+  <div class="section-head">
+    <div class="section-head__num">§13 · Address the Central Committee</div>
+    <h2 class="section-head__title">No GitHub account required. <span class="red">The Party listens.</span></h2>
+  </div>
+
+  <div style="max-width:600px;margin:0 auto;padding:0 24px">
+    <p style="font-family:var(--font-mono);font-size:13px;letter-spacing:.06em;color:rgba(10,10,10,.6);margin-bottom:36px;text-align:center">
+      Bug reports · Feature proposals · Ideological concerns · Commendations
+    </p>
+
+    <form action="https://formspree.io/f/PLACEHOLDER_FORM_ID" method="POST"
+          style="display:flex;flex-direction:column;gap:20px">
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <label style="font-family:var(--font-mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(10,10,10,.5)" for="contact-name">Name <span style="color:rgba(10,10,10,.35)">(optional)</span></label>
+          <input id="contact-name" type="text" name="name" placeholder="Tov. Иванов"
+                 style="font-family:var(--font-mono);font-size:13px;padding:10px 14px;border:1px solid rgba(10,10,10,.2);background:var(--paper);color:var(--ink);outline:none;width:100%;box-sizing:border-box"
+                 onfocus="this.style.borderColor='var(--red)'" onblur="this.style.borderColor='rgba(10,10,10,.2)'">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <label style="font-family:var(--font-mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(10,10,10,.5)" for="contact-email">Email <span style="color:rgba(10,10,10,.35)">(optional)</span></label>
+          <input id="contact-email" type="email" name="email" placeholder="comrade@collective.su"
+                 style="font-family:var(--font-mono);font-size:13px;padding:10px 14px;border:1px solid rgba(10,10,10,.2);background:var(--paper);color:var(--ink);outline:none;width:100%;box-sizing:border-box"
+                 onfocus="this.style.borderColor='var(--red)'" onblur="this.style.borderColor='rgba(10,10,10,.2)'">
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <label style="font-family:var(--font-mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(10,10,10,.5)" for="contact-message">Message <span style="color:var(--red)">*</span></label>
+        <textarea id="contact-message" name="message" required rows="6"
+                  placeholder="State your petition clearly. The Committee does not accept vague denunciations."
+                  style="font-family:var(--font-mono);font-size:13px;line-height:1.6;padding:12px 14px;border:1px solid rgba(10,10,10,.2);background:var(--paper);color:var(--ink);outline:none;resize:vertical;width:100%;box-sizing:border-box"
+                  onfocus="this.style.borderColor='var(--red)'" onblur="this.style.borderColor='rgba(10,10,10,.2)'"></textarea>
+      </div>
+
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+        <span style="font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(10,10,10,.4)">
+          ☭ Submitted to the Committee · No spam · No telemetry
+        </span>
+        <button type="submit"
+                style="font-family:var(--font-display);font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;background:var(--red);color:var(--paper);border:none;padding:12px 28px;cursor:pointer"
+                onmouseover="this.style.background='#a00d24'" onmouseout="this.style.background='var(--red)'">
+          Submit Petition →
+        </button>
+      </div>
+
+    </form>
   </div>
 </section>
 
