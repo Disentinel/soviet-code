@@ -1,0 +1,18 @@
+[Unit]
+Description=Soviet Code Conductor — AI multi-agent orchestrator
+After=network.target
+
+[Service]
+Type=simple
+User=soviet
+Group=soviet
+WorkingDirectory=/opt/soviet-code
+ExecStart=node /opt/soviet-code/conductor/dist/index.js
+Restart=always
+RestartSec=5
+EnvironmentFile=/etc/soviet-code/env
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
