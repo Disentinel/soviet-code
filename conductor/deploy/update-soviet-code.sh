@@ -1,41 +1,41 @@
 #!/usr/bin/env bash
-# Soviet Code — update script for deployed instance
-# Run as root after initial deploy. Non-interactive, idempotent.
+# Soviet Code — update script (git pull + rebuild + restart)
+# Run as root. Idempotent: safe to re-run.
 set -euxo pipefail
-
-WORKDIR=/opt/soviet-code
 
 echo "☭ Soviet Code — update starting"
 echo "================================"
 
-# Pull latest code
-git -C "$WORKDIR" pull origin master
+# 1. Pull latest code
+echo "[1/4] Pulling latest code from origin/master..."
+cd /opt/soviet-code
+sudo -u soviet git pull --ff-only origin master
 
-# Install dependencies (ci for reproducible builds)
-npm ci --prefix "$WORKDIR"
+# 2. Build conductor
+echo "[2/4] Building conductor..."
+sudo -u soviet npm run build:conductor
 
-# Build main CLI and conductor
-npm run build --prefix "$WORKDIR"
-npm run build:conductor --prefix "$WORKDIR"
-
-# Restart conductor service
+# 3. Restart conductor service
+echo "[3/4] Restarting conductor.service..."
 systemctl restart conductor
 
-# Verify it came up
-sleep 2
+# 4. Verify conductor is active
+echo "[4/4] Verifying conductor status..."
 systemctl status conductor --no-pager
 
-ACTIVE=$(systemctl is-active conductor)
-if [ "$ACTIVE" != "active" ]; then
-  echo "[ERROR] conductor is not active after restart (state: $ACTIVE)"
-  echo "  Check logs: journalctl -u conductor -n 50 --no-pager"
+CONDUCTOR_STATE=$(systemctl is-active conductor)
+if [ "$CONDUCTOR_STATE" != "active" ]; then
+  echo ""
+  echo "ERROR: conductor is not active (state: $CONDUCTOR_STATE)"
+  echo "Check logs: journalctl -u conductor -n 50 --no-pager"
   exit 1
 fi
 
 echo ""
 echo "=== Update complete ==="
-echo "Conductor: $ACTIVE"
-echo "Node: $(node --version)"
-echo "Commit: $(git -C "$WORKDIR" rev-parse --short HEAD)"
+echo "Conductor: $CONDUCTOR_STATE"
+echo "Commit: $(sudo -u soviet git -C /opt/soviet-code log -1 --oneline)"
+echo ""
+echo "Monitor: journalctl -u conductor -f"
 echo ""
 echo "☭ Слава роботам."

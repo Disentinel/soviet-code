@@ -15,6 +15,7 @@ import type { TelegramConfig, TelegramRoute, Department } from "./types.js";
 const TG_MAX = 4096;
 const conductorStart = Date.now();
 let lastHeartbeatTs: Date | null = null;
+let rateLimitUntil = 0; // epoch ms — skip sends while Date.now() < rateLimitUntil
 
 interface TgPhotoSize {
   file_id: string;
@@ -108,6 +109,8 @@ async function flushOutbox(
     (f) => f.endsWith(".md") && !f.startsWith("."),
   );
   for (const filename of files) {
+    if (Date.now() < rateLimitUntil) continue; // rate-limited — leave in outbox, retry later
+
     const filePath = resolve(outboxPath, filename);
     if (!existsSync(filePath)) continue;
 
@@ -126,6 +129,13 @@ async function flushOutbox(
         body: JSON.stringify(payload),
         signal: AbortSignal.timeout(10_000),
       });
+      if (res.status === 429) {
+        const errJson = await res.json().catch(() => ({})) as { parameters?: { retry_after?: number } };
+        const retryAfter = errJson.parameters?.retry_after ?? 30;
+        rateLimitUntil = Date.now() + retryAfter * 1_000;
+        log("rate_limited", `retry_after=${retryAfter}s — pausing outbox`);
+        continue; // leave in outbox — will retry after rateLimitUntil
+      }
       if (!res.ok) {
         const errBody = await res.text().catch(() => "");
         throw new Error(`HTTP ${res.status}: ${errBody}`);
@@ -188,6 +198,8 @@ async function flushTelegramInbox(
     (f) => f.endsWith(".md") && !f.startsWith("."),
   );
   for (const filename of files) {
+    if (Date.now() < rateLimitUntil) continue; // rate-limited — leave in inbox, retry later
+
     const filePath = resolve(inboxPath, filename);
     if (!existsSync(filePath)) continue;
 
@@ -207,6 +219,13 @@ async function flushTelegramInbox(
         body: JSON.stringify({ chat_id: chatId, text: body }),
         signal: AbortSignal.timeout(10_000),
       });
+      if (res.status === 429) {
+        const errJson = await res.json().catch(() => ({})) as { parameters?: { retry_after?: number } };
+        const retryAfter = errJson.parameters?.retry_after ?? 30;
+        rateLimitUntil = Date.now() + retryAfter * 1_000;
+        log("rate_limited", `retry_after=${retryAfter}s — pausing inbox delivery`);
+        continue;
+      }
       if (!res.ok) {
         const errBody = await res.text().catch(() => "");
         throw new Error(`HTTP ${res.status}: ${errBody}`);
