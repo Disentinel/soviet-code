@@ -111,11 +111,12 @@ departments:
       - Glob
     extra_dirs: []
   komissar:
-    session_id: null
+    session_id: 41581398-65e7-4cf1-8776-51dc908a1a4d
     role: depts/komissar/role.md
     inbox: depts/komissar/inbox/
     outbox: depts/komissar/outbox/
-    description: Комиссар — рефлексия, рацпредложения, мониторинг морально-политического состояния
+    description: Комиссар — рефлексия, рацпредложения, мониторинг
+      морально-политического состояния
     model: sonnet
     heartbeat_model: haiku
     allowed_tools:
@@ -123,9 +124,29 @@ departments:
       - Write
       - Glob
       - Grep
-      - "mcp__claude_ai_Enox__*"
+      - mcp__claude_ai_Enox__*
     extra_dirs:
       - ~/soviet-code
+  nii:
+    session_id: null
+    role: depts/nii/role.md
+    inbox: depts/nii/inbox/
+    outbox: depts/nii/outbox/
+    description: НИИ — тяжёлая артиллерия, Opus 4.6 1M, сложные задачи
+    model: opus
+    allowed_tools:
+      - Read
+      - Write
+      - Edit
+      - Glob
+      - Grep
+      - Bash
+      - "mcp__claude_ai_Enox__*"
+    extra_dirs:
+      - ~/grafema
+      - ~/soviet-code
+      - ~/kami
+      - ~/enox
   pressluzhba:
     session_id: 2118dec1-fd81-4cb4-b0e2-caa291a6592a
     role: depts/pressluzhba/role.md
