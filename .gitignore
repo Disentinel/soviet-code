@@ -6,3 +6,4 @@ politburo.toml
 *.log
 .env
 .conductor.pid
+code-sandbox/
