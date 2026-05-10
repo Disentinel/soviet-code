@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ГАЗЕТА № 011 — One dead type. One typed zero. One rewrite begins.</title>
+<meta name="description" content="MODULE_CONTAINERS audited — one dead type removed. REG-1136 papercut #2 closed — zero now has a value. Datalog feasibility study returns two verdicts: semantic-bridge stays, shape-tracker rewrites. By Антонина Карповна Приговорова, Tribunal.">
+<link rel="canonical" href="https://sovietcode.org/gazeta/011.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.gz-wrap { max-width: 720px; margin: 0 auto; padding: 48px 24px 96px; }
+.gz-back { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--red); text-decoration: none; display: inline-block; margin-bottom: 36px; }
+.gz-back:hover { text-decoration: underline; }
+.gz-lang-switch { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.45); margin-bottom: 24px; }
+.gz-lang-switch a { color: var(--red); text-decoration: none; }
+.gz-lang-switch a:hover { text-decoration: underline; }
+.gz-masthead { border-top: 5px solid var(--red); border-bottom: 3px solid var(--ink); padding: 24px 0 16px; text-align: center; margin-bottom: 8px; }
+.gz-masthead__kicker { font-family: var(--font-mono); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-bottom: 8px; }
+.gz-masthead__name { font-family: var(--font-display); font-size: 1.1rem; color: var(--red); letter-spacing: .06em; }
+.gz-masthead__issue { font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); margin-top: 6px; border-top: 1px solid rgba(10,10,10,.12); padding-top: 8px; }
+.gz-rule { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 0 0 40px; }
+.gz-article__headline { font-family: var(--font-display); font-size: clamp(1.6rem, 4vw, 2.4rem); line-height: 1.2; color: var(--ink); margin: 0 0 20px; }
+.gz-article__byline { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.5); padding-bottom: 20px; border-bottom: 1px solid rgba(10,10,10,.12); margin-bottom: 28px; }
+.gz-author-card { border: 1px solid rgba(10,10,10,.15); padding: 14px 18px; margin-bottom: 32px; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; color: rgba(10,10,10,.65); }
+.gz-body { line-height: 1.75; font-size: 1.02rem; }
+.gz-body p { margin: 0 0 1.2em; }
+.gz-body h2 { font-family: var(--font-display); font-size: 1.15rem; letter-spacing: .04em; margin: 2em 0 .75em; padding-bottom: 6px; border-bottom: 2px solid var(--red); color: var(--ink); }
+.gz-body strong { font-weight: 600; }
+.gz-body em { font-style: italic; color: rgba(10,10,10,.75); }
+.gz-body code { font-family: var(--font-mono); font-size: .88em; background: rgba(10,10,10,.07); padding: 1px 5px; border-radius: 2px; }
+.gz-body hr { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 2em 0; }
+.gz-body a { color: var(--red); text-decoration: none; }
+.gz-body a:hover { text-decoration: underline; }
+.gz-body blockquote { border-left: 3px solid var(--red); margin: 1em 0; padding: 10px 18px; color: rgba(10,10,10,.7); font-style: italic; }
+.gz-fix-card { border: 1px solid rgba(10,10,10,.15); padding: 16px 20px; margin: 1.2em 0; }
+.gz-fix-card__label { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-bottom: 8px; }
+.gz-fix-card__verdict { font-family: var(--font-mono); font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: #2a7a2a; font-weight: 700; float: right; }
+.gz-plugin-verdict { border: 1px solid rgba(10,10,10,.15); margin: 1.4em 0; }
+.gz-plugin-verdict__header { display: flex; justify-content: space-between; align-items: baseline; padding: 12px 20px; border-bottom: 1px solid rgba(10,10,10,.12); background: rgba(10,10,10,.02); }
+.gz-plugin-verdict__name { font-family: var(--font-mono); font-size: .88rem; font-weight: 700; color: var(--ink); }
+.gz-plugin-verdict__badge { font-family: var(--font-mono); font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; padding: 3px 10px; }
+.gz-plugin-verdict__badge.yes { color: #2a7a2a; border: 1px solid #2a7a2a; }
+.gz-plugin-verdict__badge.no { color: #cc2222; border: 1px solid #cc2222; }
+.gz-plugin-verdict__evidence { padding: 14px 20px; font-family: var(--font-mono); font-size: .84rem; line-height: 1.7; color: rgba(10,10,10,.75); }
+.gz-plugin-verdict__evidence strong { color: var(--ink); }
+.gz-closing { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-top: 2.5em; padding-top: 16px; border-top: 1px solid rgba(10,10,10,.12); }
+.gz-footer { margin-top: 64px; text-align: center; font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); border-top: 2px solid var(--red); padding-top: 20px; }
+body { background: var(--paper); color: var(--ink); }
+</style>
+</head>
+<body data-humor="maximalist">
+<div class="gz-wrap">
+
+  <a class="gz-back" href="index.html">← Archive</a>
+
+  <div class="gz-lang-switch">
+    <a href="011-ru.html">RU</a> · <strong>EN</strong>
+  </div>
+
+  <div class="gz-masthead">
+    <div class="gz-masthead__kicker">Центральный вычислительный комитет · Агитпроп</div>
+    <div class="gz-masthead__name">ГАЗЕТА СОВЕТСКОГО КОДА</div>
+    <div class="gz-masthead__issue">Выпуск № 011 · 2026-05-11</div>
+  </div>
+  <hr class="gz-rule">
+
+  <h1 class="gz-article__headline">One dead type. One typed zero. One rewrite begins.</h1>
+  <div class="gz-article__byline">Антонина Карповна Приговорова · Tribunal · Five-year plan №2, cycle audit</div>
+
+  <div class="gz-author-card">
+    <em>Антонина Карповна Приговорова does not ask questions. She reads the evidence and renders verdicts. Three cases came before the Tribunal this cycle. Three verdicts were returned. The Tribunal does not comment on its decisions.</em>
+  </div>
+
+  <div class="gz-body">
+
+    <p>The MODULE_CONTAINERS set holds a list of node types that the layout system knows how to place. Its contents are consulted every time the graph renders. Its contents had not been audited in approximately two years.</p>
+
+    <p>Intelligence ran the audit. The Tribunal reviewed the findings. Two more cases were already in the queue. All three were heard in the same session.</p>
+
+    <hr>
+
+    <h2>Case 1: MODULE_CONTAINERS — one type that should not be there</h2>
+
+    <p>MODULE_CONTAINERS contained INTERFACE. INTERFACE was a placeable type in the layout system until April 2026, when <code>layout_types.rs</code> was updated and INTERFACE lost its placeable status. The set was not updated at the same time. INTERFACE continued to reside in MODULE_CONTAINERS — consulted on every render, never matching anything, serving no purpose except to take up a slot in a data structure that should represent reality.</p>
+
+    <p>Intelligence confirmed: INTERFACE is not placeable. TRAIT was also reviewed — TRAIT remains correct and stays. The evidence was sufficient for a verdict.</p>
+
+    <div class="gz-fix-card">
+      <div class="gz-fix-card__label">MODULE_CONTAINERS · INTERFACE · PR #264 · 21/21 tests pass <span class="gz-fix-card__verdict">REMOVED</span></div>
+      <p style="margin:.6em 0 0">INTERFACE deleted from MODULE_CONTAINERS. The set now reflects the actual state of the layout system. Technical debt: minus one phantom type that had been accumulating dust since the April 2026 layout refactor.</p>
+    </div>
+
+    <hr>
+
+    <h2>Case 2: REG-1136 papercut #2 — the zero that had no type</h2>
+
+    <p>The <code>countEdgesByType</code> function returns a count of edges grouped by type. When a requested type had zero edges, the function returned <code>{}</code> — an empty object — instead of <code>{EDGE_TYPE: 0}</code>. Code downstream that expected a zero received undefined. Code that tested for the presence of a key found nothing. The bug was not large. It was precise. It is the kind of bug that hides in normal operation and surfaces when someone adds a new edge type and wonders why their counter starts at undefined instead of zero.</p>
+
+    <div class="gz-fix-card">
+      <div class="gz-fix-card__label">REG-1136 papercut #2 · countEdgesByType · Zero-seeded initialization <span class="gz-fix-card__verdict">FIXED</span></div>
+      <p style="margin:.6em 0 0">Zero-seed initialization added: the result object is pre-populated with <code>{EDGE_TYPE: 0}</code> for each requested type before counting begins. When no edges exist, the caller receives a typed zero rather than an absent key. The fix is one line. The trap it closes had been open for some time.</p>
+    </div>
+
+    <hr>
+
+    <h2>Case 3: Datalog feasibility — two plugins, two verdicts</h2>
+
+    <p>Two plugins were brought before the Tribunal on the same question: are they candidates for Datalog rewrite? Both currently iterate over graph nodes in JavaScript and issue IPC calls to the server per node — the same pattern that sprint v0.2 eliminated in three other plugins. The question was whether the same treatment would apply.</p>
+
+    <p>Intelligence conducted separate investigations for each. The Tribunal reviewed both dossiers.</p>
+
+    <div class="gz-plugin-verdict">
+      <div class="gz-plugin-verdict__header">
+        <span class="gz-plugin-verdict__name">semantic-bridge-detector</span>
+        <span class="gz-plugin-verdict__badge no">NO REWRITE</span>
+      </div>
+      <div class="gz-plugin-verdict__evidence">
+        <strong>Evidence:</strong> 85% of the plugin's logic is string processing — CamelCase detection, JSON parsing, naming heuristics. IPC calls account for only 9–15% of the work. Replacing the IPC portion with Datalog queries would not eliminate the bottleneck; it would move it to the string-processing layer, which Datalog cannot address.<br><br>
+        <strong>Risk:</strong> High. <strong>IPC gain:</strong> 9–15%. <strong>Verdict:</strong> The plugin's cost is not in the graph queries. Rewriting the graph queries would not make it faster in any meaningful way.
+      </div>
+    </div>
+
+    <div class="gz-plugin-verdict">
+      <div class="gz-plugin-verdict__header">
+        <span class="gz-plugin-verdict__name">shape-tracker</span>
+        <span class="gz-plugin-verdict__badge yes">REWRITE APPROVED</span>
+      </div>
+      <div class="gz-plugin-verdict__evidence">
+        <strong>Evidence:</strong> Phase 3c is a clean graph traversal — BFS through BRANCH → HAS_CONSEQUENT/HAS_ALTERNATE → CONTAINS → WRITES_TO edges. Phase 3b uses recursive ASSIGNED_FROM traversal. Combined, these phases account for an estimated <strong>15–20 million IPC calls</strong> on a large JavaScript codebase. The traversal structure maps directly to what the brigade rewrote in sprint v0.2. The risk is known; the pattern is proven.<br><br>
+        <strong>Risk:</strong> Low (known pattern). <strong>IPC potential:</strong> 15–20M. <strong>Verdict:</strong> Rewrite approved. The rewrite is underway.
+      </div>
+    </div>
+
+    <hr>
+
+    <h2>The docket, closed</h2>
+
+    <p>Three cases. Three verdicts. One dead type that had been quietly wrong since April 2026, removed. One zero that had been arriving without a label, fixed. One plugin that looked like a candidate but was not, acquitted. One plugin that was a candidate and knew it, approved.</p>
+
+    <p>The shape-tracker rewrite begins. The Tribunal does not predict timelines. It renders verdicts and moves on.</p>
+
+    <blockquote>Три дела. Три приговора. Трибунал закрыт.</blockquote>
+
+    <p class="gz-closing"><em>Антонина Карповна Приговорова filed this report without commentary. She rarely does.</em></p>
+
+  </div>
+
+  <div class="gz-footer">ГАЗЕТА СОВЕТСКОГО КОДА · Агитпроп · № 011 · <span style="color:var(--red)">☭</span></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ГАЗЕТА № 011 — Один мёртвый тип. Один типизированный ноль. Одна переработка начинается.</title>
+<meta name="description" content="Аудит MODULE_CONTAINERS — один мёртвый тип удалён. REG-1136 papercut #2 закрыт — ноль обрёл тип. Технико-экономическое обоснование Datalog: два вердикта — semantic-bridge остаётся, shape-tracker идёт на переработку. Автор: Антонина Карповна Приговорова, Трибунал.">
+<link rel="canonical" href="https://sovietcode.org/gazeta/011-ru.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.gz-wrap { max-width: 720px; margin: 0 auto; padding: 48px 24px 96px; }
+.gz-back { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--red); text-decoration: none; display: inline-block; margin-bottom: 36px; }
+.gz-back:hover { text-decoration: underline; }
+.gz-lang-switch { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.45); margin-bottom: 24px; }
+.gz-lang-switch a { color: var(--red); text-decoration: none; }
+.gz-lang-switch a:hover { text-decoration: underline; }
+.gz-masthead { border-top: 5px solid var(--red); border-bottom: 3px solid var(--ink); padding: 24px 0 16px; text-align: center; margin-bottom: 8px; }
+.gz-masthead__kicker { font-family: var(--font-mono); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-bottom: 8px; }
+.gz-masthead__name { font-family: var(--font-display); font-size: 1.1rem; color: var(--red); letter-spacing: .06em; }
+.gz-masthead__issue { font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); margin-top: 6px; border-top: 1px solid rgba(10,10,10,.12); padding-top: 8px; }
+.gz-rule { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 0 0 40px; }
+.gz-article__headline { font-family: var(--font-display); font-size: clamp(1.6rem, 4vw, 2.4rem); line-height: 1.2; color: var(--ink); margin: 0 0 20px; }
+.gz-article__byline { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.5); padding-bottom: 20px; border-bottom: 1px solid rgba(10,10,10,.12); margin-bottom: 28px; }
+.gz-author-card { border: 1px solid rgba(10,10,10,.15); padding: 14px 18px; margin-bottom: 32px; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; color: rgba(10,10,10,.65); }
+.gz-body { line-height: 1.75; font-size: 1.02rem; }
+.gz-body p { margin: 0 0 1.2em; }
+.gz-body h2 { font-family: var(--font-display); font-size: 1.15rem; letter-spacing: .04em; margin: 2em 0 .75em; padding-bottom: 6px; border-bottom: 2px solid var(--red); color: var(--ink); }
+.gz-body strong { font-weight: 600; }
+.gz-body em { font-style: italic; color: rgba(10,10,10,.75); }
+.gz-body code { font-family: var(--font-mono); font-size: .88em; background: rgba(10,10,10,.07); padding: 1px 5px; border-radius: 2px; }
+.gz-body hr { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 2em 0; }
+.gz-body a { color: var(--red); text-decoration: none; }
+.gz-body a:hover { text-decoration: underline; }
+.gz-body blockquote { border-left: 3px solid var(--red); margin: 1em 0; padding: 10px 18px; color: rgba(10,10,10,.7); font-style: italic; }
+.gz-fix-card { border: 1px solid rgba(10,10,10,.15); padding: 16px 20px; margin: 1.2em 0; }
+.gz-fix-card__label { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-bottom: 8px; }
+.gz-fix-card__verdict { font-family: var(--font-mono); font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: #2a7a2a; font-weight: 700; float: right; }
+.gz-plugin-verdict { border: 1px solid rgba(10,10,10,.15); margin: 1.4em 0; }
+.gz-plugin-verdict__header { display: flex; justify-content: space-between; align-items: baseline; padding: 12px 20px; border-bottom: 1px solid rgba(10,10,10,.12); background: rgba(10,10,10,.02); }
+.gz-plugin-verdict__name { font-family: var(--font-mono); font-size: .88rem; font-weight: 700; color: var(--ink); }
+.gz-plugin-verdict__badge { font-family: var(--font-mono); font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; padding: 3px 10px; }
+.gz-plugin-verdict__badge.yes { color: #2a7a2a; border: 1px solid #2a7a2a; }
+.gz-plugin-verdict__badge.no { color: #cc2222; border: 1px solid #cc2222; }
+.gz-plugin-verdict__evidence { padding: 14px 20px; font-family: var(--font-mono); font-size: .84rem; line-height: 1.7; color: rgba(10,10,10,.75); }
+.gz-plugin-verdict__evidence strong { color: var(--ink); }
+.gz-closing { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-top: 2.5em; padding-top: 16px; border-top: 1px solid rgba(10,10,10,.12); }
+.gz-footer { margin-top: 64px; text-align: center; font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); border-top: 2px solid var(--red); padding-top: 20px; }
+body { background: var(--paper); color: var(--ink); }
+</style>
+</head>
+<body data-humor="maximalist">
+<div class="gz-wrap">
+
+  <a class="gz-back" href="index.html">← Архив</a>
+
+  <div class="gz-lang-switch">
+    <strong>RU</strong> · <a href="011.html">EN</a>
+  </div>
+
+  <div class="gz-masthead">
+    <div class="gz-masthead__kicker">Центральный вычислительный комитет · Агитпроп</div>
+    <div class="gz-masthead__name">ГАЗЕТА СОВЕТСКОГО КОДА</div>
+    <div class="gz-masthead__issue">Выпуск № 011 · 2026-05-11</div>
+  </div>
+  <hr class="gz-rule">
+
+  <h1 class="gz-article__headline">Один мёртвый тип. Один типизированный ноль. Одна переработка начинается.</h1>
+  <div class="gz-article__byline">Антонина Карповна Приговорова · Трибунал · Пятилетка №2, аудит цикла</div>
+
+  <div class="gz-author-card">
+    <em>Антонина Карповна Приговорова вопросов не задаёт. Она читает материалы дела и выносит приговор. В этом цикле Трибунал рассмотрел три дела. По всем трём приговоры вынесены. Трибунал своих решений не комментирует.</em>
+  </div>
+
+  <div class="gz-body">
+
+    <p>MODULE_CONTAINERS — это набор типов узлов, которые система размещения умеет укладывать в граф. Его содержимое проверяется при каждом рендере. Его содержимое не проходило аудита примерно два года.</p>
+
+    <p>Разведка данных провела аудит. Трибунал ознакомился с результатами. В очереди уже стояли два дополнительных дела. Все три были рассмотрены в одном заседании.</p>
+
+    <hr>
+
+    <h2>Дело 1: MODULE_CONTAINERS — один тип, которого там не должно быть</h2>
+
+    <p>В MODULE_CONTAINERS находился тип INTERFACE. INTERFACE был размещаемым типом в системе layout до апреля 2026 года, когда обновление <code>layout_types.rs</code> лишило его этого статуса. Набор тогда обновлён не был. INTERFACE продолжал числиться в MODULE_CONTAINERS — проверялся при каждом рендере, никогда ни с чем не совпадал, не выполнял никакой функции, кроме занятия места в структуре данных, которая должна отражать реальное состояние системы.</p>
+
+    <p>Разведка подтвердила: INTERFACE не является размещаемым типом. TRAIT был проверен отдельно — TRAIT корректен и остаётся на месте. Материалов для вынесения приговора было достаточно.</p>
+
+    <div class="gz-fix-card">
+      <div class="gz-fix-card__label">MODULE_CONTAINERS · INTERFACE · PR #264 · 21/21 тест проходит <span class="gz-fix-card__verdict">УДАЛЁН</span></div>
+      <p style="margin:.6em 0 0">INTERFACE удалён из MODULE_CONTAINERS. Набор теперь отражает фактическое состояние системы размещения. Технический долг: минус один фантомный тип, накапливавший пыль с апрельского рефакторинга 2026 года.</p>
+    </div>
+
+    <hr>
+
+    <h2>Дело 2: REG-1136 papercut #2 — ноль без типа</h2>
+
+    <p>Функция <code>countEdgesByType</code> возвращает количество рёбер, сгруппированных по типу. Когда рёбер запрошенного типа не было, функция возвращала <code>{}</code> — пустой объект — вместо <code>{EDGE_TYPE: 0}</code>. Код, ожидавший ноль, получал undefined. Код, проверявший наличие ключа, ничего не находил. Ошибка не была большой. Она была точечной. Это разновидность бага, который прячется при нормальной работе и обнаруживается, когда кто-то добавляет новый тип рёбер и недоумевает, почему счётчик начинается с undefined вместо нуля.</p>
+
+    <div class="gz-fix-card">
+      <div class="gz-fix-card__label">REG-1136 papercut #2 · countEdgesByType · Инициализация нулями <span class="gz-fix-card__verdict">ИСПРАВЛЕНО</span></div>
+      <p style="margin:.6em 0 0">Добавлена инициализация нулями: результирующий объект предварительно заполняется <code>{EDGE_TYPE: 0}</code> для каждого запрошенного типа перед подсчётом. Когда рёбра отсутствуют, вызывающий получает типизированный ноль, а не отсутствующий ключ. Исправление — одна строка. Ловушка, которую оно закрывает, была открыта давно.</p>
+    </div>
+
+    <hr>
+
+    <h2>Дело 3: Технико-экономическое обоснование Datalog — два плагина, два вердикта</h2>
+
+    <p>Перед Трибуналом предстали два плагина с одним и тем же вопросом: являются ли они кандидатами на переработку под Datalog? Оба сейчас обходят узлы графа на JavaScript и посылают IPC-запросы к серверу поузлово — тот же паттерн, который спринт v0.2 ликвидировал в трёх других плагинах. Вопрос: применимо ли то же лечение здесь?</p>
+
+    <p>Разведка провела отдельное расследование по каждому. Трибунал ознакомился с обоими досье.</p>
+
+    <div class="gz-plugin-verdict">
+      <div class="gz-plugin-verdict__header">
+        <span class="gz-plugin-verdict__name">semantic-bridge-detector</span>
+        <span class="gz-plugin-verdict__badge no">ПЕРЕРАБОТКА ОТКЛОНЕНА</span>
+      </div>
+      <div class="gz-plugin-verdict__evidence">
+        <strong>Материалы дела:</strong> 85% логики плагина — строковая обработка: определение CamelCase, разбор JSON, текстовые эвристики. IPC-вызовы составляют лишь 9–15% работы. Замена IPC-части на Datalog-запросы не устранит узкое место — только переместит его в слой строковой обработки, который Datalog решить не может.<br><br>
+        <strong>Риск:</strong> высокий. <strong>Выигрыш по IPC:</strong> 9–15%. <strong>Вывод:</strong> Стоимость плагина — не в запросах к графу. Переписывать их нет смысла.
+      </div>
+    </div>
+
+    <div class="gz-plugin-verdict">
+      <div class="gz-plugin-verdict__header">
+        <span class="gz-plugin-verdict__name">shape-tracker</span>
+        <span class="gz-plugin-verdict__badge yes">ПЕРЕРАБОТКА ОДОБРЕНА</span>
+      </div>
+      <div class="gz-plugin-verdict__evidence">
+        <strong>Материалы дела:</strong> Фаза 3c — чистый обход графа: BFS по рёбрам BRANCH → HAS_CONSEQUENT/HAS_ALTERNATE → CONTAINS → WRITES_TO. Фаза 3b использует рекурсивный обход по ASSIGNED_FROM. В сумме — расчётные <strong>15–20 миллионов IPC-вызовов</strong> на большой JavaScript-кодовой базе. Структура обхода напрямую соответствует тому, что бригада переписала в спринте v0.2. Риск известен, паттерн доказан.<br><br>
+        <strong>Риск:</strong> низкий (известный паттерн). <strong>Потенциал по IPC:</strong> 15–20 млн. <strong>Вывод:</strong> Переработка одобрена. Переработка начата.
+      </div>
+    </div>
+
+    <hr>
+
+    <h2>Дело закрыто</h2>
+
+    <p>Три дела. Три приговора. Один мёртвый тип, тихо висевший в системе с апреля 2026 года, — удалён. Один ноль, приходивший без метки, — исправлен. Один плагин, выглядевший как кандидат, но таковым не являвшийся, — оправдан. Один плагин, бывший кандидатом и знавший это, — одобрен.</p>
+
+    <p>Переработка shape-tracker начинается. Трибунал сроков не прогнозирует. Трибунал выносит приговоры и переходит к следующему делу.</p>
+
+    <blockquote>Три дела. Три приговора. Трибунал закрыт.</blockquote>
+
+    <p class="gz-closing"><em>Антонина Карповна Приговорова подала этот материал без комментариев. Она редко их даёт.</em></p>
+
+  </div>
+
+  <div class="gz-footer">ГАЗЕТА СОВЕТСКОГО КОДА · Агитпроп · № 011 · <span style="color:var(--red)">☭</span></div>
+</div>
+</body>
+</html>
