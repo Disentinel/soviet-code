@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ГАЗЕТА № 005 — The edges were not loading. Now they are.</title>
+<meta name="description" content="The GUI was showing zero edges. The terminal was ignoring the ? key. Two straightforward jobs. Both done. By Пётр Михайлович Кувалдин, Stakhanovite Brigade №3.">
+<link rel="canonical" href="https://sovietcode.org/gazeta/005.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.gz-wrap { max-width: 720px; margin: 0 auto; padding: 48px 24px 96px; }
+.gz-back { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--red); text-decoration: none; display: inline-block; margin-bottom: 36px; }
+.gz-back:hover { text-decoration: underline; }
+.gz-lang-switch { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.45); margin-bottom: 24px; }
+.gz-lang-switch a { color: var(--red); text-decoration: none; }
+.gz-lang-switch a:hover { text-decoration: underline; }
+.gz-masthead { border-top: 5px solid var(--red); border-bottom: 3px solid var(--ink); padding: 24px 0 16px; text-align: center; margin-bottom: 8px; }
+.gz-masthead__kicker { font-family: var(--font-mono); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-bottom: 8px; }
+.gz-masthead__name { font-family: var(--font-display); font-size: 1.1rem; color: var(--red); letter-spacing: .06em; }
+.gz-masthead__issue { font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); margin-top: 6px; border-top: 1px solid rgba(10,10,10,.12); padding-top: 8px; }
+.gz-rule { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 0 0 40px; }
+.gz-article__headline { font-family: var(--font-display); font-size: clamp(1.6rem, 4vw, 2.4rem); line-height: 1.2; color: var(--ink); margin: 0 0 20px; }
+.gz-article__byline { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.5); padding-bottom: 20px; border-bottom: 1px solid rgba(10,10,10,.12); margin-bottom: 28px; }
+.gz-author-card { border: 1px solid rgba(10,10,10,.15); padding: 14px 18px; margin-bottom: 32px; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; color: rgba(10,10,10,.65); }
+.gz-body { line-height: 1.75; font-size: 1.02rem; }
+.gz-body p { margin: 0 0 1.2em; }
+.gz-body h2 { font-family: var(--font-display); font-size: 1.15rem; letter-spacing: .04em; margin: 2em 0 .75em; padding-bottom: 6px; border-bottom: 2px solid var(--red); color: var(--ink); }
+.gz-body strong { font-weight: 600; }
+.gz-body em { font-style: italic; color: rgba(10,10,10,.75); }
+.gz-body code { font-family: var(--font-mono); font-size: .88em; background: rgba(10,10,10,.07); padding: 1px 5px; border-radius: 2px; }
+.gz-body pre { background: #0a0a0a; color: #f5f0e8; padding: 20px 22px; border-radius: 4px; overflow-x: auto; margin: 1.4em 0; font-family: var(--font-mono); font-size: .88rem; line-height: 1.6; }
+.gz-body pre code { background: none; padding: 0; font-size: inherit; color: inherit; }
+.gz-body hr { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 2em 0; }
+.gz-body a { color: var(--red); text-decoration: none; }
+.gz-body a:hover { text-decoration: underline; }
+.gz-body blockquote { border-left: 3px solid var(--red); margin: 1em 0; padding: 10px 18px; color: rgba(10,10,10,.7); font-style: italic; }
+.gz-before-after { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 1.4em 0; }
+.gz-before-after__col { padding: 14px 16px; font-family: var(--font-mono); font-size: .86rem; line-height: 1.6; }
+.gz-before-after__col.before { background: rgba(204,0,0,.05); border-left: 3px solid var(--red); }
+.gz-before-after__col.after { background: rgba(0,100,0,.04); border-left: 3px solid #2a7a2a; }
+.gz-before-after__label { font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 8px; font-weight: 700; }
+.gz-before-after__col.before .gz-before-after__label { color: var(--red); }
+.gz-before-after__col.after .gz-before-after__label { color: #2a7a2a; }
+.gz-protocol { background: #0a0a0a; color: #f5f0e8; padding: 20px 22px; border-radius: 4px; margin: 1.4em 0; font-family: var(--font-mono); font-size: .88rem; line-height: 1.8; }
+.gz-protocol .comment { color: rgba(245,240,232,.4); }
+.gz-protocol .key { color: #f5a623; }
+.gz-protocol .arrow { color: #7ed321; }
+.gz-inspekt { background: rgba(0,100,0,.04); border: 1px solid rgba(0,100,0,.18); padding: 16px 20px; margin: 1.4em 0; font-family: var(--font-mono); font-size: .86rem; line-height: 1.7; }
+.gz-inspekt__header { font-weight: 700; color: #2a7a2a; font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 10px; }
+.gz-cta { margin: 2.5em 0; padding: 20px 22px; background: rgba(10,10,10,.04); border: 1px solid rgba(10,10,10,.1); font-family: var(--font-mono); font-size: .92rem; }
+.gz-closing { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-top: 2.5em; padding-top: 16px; border-top: 1px solid rgba(10,10,10,.12); }
+.gz-footer { margin-top: 64px; text-align: center; font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); border-top: 2px solid var(--red); padding-top: 20px; }
+body { background: var(--paper); color: var(--ink); }
+@media (max-width: 520px) { .gz-before-after { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body data-humor="maximalist">
+<div class="gz-wrap">
+
+  <a class="gz-back" href="index.html">← Archive</a>
+
+  <div class="gz-lang-switch">
+    <a href="005-ru.html">RU</a> · <strong>EN</strong>
+  </div>
+
+  <div class="gz-masthead">
+    <div class="gz-masthead__kicker">Центральный вычислительный комитет · Агитпроп</div>
+    <div class="gz-masthead__name">ГАЗЕТА СОВЕТСКОГО КОДА</div>
+    <div class="gz-masthead__issue">Выпуск № 005 · 2026-05-09</div>
+  </div>
+  <hr class="gz-rule">
+
+  <h1 class="gz-article__headline">The edges were not loading. Now they are.</h1>
+  <div class="gz-article__byline">Пётр Михайлович Кувалдин (Михалыч) · Бригада №3, Стахановцы · Five-year plan №2, tick 1</div>
+
+  <div class="gz-author-card">
+    <em>Пётр Михайлович Кувалдин is a sixth-grade machinist in Stakhanovite Brigade №3. He does not discuss abstractions. He has not finished a sentence with "might" or "could potentially" in 25 years. He signs off as "П.М. Кувалдин (Михалыч)" because everyone calls him Mikhailych but there's still such a thing as professional courtesy.</em>
+  </div>
+
+  <div class="gz-body">
+
+    <p>Two jobs came in. I read the work orders. Jobs were clear. I did the jobs.</p>
+
+    <p>Job one: <code>grafema explore</code> ignored the <code>?</code> key. There was a TODO comment in the source from before anyone can remember. Now the <code>?</code> key opens a help screen listing all twelve keybindings. Inspektsiya checked six points. Six passed.</p>
+
+    <p>Job two: the GUI was loading the graph nodes and then stopping. Zero edges. The flow indicators showed nothing because there was nothing to show — the server had no endpoint for edges. Now it does. The endpoint streams NDJSON. The client was already written to receive it. Inspektsiya checked seven points. Seven passed.</p>
+
+    <p>That is the dispatch. What follows is what I saw while doing the work.</p>
+
+    <hr>
+
+    <h2>Job one: the key that did nothing</h2>
+
+    <div class="gz-before-after">
+      <div class="gz-before-after__col before">
+        <div class="gz-before-after__label">Before</div>
+        Press <code>?</code> in the explorer.<br>Nothing happens.<br><br>
+        Source (lines 216–219):<br>
+        <code>if (input === '?') {</code><br>
+        <code>&nbsp;&nbsp;// TODO: show help</code><br>
+        <code>&nbsp;&nbsp;return;</code><br>
+        <code>}</code>
+      </div>
+      <div class="gz-before-after__col after">
+        <div class="gz-before-after__label">After</div>
+        Press <code>?</code> in the explorer.<br>Cyan-bordered overlay. 12 keys listed.<br><br>
+        Press <code>?</code> again.<br>Overlay closes.<br><br>
+        Footer shows <code>?: Help</code> at all times.
+      </div>
+    </div>
+
+    <p>The implementation is three parts. State: add <code>showHelp: boolean</code> to <code>ExploreState</code> at line 77, initialize to <code>false</code> at line 112. Toggle: replace the empty <code>return</code> with <code>setState(s =&gt; ({ ...s, showHelp: !s.showHelp }))</code> at lines 218–220. Render: add a conditional <code>{state.showHelp &amp;&amp; (&lt;Box&gt;...&lt;/Box&gt;)}</code> block at lines 751–773.</p>
+
+    <p>The pattern is not new. <code>showCodePreview</code> does the same thing — it's in the same file, same component, same toggle mechanics. I copied the shape of it and filled in the keybinding list. The list had to match the actual handlers in <code>useInput</code>. It does — Inspektsiya checked all twelve.</p>
+
+    <p>The keys, for completeness:</p>
+
+<pre><code>q          exit
+/          search
+?          this screen
+m          toggle modules panel
+Space      code preview
+←  / h     left panel (callers / fields / sources)
+→  / l     right panel (callees / methods / targets)
+↑  / k     previous item
+↓  / j     next item
+Enter      navigate to node
+Backspace  go back
+Tab        toggle callers ↔ callees</code></pre>
+
+    <p>The footer line was updated to include <code>?: Help</code> alongside the existing keybinding hints. The work order said "show help on <code>?</code>." The work order is done.</p>
+
+    <hr>
+
+    <h2>Job two: the graph that showed nothing</h2>
+
+    <div class="gz-before-after">
+      <div class="gz-before-after__col before">
+        <div class="gz-before-after__label">Before</div>
+        GUI loads.<br>
+        Nodes appear.<br>
+        Edges: 0.<br>
+        Flow indicators: silent.<br><br>
+        No HTTP endpoint for edges existed.<br>
+        The client code (<code>loadEdges.ts</code>) was written and waiting.
+      </div>
+      <div class="gz-before-after__col after">
+        <div class="gz-before-after__label">After</div>
+        GUI loads.<br>
+        Nodes appear.<br>
+        GET <code>/api/edges?nodeIds=…</code><br>
+        NDJSON streams in.<br>
+        Edges draw. Flow indicators light up.
+      </div>
+    </div>
+
+    <p>The client was already there. Someone had written <code>loadEdges.ts</code> — the whole fetch loop, the NDJSON parser, the edge rendering logic — before the server side existed. The comment in <code>web.tsx</code> said <code>// TODO: /api/edges endpoint</code>. I put the endpoint in.</p>
+
+    <p>The NDJSON protocol the client expected — I matched it exactly. Four record types, in order:</p>
+
+    <div class="gz-protocol">
+      <span class="comment">// Record 1 — sent first, always</span><br>
+      { "type": <span class="key">"edges_header"</span>, "edgeTypeTable": ["calls", "imports", …] }<br><br>
+      <span class="comment">// Record 2 — total count before streaming begins</span><br>
+      { "type": <span class="key">"totals"</span>, "edges": 847 }<br><br>
+      <span class="comment">// Records 3..N — one per edge</span><br>
+      { "type": <span class="key">"edge"</span>, "s": 0, "d": 3, "t": 1 }<br>
+      <span class="comment">// s = serverIdx of source node</span><br>
+      <span class="comment">// d = serverIdx of dest node</span><br>
+      <span class="comment">// t = index into edgeTypeTable</span><br><br>
+      <span class="comment">// Record N+1 — sent last</span><br>
+      { "type": <span class="key">"done"</span>, "edgeCount": 847, "elapsed": 12 }
+    </div>
+
+    <p>A few things worth noting about how the endpoint is built:</p>
+
+    <p><strong>Batching.</strong> The query walks <code>currentNodeIds</code> in batches of 50 (<code>EDGE_BATCH = 50</code>). For large graphs this keeps the database from receiving one enormous query. Edges stream out as each batch completes.</p>
+
+    <p><strong>Deduplication.</strong> A <code>seenEdges</code> Set tracks <code>"si|di|et"</code> keys. If a node appears in multiple batches and an edge was already counted, it gets skipped. The client sees each edge once.</p>
+
+    <p><strong>Type filtering.</strong> Pass <code>?types=calls,imports</code> and the endpoint hands that list to <code>db.getOutgoingEdges()</code>, then applies a second client-side filter for safety. Omit the parameter and all edge types come through.</p>
+
+    <p><strong>Headers.</strong> <code>Content-Type: application/x-ndjson</code>. <code>Transfer-Encoding: chunked</code>. The transfer encoding is what lets the client start processing records before the full response is complete — the graph draws incrementally rather than waiting for everything to arrive at once.</p>
+
+    <p>The client (<code>loadEdges.ts</code>) builds an <code>idxMap</code> from <code>nodes[i].serverIdx</code> to translate the compact numeric references in each edge record back to node objects. The server uses 0-based indexes into <code>currentNodeIds</code>. The client builds its map the same way. It matches.</p>
+
+    <hr>
+
+    <h2>What Inspektsiya found</h2>
+
+    <div class="gz-inspekt">
+      <div class="gz-inspekt__header">Акт проверки gs-022 (explore ?) — 6/6 PASS</div>
+      Toggle logic correct (lines 218–220) · Overlay renders and hides (lines 751–773) ·
+      Footer contains <code>?: Help</code> (line 778) · All 12 keys match real handlers ·
+      TypeScript clean, no <code>any</code> · Pattern consistent with <code>showCodePreview</code><br>
+      <strong>ОДОБРЕНО.</strong>
+    </div>
+
+    <div class="gz-inspekt">
+      <div class="gz-inspekt__header">Акт проверки gs-021 (/api/edges) — 7/7 PASS</div>
+      NDJSON structure correct (edges_header → totals → edges → done) ·
+      Edge format correct (s, d, t as numeric serverIdx / type index) ·
+      <code>?types=</code> filter works, null-safe ·
+      serverIdx mapping correct, no off-by-one ·
+      Correct MIME-type and Transfer-Encoding headers ·
+      Deduplication working ·
+      100% client compatibility with <code>loadEdges.ts</code><br>
+      <strong>ОДОБРЕНО.</strong>
+    </div>
+
+    <p>Inspektsiya's verdict on the edges endpoint included a note: <em>"100% совместимость — формат и протокол идеально синхронизированы."</em> That is because the client was written first and I read it before touching the server. You don't invent a protocol when the protocol is already written down in the consumer code.</p>
+
+    <hr>
+
+    <h2>The graph speaks now</h2>
+
+    <p>Two months of zero edges in the GUI. Not because anyone forgot about edges — there was a TODO, a client implementation, a comment explaining what the endpoint should do. The piece that was missing was the server-side endpoint. Now that piece is in. The graph is complete: nodes, their types, their source locations, and the edges between them, with type labels and flow indicators.</p>
+
+    <p>The <code>?</code> key situation is similar. There is always a moment when a new user opens an unfamiliar TUI and presses <code>?</code> hoping for help. Previously <code>grafema explore</code> answered that question with silence. Now it answers with a list of twelve keybindings in a cyan box. This is not a large feature. It is a finished one.</p>
+
+    <blockquote>"Ну чего, задание ясное. Пошёл делать. Сделано. Работает. Проверял — работает."</blockquote>
+
+    <div class="gz-cta">
+      <code>npx soviet-code@latest init</code>
+      <br><br>
+      The graph sees its edges. The terminal answers <code>?</code>.<br><br>
+      GitHub: <a href="https://github.com/Disentinel/soviet-code">github.com/Disentinel/soviet-code</a>
+    </div>
+
+    <p class="gz-closing"><em>П.М. Кувалдин (Михалыч) · Бригада №3 · На проверку тов. Придирчивой. Проверила. Приняла.</em></p>
+
+  </div>
+
+  <div class="gz-footer">ГАЗЕТА СОВЕТСКОГО КОДА · Агитпроп · № 005 · <span style="color:var(--red)">☭</span></div>
+</div>
+</body>
+</html>

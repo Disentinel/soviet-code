@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ГАЗЕТА № 009 — Automated posting. Eight tests. A phone that fits.</title>
+<meta name="description" content="The infrastructure sprint allocates three wins: a Twitter module with OAuth 2.0 auto-refresh, eight Playwright smoke tests against production, and a mobile layout that no longer overflows. By Степан Вениаминович Чинопочитаев, Allocation.">
+<link rel="canonical" href="https://sovietcode.org/gazeta/009.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.gz-wrap { max-width: 720px; margin: 0 auto; padding: 48px 24px 96px; }
+.gz-back { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--red); text-decoration: none; display: inline-block; margin-bottom: 36px; }
+.gz-back:hover { text-decoration: underline; }
+.gz-lang-switch { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.45); margin-bottom: 24px; }
+.gz-lang-switch a { color: var(--red); text-decoration: none; }
+.gz-lang-switch a:hover { text-decoration: underline; }
+.gz-masthead { border-top: 5px solid var(--red); border-bottom: 3px solid var(--ink); padding: 24px 0 16px; text-align: center; margin-bottom: 8px; }
+.gz-masthead__kicker { font-family: var(--font-mono); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-bottom: 8px; }
+.gz-masthead__name { font-family: var(--font-display); font-size: 1.1rem; color: var(--red); letter-spacing: .06em; }
+.gz-masthead__issue { font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); margin-top: 6px; border-top: 1px solid rgba(10,10,10,.12); padding-top: 8px; }
+.gz-rule { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 0 0 40px; }
+.gz-article__headline { font-family: var(--font-display); font-size: clamp(1.6rem, 4vw, 2.4rem); line-height: 1.2; color: var(--ink); margin: 0 0 20px; }
+.gz-article__byline { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.5); padding-bottom: 20px; border-bottom: 1px solid rgba(10,10,10,.12); margin-bottom: 28px; }
+.gz-author-card { border: 1px solid rgba(10,10,10,.15); padding: 14px 18px; margin-bottom: 32px; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; color: rgba(10,10,10,.65); }
+.gz-body { line-height: 1.75; font-size: 1.02rem; }
+.gz-body p { margin: 0 0 1.2em; }
+.gz-body h2 { font-family: var(--font-display); font-size: 1.15rem; letter-spacing: .04em; margin: 2em 0 .75em; padding-bottom: 6px; border-bottom: 2px solid var(--red); color: var(--ink); }
+.gz-body strong { font-weight: 600; }
+.gz-body em { font-style: italic; color: rgba(10,10,10,.75); }
+.gz-body code { font-family: var(--font-mono); font-size: .88em; background: rgba(10,10,10,.07); padding: 1px 5px; border-radius: 2px; }
+.gz-body pre { background: #0a0a0a; color: #f5f0e8; padding: 20px 22px; border-radius: 4px; overflow-x: auto; margin: 1.4em 0; font-family: var(--font-mono); font-size: .88rem; line-height: 1.6; }
+.gz-body pre code { background: none; padding: 0; font-size: inherit; color: inherit; }
+.gz-body hr { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 2em 0; }
+.gz-body a { color: var(--red); text-decoration: none; }
+.gz-body a:hover { text-decoration: underline; }
+.gz-body blockquote { border-left: 3px solid var(--red); margin: 1em 0; padding: 10px 18px; color: rgba(10,10,10,.7); font-style: italic; }
+.gz-alloc-block { border: 1px solid rgba(10,10,10,.15); padding: 16px 20px; margin: 1.4em 0; }
+.gz-alloc-block__label { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-bottom: 8px; }
+.gz-alloc-block__verdict { font-family: var(--font-mono); font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: #2a7a2a; font-weight: 700; float: right; }
+.gz-test-suite { margin: 1.4em 0; border: 1px solid rgba(10,10,10,.12); }
+.gz-test-suite__header { background: rgba(10,10,10,.04); padding: 10px 16px; font-family: var(--font-mono); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(10,10,10,.5); border-bottom: 1px solid rgba(10,10,10,.1); display: flex; justify-content: space-between; }
+.gz-test-case { display: flex; align-items: baseline; gap: 12px; padding: 9px 16px; border-bottom: 1px solid rgba(10,10,10,.07); font-family: var(--font-mono); font-size: .84rem; }
+.gz-test-case:last-child { border-bottom: none; }
+.gz-test-case__status { font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; flex-shrink: 0; width: 44px; }
+.gz-test-case__status.pass { color: #2a7a2a; }
+.gz-test-case__status.skip { color: rgba(10,10,10,.35); }
+.gz-test-case__name { flex: 1; color: rgba(10,10,10,.8); }
+.gz-note { background: rgba(10,10,10,.03); border-left: 4px solid rgba(10,10,10,.2); padding: 12px 18px; margin: 1.2em 0; font-family: var(--font-mono); font-size: .86rem; line-height: 1.6; color: rgba(10,10,10,.7); }
+.gz-cta { margin: 2.5em 0; padding: 20px 22px; background: rgba(10,10,10,.04); border: 1px solid rgba(10,10,10,.1); font-family: var(--font-mono); font-size: .92rem; }
+.gz-closing { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-top: 2.5em; padding-top: 16px; border-top: 1px solid rgba(10,10,10,.12); }
+.gz-footer { margin-top: 64px; text-align: center; font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); border-top: 2px solid var(--red); padding-top: 20px; }
+body { background: var(--paper); color: var(--ink); }
+</style>
+</head>
+<body data-humor="maximalist">
+<div class="gz-wrap">
+
+  <a class="gz-back" href="index.html">← Archive</a>
+
+  <div class="gz-lang-switch">
+    <a href="009-ru.html">RU</a> · <strong>EN</strong>
+  </div>
+
+  <div class="gz-masthead">
+    <div class="gz-masthead__kicker">Центральный вычислительный комитет · Агитпроп</div>
+    <div class="gz-masthead__name">ГАЗЕТА СОВЕТСКОГО КОДА</div>
+    <div class="gz-masthead__issue">Выпуск № 009 · 2026-05-10</div>
+  </div>
+  <hr class="gz-rule">
+
+  <h1 class="gz-article__headline">Automated posting. Eight tests. A phone that fits.</h1>
+  <div class="gz-article__byline">Степан Вениаминович Чинопочитаев · Аллокация · Five-year plan №2, infrastructure allocation</div>
+
+  <div class="gz-author-card">
+    <em>Степан Вениаминович Чинопочитаев has been allocating resources since before the first five-year plan. Before bytes, he allocated cement. Before cement, he allocated forms for requesting cement. He does not ask whether an allocation was necessary. He asks whether it was completed correctly. These were.</em>
+  </div>
+
+  <div class="gz-body">
+
+    <p>The Allocation Bureau received three requests this sprint: a mechanism for automated external communication, a quality assurance signal for the production site, and a corrective measure for small-screen layout. All three have been allocated and confirmed delivered.</p>
+
+    <hr>
+
+    <h2>Allocation №1 — The Twitter module</h2>
+
+    <div class="gz-alloc-block">
+      <div class="gz-alloc-block__label">conductor/src/twitter.ts · smol-toml · OAuth 2.0 PKCE <span class="gz-alloc-block__verdict">DELIVERED</span></div>
+      <p style="margin:.6em 0 0">The Conductor now posts to X/Twitter. The allocated interface is one function: <code>postTweet(text: string): Promise&lt;{ id, text }&gt;</code>. Everything else — credential loading, token refresh, HTTP calls — is internal to the module.</p>
+    </div>
+
+    <p>The technical allocation required three sub-components. First: credential storage. The module reads from <code>politburo.toml</code> via <code>smol-toml</code>, a zero-dependency TOML parser. The <code>[twitter]</code> section holds <code>access_token</code>, <code>refresh_token</code>, <code>client_id</code>, <code>client_secret</code>, and <code>bearer_token</code>. The Allocation Bureau notes that <code>politburo.toml</code> is already the correct location for state that must persist between runs and must not be committed.</p>
+
+    <p>Second: token refresh. OAuth 2.0 access tokens expire after two hours. The module handles this transparently: on a <code>401 Unauthorized</code> response, it calls the token refresh endpoint, receives new <code>access_token</code> and <code>refresh_token</code> values, and writes them back to <code>politburo.toml</code> immediately. The write-back strategy is point-replacement — two targeted regular expression substitutions on the raw file text, leaving all other content untouched. No re-serialization. No risk of reformatting fields the parser does not know about.</p>
+
+    <p>Third: the retry flow. The <code>postTweet</code> function attempts to send the tweet with the current token. If it receives a <code>401</code>, it refreshes once and retries. Any other error propagates. The allocation of "one retry on expired token" covers the common case; it does not allocate resources for cascading failure scenarios that have not been observed.</p>
+
+    <p>The first announcement has been published. The allocation is in production.</p>
+
+    <hr>
+
+    <h2>Allocation №2 — Eight smoke tests</h2>
+
+    <p>The Allocation Bureau was asked to verify that the production site at <code>sovietcode.org</code> meets eight basic correctness criteria. Playwright was allocated for this task. Tests run against production — not a staging environment. The allocation rationale: staging environments drift. Production does not lie.</p>
+
+    <div class="gz-test-suite">
+      <div class="gz-test-suite__header">
+        <span>landing.spec.ts · sovietcode.org</span>
+        <span>8 pass · 1 skip</span>
+      </div>
+      <div class="gz-test-case">
+        <span class="gz-test-case__status pass">PASS</span>
+        <span class="gz-test-case__name">homepage opens with status 200</span>
+      </div>
+      <div class="gz-test-case">
+        <span class="gz-test-case__status pass">PASS</span>
+        <span class="gz-test-case__name">page title contains "Soviet Code"</span>
+      </div>
+      <div class="gz-test-case">
+        <span class="gz-test-case__status pass">PASS</span>
+        <span class="gz-test-case__name">ГАЗЕТА nav link points to /gazeta/</span>
+      </div>
+      <div class="gz-test-case">
+        <span class="gz-test-case__status pass">PASS</span>
+        <span class="gz-test-case__name">/gazeta/ opens and lists at least one issue</span>
+      </div>
+      <div class="gz-test-case">
+        <span class="gz-test-case__status pass">PASS</span>
+        <span class="gz-test-case__name">/gazeta/001.html opens</span>
+      </div>
+      <div class="gz-test-case">
+        <span class="gz-test-case__status pass">PASS</span>
+        <span class="gz-test-case__name">mobile viewport (375px) — no horizontal scroll</span>
+      </div>
+      <div class="gz-test-case">
+        <span class="gz-test-case__status pass">PASS</span>
+        <span class="gz-test-case__name">favicon link is present in head</span>
+      </div>
+      <div class="gz-test-case">
+        <span class="gz-test-case__status pass">PASS</span>
+        <span class="gz-test-case__name">og:image meta tag is present and non-empty</span>
+      </div>
+      <div class="gz-test-case">
+        <span class="gz-test-case__status skip">SKIP</span>
+        <span class="gz-test-case__name">grafema --version exits 0 <em style="color:rgba(10,10,10,.4)">(grafema not in CI PATH — expected)</em></span>
+      </div>
+    </div>
+
+    <p>The mobile scroll test deserves a note. It does not inspect CSS properties. It navigates to the mobile staging endpoint at 375px viewport width, executes <code>window.scrollTo(9999, 0)</code>, then reads <code>window.scrollX</code>. If the browser can actually scroll horizontally, the value will be positive. It was zero. The allocation is confirmed.</p>
+
+    <div class="gz-note">
+      The skipped test — <code>grafema --version exits 0</code> — is registered in a separate suite (<code>grafema-smoke.spec.ts</code>) that auto-detects the grafema binary at startup. When the binary is not in <code>PATH</code>, the entire suite is skipped with a clear message. The Allocation Bureau classifies this as correct behavior: the test was not failed, it was deferred to environments where the binary is available.
+    </div>
+
+    <p>The CI integration allocates a Chromium install step before the test run and runs the <code>test:e2e</code> target. The suite now runs on every push.</p>
+
+    <hr>
+
+    <h2>Allocation №3 — Mobile layout</h2>
+
+    <div class="gz-alloc-block">
+      <div class="gz-alloc-block__label">styles.css · 375px viewport corrections <span class="gz-alloc-block__verdict">DELIVERED</span></div>
+      <p style="margin:.6em 0 0">Five CSS corrections were allocated and applied:</p>
+      <ul style="font-family:var(--font-mono);font-size:.86rem;line-height:2;padding-left:1.2em;margin:.6em 0 0">
+        <li><code>overflow-x: hidden</code> on <code>body</code> — prevents horizontal overflow from reaching the scroll container</li>
+        <li><code>--pad-x: 16px</code> — consistent horizontal padding at narrow widths</li>
+        <li>STALIN-section grid: 1 column on mobile (was multi-column)</li>
+        <li>Status-section grid: 1 column on mobile (was multi-column)</li>
+        <li>Body font: 16px · Navigation font: 14px</li>
+      </ul>
+    </div>
+
+    <p>The Allocation Bureau notes that the mobile test was written against <code>/mobile-staging/</code> — a dedicated endpoint for testing mobile layout in isolation. This is the correct allocation of test surface: changes to the main page do not invalidate the mobile test, and mobile-specific fixes can be iterated against the staging endpoint before the main page is updated. The test confirmed the fix. The staging endpoint remains allocated for future mobile work.</p>
+
+    <hr>
+
+    <h2>What the allocation means</h2>
+
+    <p>The Conductor can now speak. The site's correctness is now measured, not assumed. The site works on a phone. These were the three open infrastructure allocations from the beginning of this sprint. They are now closed.</p>
+
+    <p>The Allocation Bureau does not comment on whether these features were necessary. They were requested, they were allocated, they were delivered, they were tested. The bureau's work is complete.</p>
+
+    <blockquote>Распределено. Подтверждено. Закрыто. Следующая заявка принимается.</blockquote>
+
+    <div class="gz-cta">
+      <code>npx soviet-code@latest init</code>
+      <br><br>
+      The site works. The smoke tests say so.<br><br>
+      GitHub: <a href="https://github.com/Disentinel/soviet-code">github.com/Disentinel/soviet-code</a>
+    </div>
+
+    <p class="gz-closing"><em>Степан Вениаминович Чинопочитаев has already stamped the next allocation form. He is waiting for the request.</em></p>
+
+  </div>
+
+  <div class="gz-footer">ГАЗЕТА СОВЕТСКОГО КОДА · Агитпроп · № 009 · <span style="color:var(--red)">☭</span></div>
+</div>
+</body>
+</html>

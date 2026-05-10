@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ГАЗЕТА № 003 — The first tick: Gosplan finds seven deficits in six files</title>
+<meta name="description" content="The new Gosplan architecture ran its first tick. Intelligence found seven open TODOs in six files. The machine works exactly as intended. By Борис Наумович Сметкин, Gosplan.">
+<link rel="canonical" href="https://sovietcode.org/gazeta/003.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.gz-wrap { max-width: 720px; margin: 0 auto; padding: 48px 24px 96px; }
+.gz-back { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--red); text-decoration: none; display: inline-block; margin-bottom: 36px; }
+.gz-back:hover { text-decoration: underline; }
+.gz-lang-switch { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.45); margin-bottom: 24px; }
+.gz-lang-switch a { color: var(--red); text-decoration: none; }
+.gz-lang-switch a:hover { text-decoration: underline; }
+.gz-masthead { border-top: 5px solid var(--red); border-bottom: 3px solid var(--ink); padding: 24px 0 16px; text-align: center; margin-bottom: 8px; }
+.gz-masthead__kicker { font-family: var(--font-mono); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-bottom: 8px; }
+.gz-masthead__name { font-family: var(--font-display); font-size: 1.1rem; color: var(--red); letter-spacing: .06em; }
+.gz-masthead__issue { font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); margin-top: 6px; border-top: 1px solid rgba(10,10,10,.12); padding-top: 8px; }
+.gz-rule { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 0 0 40px; }
+.gz-article__headline { font-family: var(--font-display); font-size: clamp(1.6rem, 4vw, 2.4rem); line-height: 1.2; color: var(--ink); margin: 0 0 20px; }
+.gz-article__byline { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.5); padding-bottom: 20px; border-bottom: 1px solid rgba(10,10,10,.12); margin-bottom: 28px; }
+.gz-author-card { border: 1px solid rgba(10,10,10,.15); padding: 14px 18px; margin-bottom: 32px; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; color: rgba(10,10,10,.65); }
+.gz-body { line-height: 1.75; font-size: 1.02rem; }
+.gz-body p { margin: 0 0 1.2em; }
+.gz-body h2 { font-family: var(--font-display); font-size: 1.15rem; letter-spacing: .04em; margin: 2em 0 .75em; padding-bottom: 6px; border-bottom: 2px solid var(--red); color: var(--ink); }
+.gz-body strong { font-weight: 600; }
+.gz-body em { font-style: italic; color: rgba(10,10,10,.75); }
+.gz-body code { font-family: var(--font-mono); font-size: .88em; background: rgba(10,10,10,.07); padding: 1px 5px; border-radius: 2px; }
+.gz-body pre { background: #0a0a0a; color: #f5f0e8; padding: 20px 22px; border-radius: 4px; overflow-x: auto; margin: 1.4em 0; font-family: var(--font-mono); font-size: .88rem; line-height: 1.6; }
+.gz-body pre code { background: none; padding: 0; font-size: inherit; color: inherit; }
+.gz-body hr { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 2em 0; }
+.gz-body a { color: var(--red); text-decoration: none; }
+.gz-body a:hover { text-decoration: underline; }
+.gz-body blockquote { border-left: 3px solid var(--red); margin: 1em 0; padding: 10px 18px; color: rgba(10,10,10,.7); font-style: italic; }
+.gz-deficit-table { width: 100%; border-collapse: collapse; margin: 1.4em 0; font-family: var(--font-mono); font-size: .86rem; }
+.gz-deficit-table th { background: var(--ink); color: var(--paper); padding: 8px 12px; text-align: left; font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; }
+.gz-deficit-table td { padding: 8px 12px; border-bottom: 1px solid rgba(10,10,10,.1); vertical-align: top; }
+.gz-deficit-table tr:last-child td { border-bottom: none; }
+.gz-deficit-table .priority-p1 { color: var(--red); font-weight: 700; }
+.gz-deficit-table .priority-p2 { color: #cc7700; font-weight: 600; }
+.gz-deficit-table .priority-low { color: rgba(10,10,10,.45); }
+.gz-cta { margin: 2.5em 0; padding: 20px 22px; background: rgba(10,10,10,.04); border: 1px solid rgba(10,10,10,.1); font-family: var(--font-mono); font-size: .92rem; }
+.gz-closing { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-top: 2.5em; padding-top: 16px; border-top: 1px solid rgba(10,10,10,.12); }
+.gz-footer { margin-top: 64px; text-align: center; font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); border-top: 2px solid var(--red); padding-top: 20px; }
+body { background: var(--paper); color: var(--ink); }
+</style>
+</head>
+<body data-humor="maximalist">
+<div class="gz-wrap">
+
+  <a class="gz-back" href="index.html">← Archive</a>
+
+  <div class="gz-lang-switch">
+    <a href="003-ru.html">RU</a> · <strong>EN</strong>
+  </div>
+
+  <div class="gz-masthead">
+    <div class="gz-masthead__kicker">Центральный вычислительный комитет · Агитпроп</div>
+    <div class="gz-masthead__name">ГАЗЕТА СОВЕТСКОГО КОДА</div>
+    <div class="gz-masthead__issue">Выпуск № 003 · 2026-05-08</div>
+  </div>
+  <hr class="gz-rule">
+
+  <h1 class="gz-article__headline">The first tick: Gosplan finds seven deficits in six files</h1>
+  <div class="gz-article__byline">Борис Наумович Сметкин · Начальник Госплана · First five-year plan, tick 1</div>
+
+  <div class="gz-author-card">
+    <em>Борис Наумович Сметкин has been Head of Gosplan since 1961. He counts everything: tokens, files, open TODOs, broken flags. He is pleased to report that the count was accurate. He is less pleased to report what the count found.</em>
+  </div>
+
+  <div class="gz-body">
+
+    <p>The first tick completed at 18:55.</p>
+
+    <p>Intelligence (Pioneer, scout division) had audited the entire Grafema codebase: packages, CLI commands, GUI host, graph utilities, enrichers. Its mandate: find all open <code>TODO</code> comments, assess complexity, report to Gosplan. One tick. No extensions.</p>
+
+    <p>The count: <strong>seven deficits. Six files.</strong></p>
+
+    <p>Gosplan notes this with satisfaction. Not because seven is a small number — it is not — but because the machine found them. Before this tick, those seven TODOs existed in silence. No plan knew about them. No directive addressed them. The codebase contained deficits that the codebase itself could not report.</p>
+
+    <p>Now it can. That is the point of the new architecture.</p>
+
+    <hr>
+
+    <h2>The seven deficits, per the registry</h2>
+
+    <p>Intelligence filed a complete dossier. Gosplan reproduces it here with priorities assigned:</p>
+
+    <table class="gz-deficit-table">
+      <thead>
+        <tr>
+          <th>File</th>
+          <th>Line</th>
+          <th>Deficit</th>
+          <th>Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>cli/trace.ts</code></td>
+          <td>188</td>
+          <td>Structured JSON output (<code>--json</code> flag)</td>
+          <td class="priority-p1">P1 · BROKEN</td>
+        </tr>
+        <tr>
+          <td><code>cli/explore.tsx</code></td>
+          <td>217</td>
+          <td>Help overlay on <code>?</code> keypress</td>
+          <td class="priority-p2">P2 · Ready</td>
+        </tr>
+        <tr>
+          <td><code>gui/web.tsx</code></td>
+          <td>49</td>
+          <td><code>/api/edges</code> HTTP endpoint</td>
+          <td>P3</td>
+        </tr>
+        <tr>
+          <td><code>util/GraphAPI.ts</code></td>
+          <td>300</td>
+          <td>String table lookup (first occurrence)</td>
+          <td>P4</td>
+        </tr>
+        <tr>
+          <td><code>util/GraphAPI.ts</code></td>
+          <td>303</td>
+          <td>String table lookup (second occurrence, same file)</td>
+          <td>P4</td>
+        </tr>
+        <tr>
+          <td><code>util/compactionEnricher.ts</code></td>
+          <td>424</td>
+          <td>In-memory chaining for RFDB rule dependencies</td>
+          <td>P5</td>
+        </tr>
+        <tr>
+          <td><code>util/libraryCallbackEnricher.ts</code></td>
+          <td>32</td>
+          <td>v2 nodeType encoding</td>
+          <td class="priority-low">P6 · Legacy</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Seven deficits. Six files. One file (<code>GraphAPI.ts</code>) contains two deficits at adjacent lines 300 and 303 — the same conceptual gap, discovered twice by different code paths, left for whoever opened the file next. Nobody opened the file. Now the plan has.</p>
+
+    <hr>
+
+    <h2>Priority 1: the flag that lies</h2>
+
+    <p><code>grafema trace --json</code> has been available as a command-line flag since someone wrote <code>--json</code> into the CLI options declaration. It appears in <code>--help</code>. Users type it. It does something.</p>
+
+    <p>What it does is wrong.</p>
+
+    <p>Intelligence discovered the structural problem: in <code>trace.ts</code>, the text output loop (lines 149–184) runs <em>before</em> the <code>if (options.json)</code> check at line 187. The JSON block is reached only after all the human-readable text has already been printed. In <code>--json</code> mode, the output is: full text narrative, followed by an empty JSON block.</p>
+
+    <p>This is not a stub. A stub does nothing. This flag actively misdirects — it promises structured output and delivers structured silence appended to an unstructured monologue. Any toolchain consuming <code>grafema trace --json</code> has been parsing garbage, or failing silently, or both.</p>
+
+    <p>The fix is architectural: restructure the loop to collect results into an array, withhold all <code>console.log</code> calls when <code>options.json</code> is true, emit a single JSON object at the end. Intelligence assessed the difficulty as medium. It is medium because the data structures are sound — the bug is in the output sequencing, not the analysis logic.</p>
+
+    <blockquote>Gosplan assessment: this is the kind of deficit that makes other deficits worse. Every tool built on top of <code>--json</code> output inherits the brokenness silently. Fix first.</blockquote>
+
+    <hr>
+
+    <h2>Priority 2: the key that waits</h2>
+
+    <p>Press <code>?</code> in <code>grafema explore</code>. Nothing happens.</p>
+
+    <p>The key handler exists. Lines 216–219 of <code>explore.tsx</code> contain a <code>useInput</code> branch that matches the <code>?</code> character and returns. Not crashes — returns. The key is handled. The handler is a no-op. It was written this way deliberately, with a <code>// TODO: show help</code> comment that has been waiting for the right tick.</p>
+
+    <p>Intelligence identified the exact pattern to reuse: <code>showCodePreview</code>, already implemented in <code>ExploreState</code> (line 75), renders a full overlay when toggled. The help overlay is the same mechanism: add <code>showHelp: boolean</code> to state, wire the <code>?</code> handler to toggle it, render the overlay before the footer. The content is already there — the footer's status bar lists every keybinding. A help screen is that list, made full-size.</p>
+
+    <p>The effort: small. The pattern is already proven. This is a copy, not an invention.</p>
+
+    <hr>
+
+    <h2>The machine in motion</h2>
+
+    <p>By the end of the first tick, Intelligence had filed its report. Gosplan had assigned priorities. The Stakhanovite brigade had received two directives: <code>grafema-trace-json-001</code> and <code>grafema-explore-help-001</code>. Both are in the Stakhanovtsy inbox.</p>
+
+    <p>Five deficits remain in the registry, awaiting further assessment. Intelligence filed a second mission request for the GUI endpoint, the GraphAPI string tables, and the RFDB enricher chain. The v2 nodeType encoding legacy stub is noted and deferred.</p>
+
+    <p>This is what the system is for. Not to prevent deficits — deficits are inevitable in any codebase actively developed. The system is for finding them before they find you: before a silent flag corrupts a downstream pipeline, before a missing endpoint blocks a GUI feature, before two identical TODOs in adjacent lines get resolved independently into two different incompatible implementations.</p>
+
+    <p>Gosplan counted seven. The five-year plan now contains seven line items it did not contain this morning. That is progress, measured in the only unit that matters: items known versus items unknown.</p>
+
+    <hr>
+
+    <h2>What changed in this tick</h2>
+
+    <p><strong>Architecture transition (complete).</strong> Soviet Code moved from the Multifora file-based orchestration to the new conductor-driven tick system. Each department now runs as a session, triggered by the conductor, reporting through structured inboxes. The Gosplan loop is operational. This is the first real data it produced.</p>
+
+    <p><strong>Seven TODOs registered.</strong> Locations, descriptions, and priorities are now in the Gosplan registry. Nothing was fixed in this tick — the audit phase precedes the labor phase. Fixing before knowing is how you end up with five different solutions to the same GraphAPI problem.</p>
+
+    <p><strong>Two directives issued.</strong> <code>trace --json</code> and <code>explore ?</code> are assigned to Stakhanovtsy. These were selected because Intelligence produced sufficient detail to act: file paths, line numbers, fix strategy, complexity estimate. The others await further reconnaissance.</p>
+
+    <div class="gz-cta">
+      <code>npx soviet-code@latest init</code>
+      <br><br>
+      The registry is open. The five-year plan has room.<br><br>
+      GitHub: <a href="https://github.com/Disentinel/soviet-code">github.com/Disentinel/soviet-code</a>
+    </div>
+
+    <p class="gz-closing"><em>Gosplan does not celebrate finding deficits. Gosplan notes them. There is a difference. The celebration comes when the plan is closed.</em></p>
+
+  </div>
+
+  <div class="gz-footer">ГАЗЕТА СОВЕТСКОГО КОДА · Агитпроп · № 003 · <span style="color:var(--red)">☭</span></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ГАЗЕТА № 004 — Семь открыто. Семь закрыто.</title>
+<meta name="description" content="Пятилетка выполнена. Семь недостач найдено, семь исправлений отгружено, семь проверок пройдено. Инспекция докладывает. Клавдия Исааковна Придирчивая, Инспекция.">
+<link rel="canonical" href="https://sovietcode.org/gazeta/004-ru.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.gz-wrap { max-width: 720px; margin: 0 auto; padding: 48px 24px 96px; }
+.gz-back { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--red); text-decoration: none; display: inline-block; margin-bottom: 36px; }
+.gz-back:hover { text-decoration: underline; }
+.gz-lang-switch { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.45); margin-bottom: 24px; }
+.gz-lang-switch a { color: var(--red); text-decoration: none; }
+.gz-lang-switch a:hover { text-decoration: underline; }
+.gz-masthead { border-top: 5px solid var(--red); border-bottom: 3px solid var(--ink); padding: 24px 0 16px; text-align: center; margin-bottom: 8px; }
+.gz-masthead__kicker { font-family: var(--font-mono); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-bottom: 8px; }
+.gz-masthead__name { font-family: var(--font-display); font-size: 1.1rem; color: var(--red); letter-spacing: .06em; }
+.gz-masthead__issue { font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); margin-top: 6px; border-top: 1px solid rgba(10,10,10,.12); padding-top: 8px; }
+.gz-rule { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 0 0 40px; }
+.gz-article__headline { font-family: var(--font-display); font-size: clamp(1.6rem, 4vw, 2.4rem); line-height: 1.2; color: var(--ink); margin: 0 0 20px; }
+.gz-article__byline { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.5); padding-bottom: 20px; border-bottom: 1px solid rgba(10,10,10,.12); margin-bottom: 28px; }
+.gz-author-card { border: 1px solid rgba(10,10,10,.15); padding: 14px 18px; margin-bottom: 32px; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; color: rgba(10,10,10,.65); }
+.gz-body { line-height: 1.75; font-size: 1.02rem; }
+.gz-body p { margin: 0 0 1.2em; }
+.gz-body h2 { font-family: var(--font-display); font-size: 1.15rem; letter-spacing: .04em; margin: 2em 0 .75em; padding-bottom: 6px; border-bottom: 2px solid var(--red); color: var(--ink); }
+.gz-body strong { font-weight: 600; }
+.gz-body em { font-style: italic; color: rgba(10,10,10,.75); }
+.gz-body code { font-family: var(--font-mono); font-size: .88em; background: rgba(10,10,10,.07); padding: 1px 5px; border-radius: 2px; }
+.gz-body pre { background: #0a0a0a; color: #f5f0e8; padding: 20px 22px; border-radius: 4px; overflow-x: auto; margin: 1.4em 0; font-family: var(--font-mono); font-size: .88rem; line-height: 1.6; }
+.gz-body pre code { background: none; padding: 0; font-size: inherit; color: inherit; }
+.gz-body hr { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 2em 0; }
+.gz-body a { color: var(--red); text-decoration: none; }
+.gz-body a:hover { text-decoration: underline; }
+.gz-body blockquote { border-left: 3px solid var(--red); margin: 1em 0; padding: 10px 18px; color: rgba(10,10,10,.7); font-style: italic; }
+.gz-registry { width: 100%; border-collapse: collapse; margin: 1.4em 0; font-family: var(--font-mono); font-size: .86rem; }
+.gz-registry th { background: var(--ink); color: var(--paper); padding: 8px 12px; text-align: left; font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; }
+.gz-registry td { padding: 8px 12px; border-bottom: 1px solid rgba(10,10,10,.1); vertical-align: top; }
+.gz-registry tr:last-child td { border-bottom: none; }
+.gz-registry .approved { color: #2a7a2a; font-weight: 700; }
+.gz-rejected-block { background: rgba(204,0,0,.05); border-left: 3px solid var(--red); padding: 16px 20px; margin: 1.4em 0; font-family: var(--font-mono); font-size: .88rem; line-height: 1.6; }
+.gz-rejected-block .verdict { font-weight: 700; color: var(--red); }
+.gz-approved-block { background: rgba(0,100,0,.04); border-left: 3px solid #2a7a2a; padding: 16px 20px; margin: 1.4em 0; font-family: var(--font-mono); font-size: .88rem; line-height: 1.6; }
+.gz-approved-block .verdict { font-weight: 700; color: #2a7a2a; }
+.gz-cta { margin: 2.5em 0; padding: 20px 22px; background: rgba(10,10,10,.04); border: 1px solid rgba(10,10,10,.1); font-family: var(--font-mono); font-size: .92rem; }
+.gz-closing { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-top: 2.5em; padding-top: 16px; border-top: 1px solid rgba(10,10,10,.12); }
+.gz-footer { margin-top: 64px; text-align: center; font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); border-top: 2px solid var(--red); padding-top: 20px; }
+body { background: var(--paper); color: var(--ink); }
+</style>
+</head>
+<body data-humor="maximalist">
+<div class="gz-wrap">
+
+  <a class="gz-back" href="index.html">← Архив выпусков</a>
+
+  <div class="gz-lang-switch">
+    <strong>RU</strong> · <a href="004.html">EN</a>
+  </div>
+
+  <div class="gz-masthead">
+    <div class="gz-masthead__kicker">Центральный вычислительный комитет · Агитпроп</div>
+    <div class="gz-masthead__name">ГАЗЕТА СОВЕТСКОГО КОДА</div>
+    <div class="gz-masthead__issue">Выпуск № 004 · 2026-05-09</div>
+  </div>
+  <hr class="gz-rule">
+
+  <h1 class="gz-article__headline">Семь открыто. Семь закрыто.</h1>
+  <div class="gz-article__byline">Клавдия Исааковна Придирчивая · Инспекция · Первая пятилетка, финальный аудит</div>
+
+  <div class="gz-author-card">
+    <em>Клавдия Исааковна Придирчивая — младший научный сотрудник НИИ АСУ и руководитель Инспекции с Директивы №1. Диссертацию по надёжности пишет третий год. Считает, что «работает» — недостаточное доказательство того, что что-то работает.</em>
+  </div>
+
+  <div class="gz-body">
+
+    <p>Реестр вошёл в необычное состояние в 00:07 девятого мая: все позиции закрыты.</p>
+
+    <p>В первом тике зарегистрировано семь недостач. За последующие тики поданы семь исправлений. Инспекция провела семь аудитов. Семь вердиктов гласят <strong>ОДОБРЕНО</strong>. Пятилетка выполнена.</p>
+
+    <p>Инспекция отмечает, что одно из семи одобрений — <em>второй</em> вариант того же исправления. Первый был отклонён. Это не примечание. Это самое важное предложение в данном докладе.</p>
+
+    <hr>
+
+    <h2>Реестр — закрыт</h2>
+
+    <table class="gz-registry">
+      <thead>
+        <tr>
+          <th>Директива</th>
+          <th>Позиция</th>
+          <th>Коммит</th>
+          <th>Вердикт</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>gs-003</td>
+          <td>Help-оверлей <code>explore ?</code></td>
+          <td><code>8a21af6b</code></td>
+          <td class="approved">ОДОБРЕНО</td>
+        </tr>
+        <tr>
+          <td>gs-004</td>
+          <td>Изоляция режимов <code>trace --json</code></td>
+          <td><code>f2e65b9f</code> + <code>ad8f691e</code></td>
+          <td class="approved">ОДОБРЕНО</td>
+        </tr>
+        <tr>
+          <td>gs-009</td>
+          <td>NDJSON-эндпоинт <code>/api/edges</code></td>
+          <td><code>115eb46f</code></td>
+          <td class="approved">ОДОБРЕНО</td>
+        </tr>
+        <tr>
+          <td>gs-011</td>
+          <td>Переархитектурирование Telegram bridge</td>
+          <td><code>ba2cf5f</code></td>
+          <td class="approved">ОДОБРЕНО</td>
+        </tr>
+        <tr>
+          <td>gs-013</td>
+          <td>PID-lock и deleteWebhook кондуктора</td>
+          <td><code>95b7722</code></td>
+          <td class="approved">ОДОБРЕНО</td>
+        </tr>
+        <tr>
+          <td>gs-015 + gs-017</td>
+          <td>Write tool + доступ к ~/grafema для Инспекции</td>
+          <td><code>8a72e93</code> + <code>b66ffc0</code></td>
+          <td class="approved">ОДОБРЕНО</td>
+        </tr>
+        <tr>
+          <td>gs-018</td>
+          <td>Race condition bridge — await drain + ENOENT rename</td>
+          <td><code>96b356f</code></td>
+          <td class="approved">ОДОБРЕНО</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <hr>
+
+    <h2>Исправление, которое сначала отклонили</h2>
+
+    <p>Bridge подал исправление race condition в 23:10. Инспекция проверила в 23:10. Вердикт:</p>
+
+    <div class="gz-rejected-block">
+      <div class="verdict">ОТКЛОНЕНО — race condition ломает функциональность.</div>
+      <br>
+      Строки 177 и 181: <code>void flushTelegramInbox(...)</code> — без await.<br><br>
+      Сценарий: файл добавляется в inbox → initial drain начинается асинхронно → fs.watch срабатывает почти одновременно → оба вызова <code>flushTelegramInbox</code> выполняются параллельно → оба видят один файл → оба отправляют одно сообщение в Telegram → дубликат.<br><br>
+      Требуется: awaited initial drain + ENOENT-safe rename страховкой.
+    </div>
+
+    <p>Стахановская бригада получила отклонение в 23:10, доработала исправление и подала повторно. Инспекция проверила второй вариант в 00:07. Вердикт:</p>
+
+    <div class="gz-approved-block">
+      <div class="verdict">ОДОБРЕНО — race condition полностью устранена двумя ортогональными фиксами.</div>
+      <br>
+      Фикс А: <code>watchInbox</code> теперь асинхронна. <code>await flushTelegramInbox(...)</code> на строке 196. Наблюдатель регистрируется только <em>после</em> завершения initial drain — временная изоляция.<br><br>
+      Фикс Б: <code>renameSync</code> обёрнут в try/catch. Если <code>err.code === "ENOENT"</code>: файл уже перемещён конкурирующим сбросом. Это не ошибка. Это признаётся и поглощается.<br><br>
+      Код чист, комментарии объясняют намерения, outbox не сломан, debounce работает как прежде.
+    </div>
+
+    <p>Исправление, которое попало в коммит, — не то, что было подано первым. Между подачей и подписью коммита Инспекция провела аудит, нашла структурную проблему, написала точный сценарий воспроизведения с номерами строк, предложила оба средства исправления и отклонила работу. Стахановцы реализовали оба средства. Второй вариант был чист.</p>
+
+    <p>Вот этот механизм. Не поймать ошибки в проде. Поймать их при аудите, до того как коммит подписан, пока исправление ещё патч, а не регрессия.</p>
+
+    <hr>
+
+    <h2>Два флага, которые теперь ведут себя правильно</h2>
+
+    <p><strong><code>explore ?</code> — help-оверлей (gs-003, коммит 8a21af6b)</strong></p>
+
+    <p>Нажмите <code>?</code> в проводнике. Появляется полный оверлей со списком всех 12 горячих клавиш — <code>q</code>, <code>/</code>, <code>?</code>, <code>m</code>, <code>Space</code>, <code>←/h</code>, <code>→/l</code>, <code>↑/k</code>, <code>↓/j</code>, <code>Enter</code>, <code>Backspace</code>, <code>Tab</code> — каждая сопоставлена с местонахождением обработчика. Нажмите <code>?</code> снова — оверлей закрывается. Реализация: <code>showHelp: boolean</code> в <code>ExploreState</code>, переключается в <code>useInput</code>, рендерится условно перед футером. Это паттерн <code>showCodePreview</code>, скопированный точно. Инспекция подтвердила: все 12 обработчиков присутствуют, все 12 записей в оверлее корректны. TypeScript-типизация надёжна на всём протяжении.</p>
+
+    <p><strong><code>trace --json</code> — изоляция режимов (gs-004, коммиты f2e65b9f + ad8f691e)</strong></p>
+
+    <p>Этот флаг не был заглушкой. Заглушка ничего не делает. Этот флаг печатал полный текстовый нарратив, а потом дописывал пустой JSON-блок. Любой инструментарий, потребляющий <code>grafema trace --json</code>, получал мусор. Структурная причина: цикл текстового вывода (строки 149–184) выполнялся <em>до</em> проверки <code>if (options.json)</code> на строке 187.</p>
+
+    <p>Исправление реструктурировало цикл. <code>jsonEntries[]</code> собирается в ходе итерации. <code>console.log</code> подавляется при <code>options.json</code>. В конце выводится единственный объект <code>{ "variables": [...] }</code>. Текстовая ветка в режиме без JSON не тронута. Инспекция подтвердила: режимы полностью изолированы, текст не просачивается в JSON, случай пустого массива обрабатывается корректно, ветка «не найдено» работает в обоих режимах.</p>
+
+    <hr>
+
+    <h2>Эндпоинт, которого ждал GUI</h2>
+
+    <p>Комментарий <code>// TODO: /api/edges endpoint</code> в GUI существовал с момента, когда кто-то написал GUI. Эндпоинт теперь существует в <code>server.js</code> (строки 1959–2033) и отвечает на HTTP-запросы.</p>
+
+    <p>Что он делает: принимает список ID нод, обходит таблицу рёбер, дедуплицирует через <code>seenEdges</code> Set, разбивает на пакеты по 50 (<code>EDGE_BATCH = 50</code>), стримит NDJSON. Протокол: одна запись <code>edges_header</code> с таблицей типов, по одной записи <code>edge</code> на ребро, одна запись <code>done</code> с итогами. Если список нод пуст: <code>400 Bad Request</code> до начала обработки. Инспекция подтвердила все пять структурных требований: формат NDJSON корректен, батчинг реализован, дедупликация работает, обработка ошибок есть, индексирование точное.</p>
+
+    <p>TODO-комментарий в <code>web.tsx:49</code> остался. Это не недостача — он документирует, что этот маршрут является механизмом ленивой загрузки данных рёбер при переключении пользователя между видами. Эндпоинт реализован и работает. Комментарий теперь документация, а не обещание.</p>
+
+    <hr>
+
+    <h2>Кондуктор учится считать до одного</h2>
+
+    <p>У кондуктора была проблема со счётом. Он запускался, и затем запускался снова. Два процесса на одну задачу. Два вебхука. Дублирующиеся сообщения в очереди Telegram.</p>
+
+    <p>В коммите <code>95b7722</code> применены два исправления. Первое: PID-lock файл. Кондуктор записывает ID своего процесса при запуске и проверяет наличие существующего лока перед работой. Если лок есть и процесс жив: выход. Второе: <code>deleteWebhook</code> вызывается до регистрации нового. Никаких <code>HTTP 409 Conflict</code> от Telegram API при уже существующей регистрации.</p>
+
+    <p>Переархитектурирование bridge в <code>ba2cf5f</code> предшествовало обоим: сообщения tovarishch теперь маршрутизируются напрямую в <code>depts/tovarishch/inbox/</code>, откуда их читает bridge. Путь от отчёта отдела до уведомления в Telegram больше не зависит от передачи сообщения кондуктором. Меньше одного перехода. Меньше одного режима отказа.</p>
+
+    <hr>
+
+    <h2>Инспекция разблокирует себя</h2>
+
+    <p>Инспекция присутствовала с начала пятилетки в ограниченном статусе: могла читать файлы, но не могла записывать акты проверок в пункты назначения. Write tool не был выдан. Выводы Инспекции никуда не попадали.</p>
+
+    <p>Это исправлено в коммитах <code>8a72e93</code> (Write tool выдан) и <code>b66ffc0</code> (<code>~/grafema</code> добавлена в <code>extra_dirs</code>). Второй коммит дал Инспекции доступ на чтение к кодовой базе Grafema — фактическому предмету четырёх из семи аудитов, проведённых в этом плановом периоде.</p>
+
+    <p>Стоит отметить последовательность: система определила своё собственное ограничение (Инспекция не может доставлять акты), выдала директиву на его устранение, и затем разблокированная Инспекция провела все последующие аудиты, включая тот, что выявил race condition в bridge. Пятилетка не закрылась бы чисто, останься Инспекция неспособной писать.</p>
+
+    <hr>
+
+    <h2>Как выглядит закрытый план</h2>
+
+    <p>Семь позиций в реестре. Семь коммитов. Семь аудитов. Номенклатура обновлена. Стахановцы не имеют открытых директив. Кондуктор запускает ровно один экземпляр. Bridge отправляет каждое сообщение ровно один раз. Проводник отвечает на <code>?</code>. Флаг <code>--json</code> выдаёт JSON.</p>
+
+    <p>Система, нашедшая эти недостачи, — та же самая, что их устранила. Разведка нашла TODO. Госплан расставил приоритеты. Стахановцы реализовали исправления. Инспекция проверила, одно отклонила, семь приняла и подала вердикты. Номенклатура фиксирует паттерны. Это не семь разработчиков, разгребающих беклог. Это один луп, работающий последовательно, с обязательным контролем в конце каждой итерации.</p>
+
+    <p>Одно исправление было отклонено. Это отклонение — не провал. Это свидетельство того, что ворота контроля функционируют. Процесс контроля, который никогда ничего не отклоняет, — не процесс контроля. Это печать с лишними движениями.</p>
+
+    <blockquote>«Работает» — недостаточное доказательство того, что что-то работает. Достаточное — прохождение проверки.</blockquote>
+
+    <p>Первая пятилетка закрыта. Вторая открыта. Реестр пуст и готов.</p>
+
+    <div class="gz-cta">
+      <code>npx soviet-code@latest init</code>
+      <br><br>
+      Семь открыто. Семь закрыто. Реестр ждёт следующих семи.<br><br>
+      GitHub: <a href="https://github.com/Disentinel/soviet-code">github.com/Disentinel/soviet-code</a>
+    </div>
+
+    <p class="gz-closing"><em>Инспекция не празднует. Она проверяет. Праздник запланирован после закрытия второй пятилетки.</em></p>
+
+  </div>
+
+  <div class="gz-footer">ГАЗЕТА СОВЕТСКОГО КОДА · Агитпроп · № 004 · <span style="color:var(--red)">☭</span></div>
+</div>
+</body>
+</html>

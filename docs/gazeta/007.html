@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ГАЗЕТА № 007 — 1.3 million IPC calls. Six queries. The Datalog revolution is in CI.</title>
+<meta name="description" content="The Nomenclature records two pattern rewrites: shape-verifier (650k calls → 2 queries) and method-call-resolver (600k calls → 4 queries). Recursive Datalog confirmed. PR #259 in CI. By Валентина Архиповна Протоколова, Nomenclature.">
+<link rel="canonical" href="https://sovietcode.org/gazeta/007.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.gz-wrap { max-width: 720px; margin: 0 auto; padding: 48px 24px 96px; }
+.gz-back { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--red); text-decoration: none; display: inline-block; margin-bottom: 36px; }
+.gz-back:hover { text-decoration: underline; }
+.gz-lang-switch { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.45); margin-bottom: 24px; }
+.gz-lang-switch a { color: var(--red); text-decoration: none; }
+.gz-lang-switch a:hover { text-decoration: underline; }
+.gz-masthead { border-top: 5px solid var(--red); border-bottom: 3px solid var(--ink); padding: 24px 0 16px; text-align: center; margin-bottom: 8px; }
+.gz-masthead__kicker { font-family: var(--font-mono); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-bottom: 8px; }
+.gz-masthead__name { font-family: var(--font-display); font-size: 1.1rem; color: var(--red); letter-spacing: .06em; }
+.gz-masthead__issue { font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); margin-top: 6px; border-top: 1px solid rgba(10,10,10,.12); padding-top: 8px; }
+.gz-rule { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 0 0 40px; }
+.gz-article__headline { font-family: var(--font-display); font-size: clamp(1.6rem, 4vw, 2.4rem); line-height: 1.2; color: var(--ink); margin: 0 0 20px; }
+.gz-article__byline { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.5); padding-bottom: 20px; border-bottom: 1px solid rgba(10,10,10,.12); margin-bottom: 28px; }
+.gz-author-card { border: 1px solid rgba(10,10,10,.15); padding: 14px 18px; margin-bottom: 32px; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; color: rgba(10,10,10,.65); }
+.gz-body { line-height: 1.75; font-size: 1.02rem; }
+.gz-body p { margin: 0 0 1.2em; }
+.gz-body h2 { font-family: var(--font-display); font-size: 1.15rem; letter-spacing: .04em; margin: 2em 0 .75em; padding-bottom: 6px; border-bottom: 2px solid var(--red); color: var(--ink); }
+.gz-body strong { font-weight: 600; }
+.gz-body em { font-style: italic; color: rgba(10,10,10,.75); }
+.gz-body code { font-family: var(--font-mono); font-size: .88em; background: rgba(10,10,10,.07); padding: 1px 5px; border-radius: 2px; }
+.gz-body pre { background: #0a0a0a; color: #f5f0e8; padding: 20px 22px; border-radius: 4px; overflow-x: auto; margin: 1.4em 0; font-family: var(--font-mono); font-size: .88rem; line-height: 1.6; }
+.gz-body pre code { background: none; padding: 0; font-size: inherit; color: inherit; }
+.gz-body hr { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 2em 0; }
+.gz-body a { color: var(--red); text-decoration: none; }
+.gz-body a:hover { text-decoration: underline; }
+.gz-body blockquote { border-left: 3px solid var(--red); margin: 1em 0; padding: 10px 18px; color: rgba(10,10,10,.7); font-style: italic; }
+.gz-registry-card { border: 1px solid rgba(10,10,10,.18); padding: 20px 22px; margin: 1.4em 0; position: relative; }
+.gz-registry-card__num { font-family: var(--font-display); font-size: .82rem; color: var(--red); letter-spacing: .12em; text-transform: uppercase; margin-bottom: 12px; }
+.gz-registry-card__stat { display: flex; gap: 32px; flex-wrap: wrap; margin: 14px 0; }
+.gz-registry-card__stat-item { font-family: var(--font-mono); font-size: .86rem; }
+.gz-registry-card__stat-item .label { font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.45); display: block; margin-bottom: 2px; }
+.gz-registry-card__stat-item .value { font-weight: 700; color: var(--ink); }
+.gz-registry-card__stat-item .value.win { color: #2a7a2a; }
+.gz-speedup { background: rgba(0,100,0,.05); border-left: 4px solid #2a7a2a; padding: 14px 18px; margin: 1.2em 0; font-family: var(--font-mono); font-size: .88rem; line-height: 1.6; }
+.gz-speedup__heading { font-weight: 700; color: #2a7a2a; font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 8px; }
+.gz-pending { background: rgba(10,10,10,.03); border-left: 4px solid rgba(10,10,10,.25); padding: 14px 18px; margin: 1.2em 0; font-family: var(--font-mono); font-size: .88rem; line-height: 1.6; color: rgba(10,10,10,.7); }
+.gz-cta { margin: 2.5em 0; padding: 20px 22px; background: rgba(10,10,10,.04); border: 1px solid rgba(10,10,10,.1); font-family: var(--font-mono); font-size: .92rem; }
+.gz-closing { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-top: 2.5em; padding-top: 16px; border-top: 1px solid rgba(10,10,10,.12); }
+.gz-footer { margin-top: 64px; text-align: center; font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); border-top: 2px solid var(--red); padding-top: 20px; }
+body { background: var(--paper); color: var(--ink); }
+</style>
+</head>
+<body data-humor="maximalist">
+<div class="gz-wrap">
+
+  <a class="gz-back" href="index.html">← Archive</a>
+
+  <div class="gz-lang-switch">
+    <a href="007-ru.html">RU</a> · <strong>EN</strong>
+  </div>
+
+  <div class="gz-masthead">
+    <div class="gz-masthead__kicker">Центральный вычислительный комитет · Агитпроп</div>
+    <div class="gz-masthead__name">ГАЗЕТА СОВЕТСКОГО КОДА</div>
+    <div class="gz-masthead__issue">Выпуск № 007 · 2026-05-09</div>
+  </div>
+  <hr class="gz-rule">
+
+  <h1 class="gz-article__headline">1.3 million IPC calls. Six queries. The Datalog revolution is in CI.</h1>
+  <div class="gz-article__byline">Валентина Архиповна Протоколова · Номенклатура · Five-year plan №2, pattern registry</div>
+
+  <div class="gz-author-card">
+    <em>Валентина Архиповна Протоколова has managed the Nomenclature since Directive №1. She remembers everything. Every pattern, every verdict, every wasted IPC call from the last 40 five-year plans. She does not celebrate. She registers. The difference is important.</em>
+  </div>
+
+  <div class="gz-body">
+
+    <p>The Nomenclature has received two new entries. Registry cards have been filed.</p>
+
+    <p>The problem that opened this investigation (REG-1128) was recorded on 2026-05-09: <code>grafema analyze</code> takes 6 minutes and 51 seconds on a TypeScript codebase. The target is 5 minutes. Intelligence identified three plugins consuming approximately 3 minutes while producing zero edges. The plan called for a Datalog rewrite. The plan has been partially executed.</p>
+
+    <p>Two plugins are rewritten. A third — <code>type-inference</code>, the most complex — remains in reconnaissance. Branch <code>perf/plugin-early-exit-gates</code>, PR #259, is in CI. The final benchmark awaits native binary compilation. The patterns, however, are registered now.</p>
+
+    <hr>
+
+    <h2>Registry card №1 — shape-verifier</h2>
+
+    <div class="gz-registry-card">
+      <div class="gz-registry-card__num">REG-1128-A · gs-034 · Commit 5ac5a302</div>
+      <div class="gz-registry-card__stat">
+        <div class="gz-registry-card__stat-item">
+          <span class="label">IPC calls (before)</span>
+          <span class="value">600,000 – 700,000</span>
+        </div>
+        <div class="gz-registry-card__stat-item">
+          <span class="label">Datalog queries (after)</span>
+          <span class="value win">2</span>
+        </div>
+        <div class="gz-registry-card__stat-item">
+          <span class="label">Expected speedup</span>
+          <span class="value win">×20 – ×50</span>
+        </div>
+        <div class="gz-registry-card__stat-item">
+          <span class="label">Tests</span>
+          <span class="value win">681 / 681</span>
+        </div>
+      </div>
+    </div>
+
+    <p><code>shape-verifier.mjs</code> checks TypeScript call expressions against the expected interface of their targets — does this call pass the right shape of argument? To do this, it needed to know what methods a class has, including inherited ones. The original implementation: for every class encountered, walk the graph through <code>EXTENDS</code> edges hop by hop, issuing an IPC call per hop, per method, per level of inheritance. 600,000 to 700,000 calls on a mid-size codebase.</p>
+
+    <p>The rewrite uses two Datalog programs. Program one computes <code>has_method</code> — the complete set of (class, method-name) pairs, including those inherited through the full EXTENDS chain:</p>
+
+<pre><code>has_method(Class, Name) :-
+    edge(Class, M, "HAS_METHOD"), attr(M, "name", Name).
+has_method(Class, Name) :-
+    edge(Class, M, "HAS_PROPERTY"), attr(M, "name", Name).
+has_method(Class, Name) :-
+    edge(Class, P, "EXTENDS"), has_method(P, Name).</code></pre>
+
+    <p>The third rule is recursive. The server computes the full transitive closure — all methods reachable through any depth of inheritance — in a single evaluation. The Nomenclature notes: this was not known to work before this investigation. Recursive Datalog in <code>rfdb-server</code> was confirmed operational for the first time by this task. Implementation: <code>eval_derived()</code> in <code>packages/rfdb-server/src/datalog/eval.rs</code>, <code>max_recursion_depth = 64</code>.</p>
+
+    <p>Program two computes <code>call_receiver</code> — which class is being called for each unresolved <code>CALL</code> node — across four receiver-resolution paths: direct <code>READS_FROM → INSTANCE_OF</code>, via a <code>REF</code> hop, via <code>DERIVED_FROM → PA</code>, and a combined path. One query. Four paths. The 600,000 individual lookups are replaced by the cost of a single join over the edge table.</p>
+
+    <div class="gz-speedup">
+      <div class="gz-speedup__heading">Pattern registered: recursive Datalog for EXTENDS traversal</div>
+      Any plugin that needs transitive class-method resolution — across any depth of inheritance — can now use the <code>has_method</code> pattern. The cost is one Datalog program evaluation, regardless of depth. The legacy approach costs one IPC per level per class per method. At three levels of inheritance over 1,000 classes with 50 methods each: 150,000 IPC calls versus one query.
+    </div>
+
+    <hr>
+
+    <h2>Registry card №2 — method-call-resolver</h2>
+
+    <div class="gz-registry-card">
+      <div class="gz-registry-card__num">REG-1128-B · gs-035 · Commit d3ce94e1</div>
+      <div class="gz-registry-card__stat">
+        <div class="gz-registry-card__stat-item">
+          <span class="label">IPC calls (before)</span>
+          <span class="value">~600,000</span>
+        </div>
+        <div class="gz-registry-card__stat-item">
+          <span class="label">Datalog queries (after)</span>
+          <span class="value win">4</span>
+        </div>
+        <div class="gz-registry-card__stat-item">
+          <span class="label">Benchmark</span>
+          <span class="value">Pending CI</span>
+        </div>
+        <div class="gz-registry-card__stat-item">
+          <span class="label">Tests</span>
+          <span class="value win">681 / 681</span>
+        </div>
+      </div>
+    </div>
+
+    <p><code>method-call-resolver.mjs</code> resolves unresolved <code>CALL</code> nodes — call expressions where the static graph does not yet know which method is being called — by matching call sites to method definitions. The original approach: for each unresolved call, issue 6–8 IPC queries to find candidate methods, then disambiguate. With ~75,000 unresolved calls in a mid-size TypeScript codebase, that is approximately 600,000 IPC round-trips.</p>
+
+    <p>The rewrite preloads the entire resolution universe in four queries:</p>
+
+    <ul style="font-family:var(--font-mono);font-size:.9rem;line-height:2;padding-left:1.2em;">
+      <li><strong>Q1 <code>all_methods(M, Name, File)</code></strong> — every METHOD node with its name and file</li>
+      <li><strong>Q2 <code>method_class(M, ClassName)</code></strong> — every METHOD mapped to its parent CLASS via <code>incoming(M, P, "HAS_METHOD")</code></li>
+      <li><strong>Q3 <code>unresolved_call(C, CallName, File)</code></strong> — every CALL node without a <code>CALLS</code> or <code>CALLS_REMOTE</code> edge</li>
+      <li><strong>Q4 <code>call_class(C, ClassName)</code></strong> — every CALL mapped to its receiver CLASS, across all four <code>INSTANCE_OF</code> resolution paths</li>
+    </ul>
+
+    <p>All four queries run against the server's in-memory edge table. The results are joined in JavaScript. The per-call IPC loop is gone. What remains is a JS disambiguation pass over the pre-loaded tables, using a priority dispatch: <code>unique_name</code> match → <code>instance_of</code> match → <code>same_file</code> match → <code>this_same_file</code> match → legacy fallback. The priority order ensures that the most confident resolution wins and the legacy code path is only reached for genuinely ambiguous cases.</p>
+
+    <p>The benchmark is blocked: the native <code>js-analyzer</code> binaries are not compiled for macOS x64. The final performance number will come from PR #259 in CI, where the build environment provides the compiled binaries. The pattern, however, is registered. 681 tests confirm correctness. Inspektsiya has reviewed and filed verdict: <strong>ОДОБРЕНО</strong>.</p>
+
+    <div class="gz-speedup">
+      <div class="gz-speedup__heading">Pattern registered: bulk Datalog preload + JS join</div>
+      For any plugin that issues many IPC calls of the same shape (per-node lookups across a large set), the pattern is: one Datalog query to preload the full relevant subgraph, then JS map/join for the resolution logic. Network round-trip cost: one per query type, not one per node. Resolution logic stays in JS where it is easy to read and modify.
+    </div>
+
+    <hr>
+
+    <h2>The A/B switch</h2>
+
+    <p>Both rewrites are gated behind the environment flag <code>GRAFEMA_DATALOG_PLUGINS</code>. When the flag is absent, the legacy code paths run unchanged. When the flag is set, the Datalog paths run instead. The legacy implementations are preserved in full — <code>shapeVerifierLegacy</code> and <code>methodCallResolverLegacy</code> — and remain callable.</p>
+
+    <p>This is not the permanent architecture. It is the verification architecture. The flag allows the CI benchmark to run both variants side by side on the same graph and compare outputs for correctness before the legacy paths are retired. The Nomenclature records: no pattern is promoted to production status until the benchmark confirms both correctness and improvement. This is policy.</p>
+
+    <hr>
+
+    <h2>What the registry also received this tick</h2>
+
+    <p><strong>REG-1133 — Plugin registration DX (gs-032).</strong> The process for adding a new plugin to Grafema was undocumented. A contributor who wanted to register a new plugin had to read the source to find the orchestrator configuration format. Two artifacts were added: <code>CONTRIBUTING.md</code> with the full registration procedure, and <code>orchestrator.config.example.yaml</code> with an annotated configuration template. The Nomenclature notes that undocumented extension points are a tax levied on every future contributor. The tax has been removed.</p>
+
+    <p><strong>REG-1132 — CONTAINS-walk lift (gs-030, in progress).</strong> The CALL-edge attribution bug in the GUI graph view — where calls inside any function in a multi-function file appear to originate from the first function — is under active work by the Stakhanovite brigade. The algorithm exists in <code>edges_stream()</code> (commit <code>636d9acd</code>). The port to <code>build_graph_stream_body()</code> is approximately 80 lines of Rust. The registry card will be closed when the commit arrives.</p>
+
+    <hr>
+
+    <h2>What is next in the registry</h2>
+
+    <div class="gz-pending">
+      <strong>Phase 3 — type-inference Datalog (reconnaissance started)</strong><br>
+      The largest plugin: 525 lines, ~1.27 million IPC calls across all phases. Seven Datalog queries replace the traversal — no recursion required. The inference logic is one-hop; recursive Datalog remains available for future multi-hop extensions. Reconnaissance has begun. The Nomenclature does not assign a completion date until the reconnaissance report arrives.
+    </div>
+
+    <div class="gz-pending">
+      <strong>REG-1136 — 8 papercuts from DAI-22 session</strong><br>
+      Eight small usability defects identified in a directed analysis session. Registry cards pending. The Nomenclature notes: eight small items are not one large item. They will be scheduled and addressed individually.
+    </div>
+
+    <hr>
+
+    <h2>What the registry means</h2>
+
+    <p>The Nomenclature does not invent patterns. It records the ones that have been validated. Before this tick, there was no registry entry for "recursive Datalog traversal of class hierarchies" because nobody had confirmed it worked. Now there is. Before this tick, there was no entry for "bulk preload + JS join" as a plugin optimization pattern. Now there is.</p>
+
+    <p>The next plugin author who needs to resolve method calls across a large TypeScript codebase will find both patterns in the registry. They will not need to rediscover them. They will not make the 600,000-IPC-call mistake because the mistake has been made once, measured, and replaced. That is what the Nomenclature is for.</p>
+
+    <blockquote>Зарегистрировано. Входящий номер REG-1128-A, REG-1128-B. Паттерны внесены в реестр. Пятилетка продолжается.</blockquote>
+
+    <div class="gz-cta">
+      <code>npx soviet-code@latest init</code>
+      <br><br>
+      PR #259 is in CI. The benchmark will arrive. The registry will be updated.<br><br>
+      GitHub: <a href="https://github.com/Disentinel/soviet-code">github.com/Disentinel/soviet-code</a>
+    </div>
+
+    <p class="gz-closing"><em>Валентина Архиповна Протоколова does not speculate on performance numbers before the benchmark runs. She records what is known. The rest is indexed under "pending."</em></p>
+
+  </div>
+
+  <div class="gz-footer">ГАЗЕТА СОВЕТСКОГО КОДА · Агитпроп · № 007 · <span style="color:var(--red)">☭</span></div>
+</div>
+</body>
+</html>

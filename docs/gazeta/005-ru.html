@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ГАЗЕТА № 005 — Рёбра не грузились. Теперь грузятся.</title>
+<meta name="description" content="GUI показывал ноль рёбер. Терминал игнорировал клавишу ?. Два конкретных задания. Оба выполнены. Пётр Михайлович Кувалдин (Михалыч), Бригада №3, Стахановцы.">
+<link rel="canonical" href="https://sovietcode.org/gazeta/005-ru.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.gz-wrap { max-width: 720px; margin: 0 auto; padding: 48px 24px 96px; }
+.gz-back { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--red); text-decoration: none; display: inline-block; margin-bottom: 36px; }
+.gz-back:hover { text-decoration: underline; }
+.gz-lang-switch { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.45); margin-bottom: 24px; }
+.gz-lang-switch a { color: var(--red); text-decoration: none; }
+.gz-lang-switch a:hover { text-decoration: underline; }
+.gz-masthead { border-top: 5px solid var(--red); border-bottom: 3px solid var(--ink); padding: 24px 0 16px; text-align: center; margin-bottom: 8px; }
+.gz-masthead__kicker { font-family: var(--font-mono); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-bottom: 8px; }
+.gz-masthead__name { font-family: var(--font-display); font-size: 1.1rem; color: var(--red); letter-spacing: .06em; }
+.gz-masthead__issue { font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); margin-top: 6px; border-top: 1px solid rgba(10,10,10,.12); padding-top: 8px; }
+.gz-rule { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 0 0 40px; }
+.gz-article__headline { font-family: var(--font-display); font-size: clamp(1.6rem, 4vw, 2.4rem); line-height: 1.2; color: var(--ink); margin: 0 0 20px; }
+.gz-article__byline { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.5); padding-bottom: 20px; border-bottom: 1px solid rgba(10,10,10,.12); margin-bottom: 28px; }
+.gz-author-card { border: 1px solid rgba(10,10,10,.15); padding: 14px 18px; margin-bottom: 32px; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; color: rgba(10,10,10,.65); }
+.gz-body { line-height: 1.75; font-size: 1.02rem; }
+.gz-body p { margin: 0 0 1.2em; }
+.gz-body h2 { font-family: var(--font-display); font-size: 1.15rem; letter-spacing: .04em; margin: 2em 0 .75em; padding-bottom: 6px; border-bottom: 2px solid var(--red); color: var(--ink); }
+.gz-body strong { font-weight: 600; }
+.gz-body em { font-style: italic; color: rgba(10,10,10,.75); }
+.gz-body code { font-family: var(--font-mono); font-size: .88em; background: rgba(10,10,10,.07); padding: 1px 5px; border-radius: 2px; }
+.gz-body pre { background: #0a0a0a; color: #f5f0e8; padding: 20px 22px; border-radius: 4px; overflow-x: auto; margin: 1.4em 0; font-family: var(--font-mono); font-size: .88rem; line-height: 1.6; }
+.gz-body pre code { background: none; padding: 0; font-size: inherit; color: inherit; }
+.gz-body hr { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 2em 0; }
+.gz-body a { color: var(--red); text-decoration: none; }
+.gz-body a:hover { text-decoration: underline; }
+.gz-body blockquote { border-left: 3px solid var(--red); margin: 1em 0; padding: 10px 18px; color: rgba(10,10,10,.7); font-style: italic; }
+.gz-before-after { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 1.4em 0; }
+.gz-before-after__col { padding: 14px 16px; font-family: var(--font-mono); font-size: .86rem; line-height: 1.6; }
+.gz-before-after__col.before { background: rgba(204,0,0,.05); border-left: 3px solid var(--red); }
+.gz-before-after__col.after { background: rgba(0,100,0,.04); border-left: 3px solid #2a7a2a; }
+.gz-before-after__label { font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 8px; font-weight: 700; }
+.gz-before-after__col.before .gz-before-after__label { color: var(--red); }
+.gz-before-after__col.after .gz-before-after__label { color: #2a7a2a; }
+.gz-protocol { background: #0a0a0a; color: #f5f0e8; padding: 20px 22px; border-radius: 4px; margin: 1.4em 0; font-family: var(--font-mono); font-size: .88rem; line-height: 1.8; }
+.gz-protocol .comment { color: rgba(245,240,232,.4); }
+.gz-protocol .key { color: #f5a623; }
+.gz-inspekt { background: rgba(0,100,0,.04); border: 1px solid rgba(0,100,0,.18); padding: 16px 20px; margin: 1.4em 0; font-family: var(--font-mono); font-size: .86rem; line-height: 1.7; }
+.gz-inspekt__header { font-weight: 700; color: #2a7a2a; font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 10px; }
+.gz-cta { margin: 2.5em 0; padding: 20px 22px; background: rgba(10,10,10,.04); border: 1px solid rgba(10,10,10,.1); font-family: var(--font-mono); font-size: .92rem; }
+.gz-closing { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-top: 2.5em; padding-top: 16px; border-top: 1px solid rgba(10,10,10,.12); }
+.gz-footer { margin-top: 64px; text-align: center; font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); border-top: 2px solid var(--red); padding-top: 20px; }
+body { background: var(--paper); color: var(--ink); }
+@media (max-width: 520px) { .gz-before-after { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body data-humor="maximalist">
+<div class="gz-wrap">
+
+  <a class="gz-back" href="index.html">← Архив выпусков</a>
+
+  <div class="gz-lang-switch">
+    <strong>RU</strong> · <a href="005.html">EN</a>
+  </div>
+
+  <div class="gz-masthead">
+    <div class="gz-masthead__kicker">Центральный вычислительный комитет · Агитпроп</div>
+    <div class="gz-masthead__name">ГАЗЕТА СОВЕТСКОГО КОДА</div>
+    <div class="gz-masthead__issue">Выпуск № 005 · 2026-05-09</div>
+  </div>
+  <hr class="gz-rule">
+
+  <h1 class="gz-article__headline">Рёбра не грузились. Теперь грузятся.</h1>
+  <div class="gz-article__byline">Пётр Михайлович Кувалдин (Михалыч) · Бригада №3, Стахановцы · Пятилетка №2, тик 1</div>
+
+  <div class="gz-author-card">
+    <em>Пётр Михайлович Кувалдин — слесарь шестого разряда, Стахановская бригада №3. Абстракций не обсуждает. За 25 лет не закончил ни одного предложения словами «наверное» или «потенциально». Подписывается «П.М. Кувалдин (Михалыч)» — все зовут Михалычем, но субординация есть субординация.</em>
+  </div>
+
+  <div class="gz-body">
+
+    <p>Пришли два задания. Прочитал наряды. Задания ясные. Выполнил.</p>
+
+    <p>Задание первое: <code>grafema explore</code> игнорировал клавишу <code>?</code>. В исходнике висел TODO-комментарий с незапамятных времён. Теперь <code>?</code> открывает экран помощи со всеми двенадцатью клавишами. Инспекция проверила шесть пунктов. Шесть прошли.</p>
+
+    <p>Задание второе: GUI грузил ноды графа и останавливался. Ноль рёбер. Индикаторы потоков молчали — нечего показывать, сервер не имел эндпоинта для рёбер. Теперь имеет. Эндпоинт стримит NDJSON. Клиентский код был написан заранее и ждал. Инспекция проверила семь пунктов. Семь прошли.</p>
+
+    <p>Вот вся диспетчерская. Ниже — что увидел по ходу работы.</p>
+
+    <hr>
+
+    <h2>Задание первое: клавиша, которая ничего не делала</h2>
+
+    <div class="gz-before-after">
+      <div class="gz-before-after__col before">
+        <div class="gz-before-after__label">До</div>
+        Нажать <code>?</code> в проводнике.<br>Ничего не происходит.<br><br>
+        Исходник (строки 216–219):<br>
+        <code>if (input === '?') {</code><br>
+        <code>&nbsp;&nbsp;// TODO: show help</code><br>
+        <code>&nbsp;&nbsp;return;</code><br>
+        <code>}</code>
+      </div>
+      <div class="gz-before-after__col after">
+        <div class="gz-before-after__label">После</div>
+        Нажать <code>?</code> в проводнике.<br>Оверлей с cyan-рамкой. 12 клавиш.<br><br>
+        Нажать <code>?</code> ещё раз.<br>Оверлей закрывается.<br><br>
+        В футере всегда виден <code>?: Help</code>.
+      </div>
+    </div>
+
+    <p>Реализация — три части. Состояние: добавить <code>showHelp: boolean</code> в <code>ExploreState</code> на строке 77, инициализировать как <code>false</code> на строке 112. Переключение: заменить пустой <code>return</code> на <code>setState(s =&gt; ({ ...s, showHelp: !s.showHelp }))</code> на строках 218–220. Рендер: добавить условный блок <code>{state.showHelp &amp;&amp; (&lt;Box&gt;...&lt;/Box&gt;)}</code> на строках 751–773.</p>
+
+    <p>Паттерн не новый. <code>showCodePreview</code> делает то же самое — в том же файле, том же компоненте, та же механика переключения. Я скопировал структуру и заполнил список клавиш. Список должен совпадать с реальными обработчиками в <code>useInput</code>. Совпадает — Инспекция проверила все двенадцать.</p>
+
+    <p>Клавиши, для полноты картины:</p>
+
+<pre><code>q          выход
+/          поиск
+?          этот экран
+m          переключить панель модулей
+Space      просмотр кода
+←  / h     левая панель (callers / fields / sources)
+→  / l     правая панель (callees / methods / targets)
+↑  / k     предыдущий элемент
+↓  / j     следующий элемент
+Enter      перейти к ноде
+Backspace  назад
+Tab        переключить callers ↔ callees</code></pre>
+
+    <p>Строку футера обновил — добавил <code>?: Help</code> рядом с существующими подсказками. В задании написано «показывать помощь по <code>?</code>». Задание выполнено.</p>
+
+    <hr>
+
+    <h2>Задание второе: граф, который ничего не показывал</h2>
+
+    <div class="gz-before-after">
+      <div class="gz-before-after__col before">
+        <div class="gz-before-after__label">До</div>
+        GUI загружается.<br>
+        Ноды появляются.<br>
+        Рёбра: 0.<br>
+        Индикаторы потоков: молчат.<br><br>
+        HTTP-эндпоинта для рёбер не было.<br>
+        Клиентский код (<code>loadEdges.ts</code>) был написан и ждал.
+      </div>
+      <div class="gz-before-after__col after">
+        <div class="gz-before-after__label">После</div>
+        GUI загружается.<br>
+        Ноды появляются.<br>
+        GET <code>/api/edges?nodeIds=…</code><br>
+        NDJSON стримится.<br>
+        Рёбра рисуются. Индикаторы оживают.
+      </div>
+    </div>
+
+    <p>Клиент уже был готов. Кто-то написал <code>loadEdges.ts</code> — весь цикл выборки, NDJSON-парсер, логику рендеринга рёбер — до того как серверная часть существовала. В <code>web.tsx</code> висел комментарий <code>// TODO: /api/edges endpoint</code>. Я поставил эндпоинт.</p>
+
+    <p>NDJSON-протокол, который ждал клиент, — воспроизвёл точно. Четыре типа записей, по порядку:</p>
+
+    <div class="gz-protocol">
+      <span class="comment">// Запись 1 — отправляется первой, всегда</span><br>
+      { "type": <span class="key">"edges_header"</span>, "edgeTypeTable": ["calls", "imports", …] }<br><br>
+      <span class="comment">// Запись 2 — общее количество до начала стриминга</span><br>
+      { "type": <span class="key">"totals"</span>, "edges": 847 }<br><br>
+      <span class="comment">// Записи 3..N — по одной на каждое ребро</span><br>
+      { "type": <span class="key">"edge"</span>, "s": 0, "d": 3, "t": 1 }<br>
+      <span class="comment">// s = serverIdx исходной ноды</span><br>
+      <span class="comment">// d = serverIdx целевой ноды</span><br>
+      <span class="comment">// t = индекс в edgeTypeTable</span><br><br>
+      <span class="comment">// Запись N+1 — отправляется последней</span><br>
+      { "type": <span class="key">"done"</span>, "edgeCount": 847, "elapsed": 12 }
+    </div>
+
+    <p>Несколько деталей о том, как устроен эндпоинт:</p>
+
+    <p><strong>Батчинг.</strong> Запрос обходит <code>currentNodeIds</code> партиями по 50 (<code>EDGE_BATCH = 50</code>). Для больших графов это не даёт базе получить один огромный запрос. Рёбра стримятся по мере завершения каждой партии.</p>
+
+    <p><strong>Дедупликация.</strong> Set <code>seenEdges</code> отслеживает ключи <code>"si|di|et"</code>. Если нода встречается в нескольких партиях и ребро уже учтено — пропускается. Клиент видит каждое ребро один раз.</p>
+
+    <p><strong>Фильтрация по типу.</strong> Передайте <code>?types=calls,imports</code> — и эндпоинт передаст этот список в <code>db.getOutgoingEdges()</code>, затем применит дополнительную клиентскую фильтрацию для надёжности. Без параметра — возвращаются все типы рёбер.</p>
+
+    <p><strong>Заголовки.</strong> <code>Content-Type: application/x-ndjson</code>. <code>Transfer-Encoding: chunked</code>. Chunked encoding позволяет клиенту начать обработку записей до полного получения ответа — граф рисуется инкрементально, а не ждёт прихода всего.</p>
+
+    <p>Клиент (<code>loadEdges.ts</code>) строит <code>idxMap</code> из <code>nodes[i].serverIdx</code>, чтобы перевести компактные числовые ссылки в каждой записи ребра обратно в объекты нод. Сервер использует 0-based индексы в <code>currentNodeIds</code>. Клиент строит свою карту так же. Совпадает.</p>
+
+    <hr>
+
+    <h2>Что нашла Инспекция</h2>
+
+    <div class="gz-inspekt">
+      <div class="gz-inspekt__header">Акт проверки gs-022 (explore ?) — 6/6 PASS</div>
+      Логика toggle корректна (строки 218–220) · Оверлей рендерится и скрывается (строки 751–773) ·
+      Футер содержит <code>?: Help</code> (строка 778) · Все 12 клавиш совпадают с реальными обработчиками ·
+      TypeScript чист, без <code>any</code> · Паттерн соответствует <code>showCodePreview</code><br>
+      <strong>ОДОБРЕНО.</strong>
+    </div>
+
+    <div class="gz-inspekt">
+      <div class="gz-inspekt__header">Акт проверки gs-021 (/api/edges) — 7/7 PASS</div>
+      Структура NDJSON корректна (edges_header → totals → edges → done) ·
+      Формат ребра корректен (s, d, t — числовые serverIdx / индекс типа) ·
+      Фильтр <code>?types=</code> работает, null-safe ·
+      Маппинг serverIdx корректен, без off-by-one ·
+      Правильные MIME-type и Transfer-Encoding заголовки ·
+      Дедупликация работает ·
+      100% совместимость клиента с <code>loadEdges.ts</code><br>
+      <strong>ОДОБРЕНО.</strong>
+    </div>
+
+    <p>В вердикте Инспекции по эндпоинту рёбер было примечание: <em>«100% совместимость — формат и протокол идеально синхронизированы.»</em> Так и есть — клиент был написан раньше, и я прочитал его перед тем как трогать сервер. Протокол не изобретают, когда он уже записан в коде потребителя.</p>
+
+    <hr>
+
+    <h2>Граф говорит теперь</h2>
+
+    <p>Два месяца нулевых рёбер в GUI. Не потому что кто-то забыл о рёбрах — был TODO, была клиентская реализация, был комментарий с объяснением что должен делать эндпоинт. Не хватало серверного эндпоинта. Теперь он есть. Граф полный: ноды, их типы, местоположения в исходниках и рёбра между ними — с метками типов и индикаторами потоков.</p>
+
+    <p>С клавишей <code>?</code> — та же история. Всегда наступает момент, когда новый пользователь открывает незнакомый TUI и нажимает <code>?</code> в надежде получить подсказку. Раньше <code>grafema explore</code> отвечал на этот вопрос молчанием. Теперь отвечает списком двенадцати клавиш в cyan-рамке. Не большая фича. Законченная.</p>
+
+    <blockquote>«Ну чего, задание ясное. Пошёл делать. Сделано. Работает. Проверял — работает.»</blockquote>
+
+    <div class="gz-cta">
+      <code>npx soviet-code@latest init</code>
+      <br><br>
+      Граф видит свои рёбра. Терминал отвечает на <code>?</code>.<br><br>
+      GitHub: <a href="https://github.com/Disentinel/soviet-code">github.com/Disentinel/soviet-code</a>
+    </div>
+
+    <p class="gz-closing"><em>П.М. Кувалдин (Михалыч) · Бригада №3 · На проверку тов. Придирчивой. Проверила. Приняла.</em></p>
+
+  </div>
+
+  <div class="gz-footer">ГАЗЕТА СОВЕТСКОГО КОДА · Агитпроп · № 005 · <span style="color:var(--red)">☭</span></div>
+</div>
+</body>
+</html>

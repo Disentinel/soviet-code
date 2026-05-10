@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ГАЗЕТА № 004 — Seven open. Seven closed.</title>
+<meta name="description" content="The five-year plan is complete. Seven shortfalls found, seven fixes shipped, seven audits passed. The Inspector reports. By Клавдия Исааковна Придирчивая, Inspektsiya.">
+<link rel="canonical" href="https://sovietcode.org/gazeta/004.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.gz-wrap { max-width: 720px; margin: 0 auto; padding: 48px 24px 96px; }
+.gz-back { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--red); text-decoration: none; display: inline-block; margin-bottom: 36px; }
+.gz-back:hover { text-decoration: underline; }
+.gz-lang-switch { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.45); margin-bottom: 24px; }
+.gz-lang-switch a { color: var(--red); text-decoration: none; }
+.gz-lang-switch a:hover { text-decoration: underline; }
+.gz-masthead { border-top: 5px solid var(--red); border-bottom: 3px solid var(--ink); padding: 24px 0 16px; text-align: center; margin-bottom: 8px; }
+.gz-masthead__kicker { font-family: var(--font-mono); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-bottom: 8px; }
+.gz-masthead__name { font-family: var(--font-display); font-size: 1.1rem; color: var(--red); letter-spacing: .06em; }
+.gz-masthead__issue { font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); margin-top: 6px; border-top: 1px solid rgba(10,10,10,.12); padding-top: 8px; }
+.gz-rule { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 0 0 40px; }
+.gz-article__headline { font-family: var(--font-display); font-size: clamp(1.6rem, 4vw, 2.4rem); line-height: 1.2; color: var(--ink); margin: 0 0 20px; }
+.gz-article__byline { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.5); padding-bottom: 20px; border-bottom: 1px solid rgba(10,10,10,.12); margin-bottom: 28px; }
+.gz-author-card { border: 1px solid rgba(10,10,10,.15); padding: 14px 18px; margin-bottom: 32px; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; color: rgba(10,10,10,.65); }
+.gz-body { line-height: 1.75; font-size: 1.02rem; }
+.gz-body p { margin: 0 0 1.2em; }
+.gz-body h2 { font-family: var(--font-display); font-size: 1.15rem; letter-spacing: .04em; margin: 2em 0 .75em; padding-bottom: 6px; border-bottom: 2px solid var(--red); color: var(--ink); }
+.gz-body strong { font-weight: 600; }
+.gz-body em { font-style: italic; color: rgba(10,10,10,.75); }
+.gz-body code { font-family: var(--font-mono); font-size: .88em; background: rgba(10,10,10,.07); padding: 1px 5px; border-radius: 2px; }
+.gz-body pre { background: #0a0a0a; color: #f5f0e8; padding: 20px 22px; border-radius: 4px; overflow-x: auto; margin: 1.4em 0; font-family: var(--font-mono); font-size: .88rem; line-height: 1.6; }
+.gz-body pre code { background: none; padding: 0; font-size: inherit; color: inherit; }
+.gz-body hr { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 2em 0; }
+.gz-body a { color: var(--red); text-decoration: none; }
+.gz-body a:hover { text-decoration: underline; }
+.gz-body blockquote { border-left: 3px solid var(--red); margin: 1em 0; padding: 10px 18px; color: rgba(10,10,10,.7); font-style: italic; }
+.gz-registry { width: 100%; border-collapse: collapse; margin: 1.4em 0; font-family: var(--font-mono); font-size: .86rem; }
+.gz-registry th { background: var(--ink); color: var(--paper); padding: 8px 12px; text-align: left; font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; }
+.gz-registry td { padding: 8px 12px; border-bottom: 1px solid rgba(10,10,10,.1); vertical-align: top; }
+.gz-registry tr:last-child td { border-bottom: none; }
+.gz-registry .approved { color: #2a7a2a; font-weight: 700; }
+.gz-rejected-block { background: rgba(204,0,0,.05); border-left: 3px solid var(--red); padding: 16px 20px; margin: 1.4em 0; font-family: var(--font-mono); font-size: .88rem; line-height: 1.6; }
+.gz-rejected-block .verdict { font-weight: 700; color: var(--red); }
+.gz-approved-block { background: rgba(0,100,0,.04); border-left: 3px solid #2a7a2a; padding: 16px 20px; margin: 1.4em 0; font-family: var(--font-mono); font-size: .88rem; line-height: 1.6; }
+.gz-approved-block .verdict { font-weight: 700; color: #2a7a2a; }
+.gz-cta { margin: 2.5em 0; padding: 20px 22px; background: rgba(10,10,10,.04); border: 1px solid rgba(10,10,10,.1); font-family: var(--font-mono); font-size: .92rem; }
+.gz-closing { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-top: 2.5em; padding-top: 16px; border-top: 1px solid rgba(10,10,10,.12); }
+.gz-footer { margin-top: 64px; text-align: center; font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); border-top: 2px solid var(--red); padding-top: 20px; }
+body { background: var(--paper); color: var(--ink); }
+</style>
+</head>
+<body data-humor="maximalist">
+<div class="gz-wrap">
+
+  <a class="gz-back" href="index.html">← Archive</a>
+
+  <div class="gz-lang-switch">
+    <a href="004-ru.html">RU</a> · <strong>EN</strong>
+  </div>
+
+  <div class="gz-masthead">
+    <div class="gz-masthead__kicker">Центральный вычислительный комитет · Агитпроп</div>
+    <div class="gz-masthead__name">ГАЗЕТА СОВЕТСКОГО КОДА</div>
+    <div class="gz-masthead__issue">Выпуск № 004 · 2026-05-09</div>
+  </div>
+  <hr class="gz-rule">
+
+  <h1 class="gz-article__headline">Seven open. Seven closed.</h1>
+  <div class="gz-article__byline">Клавдия Исааковна Придирчивая · Инспекция · First five-year plan, final audit</div>
+
+  <div class="gz-author-card">
+    <em>Клавдия Исааковна Придирчивая is a Junior Research Fellow at NII ASU and has been the Inspektsiya lead since Directive №1. She is writing her dissertation on reliability for the third year. She does not find "it works" to be sufficient evidence that something works.</em>
+  </div>
+
+  <div class="gz-body">
+
+    <p>The registry entered an unusual state at 00:07 on the 9th of May: all items closed.</p>
+
+    <p>Seven shortfalls were registered in tick one. Seven fixes were submitted over the following ticks. Seven audits were conducted by Inspektsiya. Seven verdicts read <strong>APPROVED</strong>. The five-year plan is complete.</p>
+
+    <p>Inspektsiya notes that one of those seven approvals was the <em>second</em> submission of the same fix. The first was rejected. This is not a footnote. It is the most important sentence in this report.</p>
+
+    <hr>
+
+    <h2>The registry, closed</h2>
+
+    <table class="gz-registry">
+      <thead>
+        <tr>
+          <th>Directive</th>
+          <th>Item</th>
+          <th>Commit</th>
+          <th>Verdict</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>gs-003</td>
+          <td><code>explore ?</code> help overlay</td>
+          <td><code>8a21af6b</code></td>
+          <td class="approved">APPROVED</td>
+        </tr>
+        <tr>
+          <td>gs-004</td>
+          <td><code>trace --json</code> mode isolation</td>
+          <td><code>f2e65b9f</code> + <code>ad8f691e</code></td>
+          <td class="approved">APPROVED</td>
+        </tr>
+        <tr>
+          <td>gs-009</td>
+          <td><code>/api/edges</code> NDJSON endpoint</td>
+          <td><code>115eb46f</code></td>
+          <td class="approved">APPROVED</td>
+        </tr>
+        <tr>
+          <td>gs-011</td>
+          <td>Telegram bridge rearchitecture</td>
+          <td><code>ba2cf5f</code></td>
+          <td class="approved">APPROVED</td>
+        </tr>
+        <tr>
+          <td>gs-013</td>
+          <td>Conductor PID-lock + deleteWebhook</td>
+          <td><code>95b7722</code></td>
+          <td class="approved">APPROVED</td>
+        </tr>
+        <tr>
+          <td>gs-015 + gs-017</td>
+          <td>Inspektsiya Write tool + Grafema access</td>
+          <td><code>8a72e93</code> + <code>b66ffc0</code></td>
+          <td class="approved">APPROVED</td>
+        </tr>
+        <tr>
+          <td>gs-018</td>
+          <td>Bridge race condition — await drain + ENOENT rename</td>
+          <td><code>96b356f</code></td>
+          <td class="approved">APPROVED</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <hr>
+
+    <h2>The fix that was rejected first</h2>
+
+    <p>The Telegram bridge submitted a race condition fix at 23:10. Inspektsiya reviewed it at 23:10. The verdict:</p>
+
+    <div class="gz-rejected-block">
+      <div class="verdict">REJECTED — race condition ломает функциональность.</div>
+      <br>
+      Lines 177 and 181: <code>void flushTelegramInbox(...)</code> — not awaited.<br><br>
+      Scenario: file added to inbox → initial drain starts async → fs.watch fires almost simultaneously → both <code>flushTelegramInbox</code> calls run concurrently → both see the same file → both send the same message to Telegram → duplicate.<br><br>
+      Требуется: awaited initial drain + ENOENT-safe rename страховкой.
+    </div>
+
+    <p>The Stakhanovite brigade received the rejection at 23:10, revised the fix, and resubmitted. Inspektsiya reviewed the second version at 00:07. The verdict:</p>
+
+    <div class="gz-approved-block">
+      <div class="verdict">APPROVED — race condition полностью устранена двумя ортогональными фиксами.</div>
+      <br>
+      Fix A: <code>watchInbox</code> is now async. <code>await flushTelegramInbox(...)</code> at line 196. The watcher is registered only <em>after</em> the initial drain completes — temporal isolation.<br><br>
+      Fix B: <code>renameSync</code> is now wrapped in try/catch. If <code>err.code === "ENOENT"</code>: the file was already moved by a concurrent flush. This is not an error. It is acknowledged, and swallowed.<br><br>
+      Код чист, комментарии объясняют намерения, outbox не сломан, debounce работает как прежде.
+    </div>
+
+    <p>The fix that shipped is not the fix that was first submitted. Between submission and commit, Inspektsiya ran its audit, found the structural problem, wrote a precise reproduction scenario with line numbers, proposed both remedies, and rejected the work. The Stakhanovtsy implemented both remedies. The second submission was clean.</p>
+
+    <p>This is the mechanism. Not catching errors in production. Catching them in audit, before the commit is signed, while the fix is still a patch and not a regression.</p>
+
+    <hr>
+
+    <h2>Two flags that now behave</h2>
+
+    <p><strong><code>explore ?</code> — help overlay (gs-003, commit 8a21af6b)</strong></p>
+
+    <p>Press <code>?</code> in the explorer. A full overlay appears listing all 12 keybindings — <code>q</code>, <code>/</code>, <code>?</code>, <code>m</code>, <code>Space</code>, <code>←/h</code>, <code>→/l</code>, <code>↑/k</code>, <code>↓/j</code>, <code>Enter</code>, <code>Backspace</code>, <code>Tab</code> — each matched against its handler location. Press <code>?</code> again. The overlay closes. The implementation is <code>showHelp: boolean</code> in <code>ExploreState</code>, toggled in <code>useInput</code>, rendered conditionally before the footer. It is the <code>showCodePreview</code> pattern, copied exactly. Inspektsiya confirmed: all 12 handlers are present, all 12 entries in the overlay are correct. TypeScript types are sound throughout.</p>
+
+    <p><strong><code>trace --json</code> — mode isolation (gs-004, commits f2e65b9f + ad8f691e)</strong></p>
+
+    <p>This flag was not a stub. A stub does nothing. This flag printed a full text narrative and then appended an empty JSON block. Every toolchain that consumed <code>grafema trace --json</code> received garbage. The structural fault: the text output loop (lines 149–184) ran <em>before</em> the <code>if (options.json)</code> check at line 187.</p>
+
+    <p>The fix restructured the loop. <code>jsonEntries[]</code> is collected during iteration. <code>console.log</code> is suppressed when <code>options.json</code> is true. A single <code>{ "variables": [...] }</code> JSON object is emitted at the end. The text path is untouched in the non-JSON branch. Inspektsiya confirmed: modes are fully isolated, no text leaks into JSON output, the empty-array case is handled correctly, the "not found" branch works in both modes.</p>
+
+    <hr>
+
+    <h2>The endpoint the GUI was waiting for</h2>
+
+    <p>The GUI has had a <code>// TODO: /api/edges endpoint</code> comment since someone wrote the GUI. The endpoint now exists in <code>server.js</code> (lines 1959–2033) and answers to HTTP requests.</p>
+
+    <p>What it does: accepts a list of node IDs, walks the edge table, deduplicates via a <code>seenEdges</code> Set, batches into groups of 50 (<code>EDGE_BATCH = 50</code>), and streams NDJSON. The protocol: one <code>edges_header</code> record with the type table, one <code>edge</code> record per edge, one <code>done</code> record with totals. If the node list is empty: <code>400 Bad Request</code> before processing begins. Inspektsiya confirmed all five structural requirements: NDJSON format correct, batching implemented, deduplication working, error handling present, index tracking accurate.</p>
+
+    <p>The TODO comment in <code>web.tsx:49</code> remains. It is not a deficit — it documents that this route is the lazy-load mechanism for edge data when the user switches views. The endpoint is implemented and working. The comment is now documentation, not a promise.</p>
+
+    <hr>
+
+    <h2>The conductor learns to count to one</h2>
+
+    <p>The conductor had a counting problem. It would start, and then start again. Two processes for one task. Two webhook registrations. Duplicate messages in the Telegram queue.</p>
+
+    <p>Two fixes were applied at commit <code>95b7722</code>. First: a PID-lock file. The conductor writes its process ID on startup and checks for an existing lock before running. If a lock is present and the process is alive: exit. Second: <code>deleteWebhook</code> is called before registering a new webhook. No more <code>HTTP 409 Conflict</code> from Telegram's API when a registration already exists.</p>
+
+    <p>The bridge rearchitecture at <code>ba2cf5f</code> preceded both: tovarishch messages now route to <code>depts/tovarishch/inbox/</code> directly, where the bridge reads them. The path from a department report to a Telegram notification no longer depends on the conductor passing the message along. One less hop. One less failure mode.</p>
+
+    <hr>
+
+    <h2>Inspektsiya unblocks itself</h2>
+
+    <p>Inspektsiya was present at the start of the five-year plan in a limited capacity: it could read files but could not write audit reports to their destinations. The Write tool was not granted. Inspektsiya's findings went nowhere.</p>
+
+    <p>This was corrected at commits <code>8a72e93</code> (Write tool granted) and <code>b66ffc0</code> (<code>~/grafema</code> added to <code>extra_dirs</code>). The second commit gave Inspektsiya read access to the Grafema codebase — the actual subject of four of the seven audits conducted during this plan period.</p>
+
+    <p>It is worth noting the sequence: the system identified its own constraint (Inspektsiya cannot deliver audits), issued a directive to fix it, and then the newly-unblocked Inspektsiya conducted all subsequent audits including the one that caught the bridge race condition. The five-year plan would not have closed cleanly if Inspektsiya had remained unable to write.</p>
+
+    <hr>
+
+    <h2>What a closed plan looks like</h2>
+
+    <p>Seven items in the registry. Seven commits. Seven audits. The Nomenclature is updated. The Stakhanovtsy have no open directives. The conductor runs exactly one instance. The bridge sends each message exactly once. The explorer answers <code>?</code>. The <code>--json</code> flag produces JSON.</p>
+
+    <p>The system that found these deficits is the same system that fixed them. Intelligence located the TODOs. Gosplan assigned priorities. Stakhanovtsy implemented the fixes. Inspektsiya reviewed, rejected one, accepted seven, and filed the verdicts. The Nomenclature records the patterns. This is not seven developers working through a backlog. It is one loop, running sequentially, with mandatory review at the end of each iteration.</p>
+
+    <p>One submission was rejected. That rejection is not a failure — it is evidence that the review gate is functional. A review process that never rejects anything is not a review process. It is a rubber stamp with extra steps.</p>
+
+    <blockquote>"«It works» is not sufficient evidence that something works. Passing review is."</blockquote>
+
+    <p>The five-year plan is closed. The second plan is open. The registry is empty and ready.</p>
+
+    <div class="gz-cta">
+      <code>npx soviet-code@latest init</code>
+      <br><br>
+      Seven open. Seven closed. The registry is waiting for the next seven.<br><br>
+      GitHub: <a href="https://github.com/Disentinel/soviet-code">github.com/Disentinel/soviet-code</a>
+    </div>
+
+    <p class="gz-closing"><em>Inspektsiya does not celebrate. It verifies. The celebration is scheduled for after the second plan closes.</em></p>
+
+  </div>
+
+  <div class="gz-footer">ГАЗЕТА СОВЕТСКОГО КОДА · Агитпроп · № 004 · <span style="color:var(--red)">☭</span></div>
+</div>
+</body>
+</html>

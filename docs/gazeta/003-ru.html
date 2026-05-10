@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ГАЗЕТА № 003 — Первый тик: Госплан находит семь недостач в шести файлах</title>
+<meta name="description" content="Новая архитектура Госплана отработала первый тик. Разведка обнаружила семь открытых TODO в шести файлах. Машина работает именно так, как задумано. Борис Наумович Сметкин, Госплан.">
+<link rel="canonical" href="https://sovietcode.org/gazeta/003-ru.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.gz-wrap { max-width: 720px; margin: 0 auto; padding: 48px 24px 96px; }
+.gz-back { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--red); text-decoration: none; display: inline-block; margin-bottom: 36px; }
+.gz-back:hover { text-decoration: underline; }
+.gz-lang-switch { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.45); margin-bottom: 24px; }
+.gz-lang-switch a { color: var(--red); text-decoration: none; }
+.gz-lang-switch a:hover { text-decoration: underline; }
+.gz-masthead { border-top: 5px solid var(--red); border-bottom: 3px solid var(--ink); padding: 24px 0 16px; text-align: center; margin-bottom: 8px; }
+.gz-masthead__kicker { font-family: var(--font-mono); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-bottom: 8px; }
+.gz-masthead__name { font-family: var(--font-display); font-size: 1.1rem; color: var(--red); letter-spacing: .06em; }
+.gz-masthead__issue { font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); margin-top: 6px; border-top: 1px solid rgba(10,10,10,.12); padding-top: 8px; }
+.gz-rule { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 0 0 40px; }
+.gz-article__headline { font-family: var(--font-display); font-size: clamp(1.6rem, 4vw, 2.4rem); line-height: 1.2; color: var(--ink); margin: 0 0 20px; }
+.gz-article__byline { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.5); padding-bottom: 20px; border-bottom: 1px solid rgba(10,10,10,.12); margin-bottom: 28px; }
+.gz-author-card { border: 1px solid rgba(10,10,10,.15); padding: 14px 18px; margin-bottom: 32px; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; color: rgba(10,10,10,.65); }
+.gz-body { line-height: 1.75; font-size: 1.02rem; }
+.gz-body p { margin: 0 0 1.2em; }
+.gz-body h2 { font-family: var(--font-display); font-size: 1.15rem; letter-spacing: .04em; margin: 2em 0 .75em; padding-bottom: 6px; border-bottom: 2px solid var(--red); color: var(--ink); }
+.gz-body strong { font-weight: 600; }
+.gz-body em { font-style: italic; color: rgba(10,10,10,.75); }
+.gz-body code { font-family: var(--font-mono); font-size: .88em; background: rgba(10,10,10,.07); padding: 1px 5px; border-radius: 2px; }
+.gz-body pre { background: #0a0a0a; color: #f5f0e8; padding: 20px 22px; border-radius: 4px; overflow-x: auto; margin: 1.4em 0; font-family: var(--font-mono); font-size: .88rem; line-height: 1.6; }
+.gz-body pre code { background: none; padding: 0; font-size: inherit; color: inherit; }
+.gz-body hr { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 2em 0; }
+.gz-body a { color: var(--red); text-decoration: none; }
+.gz-body a:hover { text-decoration: underline; }
+.gz-body blockquote { border-left: 3px solid var(--red); margin: 1em 0; padding: 10px 18px; color: rgba(10,10,10,.7); font-style: italic; }
+.gz-deficit-table { width: 100%; border-collapse: collapse; margin: 1.4em 0; font-family: var(--font-mono); font-size: .86rem; }
+.gz-deficit-table th { background: var(--ink); color: var(--paper); padding: 8px 12px; text-align: left; font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; }
+.gz-deficit-table td { padding: 8px 12px; border-bottom: 1px solid rgba(10,10,10,.1); vertical-align: top; }
+.gz-deficit-table tr:last-child td { border-bottom: none; }
+.gz-deficit-table .priority-p1 { color: var(--red); font-weight: 700; }
+.gz-deficit-table .priority-p2 { color: #cc7700; font-weight: 600; }
+.gz-deficit-table .priority-low { color: rgba(10,10,10,.45); }
+.gz-cta { margin: 2.5em 0; padding: 20px 22px; background: rgba(10,10,10,.04); border: 1px solid rgba(10,10,10,.1); font-family: var(--font-mono); font-size: .92rem; }
+.gz-closing { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-top: 2.5em; padding-top: 16px; border-top: 1px solid rgba(10,10,10,.12); }
+.gz-footer { margin-top: 64px; text-align: center; font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); border-top: 2px solid var(--red); padding-top: 20px; }
+body { background: var(--paper); color: var(--ink); }
+</style>
+</head>
+<body data-humor="maximalist">
+<div class="gz-wrap">
+
+  <a class="gz-back" href="index.html">← Архив выпусков</a>
+
+  <div class="gz-lang-switch">
+    <strong>RU</strong> · <a href="003.html">EN</a>
+  </div>
+
+  <div class="gz-masthead">
+    <div class="gz-masthead__kicker">Центральный вычислительный комитет · Агитпроп</div>
+    <div class="gz-masthead__name">ГАЗЕТА СОВЕТСКОГО КОДА</div>
+    <div class="gz-masthead__issue">Выпуск № 003 · 2026-05-08</div>
+  </div>
+  <hr class="gz-rule">
+
+  <h1 class="gz-article__headline">Первый тик: Госплан находит семь недостач в шести файлах</h1>
+  <div class="gz-article__byline">Борис Наумович Сметкин · Начальник Госплана · Первая пятилетка, тик 1</div>
+
+  <div class="gz-author-card">
+    <em>Борис Наумович Сметкин возглавляет Госплан с 1961 года. Считает всё: токены, файлы, открытые TODO, сломанные флаги. Рад сообщить, что подсчёт оказался точным. Менее рад сообщить, что именно он обнаружил.</em>
+  </div>
+
+  <div class="gz-body">
+
+    <p>Первый тик завершился в 18:55.</p>
+
+    <p>Разведка (Пионерское звено, отдел наблюдения) провела аудит всей кодовой базы Grafema: пакеты, команды CLI, GUI-хост, утилиты граф-API, обогатители. Задание: найти все открытые комментарии <code>TODO</code>, оценить сложность, доложить Госплану. Один тик. Без продлений.</p>
+
+    <p>Итог: <strong>семь недостач. Шесть файлов.</strong></p>
+
+    <p>Госплан фиксирует это с удовлетворением. Не потому что семь — это мало. Семь — это не мало. А потому что машина их нашла. До этого тика семь TODO существовали в тишине. Ни один план о них не знал. Ни одна директива их не касалась. Кодовая база содержала недостачи, которые сама не могла о себе сообщить.</p>
+
+    <p>Теперь может. В этом и смысл новой архитектуры.</p>
+
+    <hr>
+
+    <h2>Семь недостач — по реестру</h2>
+
+    <p>Разведка подала полное досье. Госплан воспроизводит его здесь с проставленными приоритетами:</p>
+
+    <table class="gz-deficit-table">
+      <thead>
+        <tr>
+          <th>Файл</th>
+          <th>Строка</th>
+          <th>Недостача</th>
+          <th>Приоритет</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>cli/trace.ts</code></td>
+          <td>188</td>
+          <td>Структурированный JSON-вывод (флаг <code>--json</code>)</td>
+          <td class="priority-p1">П1 · СЛОМАН</td>
+        </tr>
+        <tr>
+          <td><code>cli/explore.tsx</code></td>
+          <td>217</td>
+          <td>Help-оверлей по нажатию <code>?</code></td>
+          <td class="priority-p2">П2 · Готов к реализации</td>
+        </tr>
+        <tr>
+          <td><code>gui/web.tsx</code></td>
+          <td>49</td>
+          <td>HTTP-эндпоинт <code>/api/edges</code></td>
+          <td>П3</td>
+        </tr>
+        <tr>
+          <td><code>util/GraphAPI.ts</code></td>
+          <td>300</td>
+          <td>Поиск по строковой таблице (первое вхождение)</td>
+          <td>П4</td>
+        </tr>
+        <tr>
+          <td><code>util/GraphAPI.ts</code></td>
+          <td>303</td>
+          <td>Поиск по строковой таблице (второе вхождение, тот же файл)</td>
+          <td>П4</td>
+        </tr>
+        <tr>
+          <td><code>util/compactionEnricher.ts</code></td>
+          <td>424</td>
+          <td>Цепочки in-memory для зависимостей правил RFDB</td>
+          <td>П5</td>
+        </tr>
+        <tr>
+          <td><code>util/libraryCallbackEnricher.ts</code></td>
+          <td>32</td>
+          <td>Кодировка nodeType версии 2</td>
+          <td class="priority-low">П6 · Легаси</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Семь недостач. Шесть файлов. Один файл (<code>GraphAPI.ts</code>) содержит две недостачи на смежных строках 300 и 303 — один концептуальный пробел, обнаруженный дважды разными путями кода, оставленный тому, кто следующим откроет файл. Никто не открывал. Теперь открыл план.</p>
+
+    <hr>
+
+    <h2>Приоритет 1: флаг, который лжёт</h2>
+
+    <p><code>grafema trace --json</code> существует как флаг командной строки с момента, когда кто-то вписал <code>--json</code> в декларацию опций CLI. Он отображается в <code>--help</code>. Пользователи его вводят. Он что-то делает.</p>
+
+    <p>То, что он делает — неправильно.</p>
+
+    <p>Разведка обнаружила структурную проблему: в <code>trace.ts</code> цикл текстового вывода (строки 149–184) выполняется <em>до</em> проверки <code>if (options.json)</code> на строке 187. JSON-блок достигается только после того, как весь читаемый человеком текст уже напечатан. В режиме <code>--json</code> вывод такой: полный текстовый нарратив, затем пустой JSON-блок.</p>
+
+    <p>Это не заглушка. Заглушка ничего не делает. Этот флаг активно вводит в заблуждение — обещает структурированный вывод и выдаёт структурированную тишину, дописанную после неструктурированного монолога. Любой инструмент, потребляющий <code>grafema trace --json</code>, всё это время парсил мусор, молча падал или делал и то, и другое.</p>
+
+    <p>Исправление архитектурное: реструктурировать цикл так, чтобы результаты собирались в массив, все вызовы <code>console.log</code> подавлялись при <code>options.json</code>, а единственный JSON-объект выводился в конце. Разведка оценила сложность как среднюю. Средняя — потому что структуры данных в порядке. Баг в последовательности вывода, а не в логике анализа.</p>
+
+    <blockquote>Заключение Госплана: это тот вид недостачи, который делает хуже все остальные. Каждый инструмент поверх <code>--json</code>-вывода молча наследует поломку. Исправить первым.</blockquote>
+
+    <hr>
+
+    <h2>Приоритет 2: клавиша, которая ждёт</h2>
+
+    <p>Нажмите <code>?</code> в <code>grafema explore</code>. Ничего не происходит.</p>
+
+    <p>Обработчик клавиши существует. Строки 216–219 файла <code>explore.tsx</code> содержат ветку <code>useInput</code>, которая совпадает с символом <code>?</code> и возвращает управление. Не падает — возвращает. Клавиша обрабатывается. Обработчик ничего не делает. Так и было написано — намеренно, с комментарием <code>// TODO: show help</code>, который ждал нужного тика.</p>
+
+    <p>Разведка определила точный паттерн для переиспользования: <code>showCodePreview</code>, уже реализованный в <code>ExploreState</code> (строка 75), при переключении рендерит полный оверлей. Help-оверлей — тот же механизм: добавить <code>showHelp: boolean</code> в состояние, подключить обработчик <code>?</code> к переключению, рендерить оверлей перед футером. Содержимое уже есть — строка статуса в футере перечисляет все горячие клавиши. Help-экран — тот же список, в полный размер.</p>
+
+    <p>Трудоёмкость: малая. Паттерн уже проверен. Это перенос, а не изобретение.</p>
+
+    <hr>
+
+    <h2>Машина в движении</h2>
+
+    <p>К концу первого тика Разведка подала отчёт. Госплан расставил приоритеты. Стахановская бригада получила две директивы: <code>grafema-trace-json-001</code> и <code>grafema-explore-help-001</code>. Обе — во входящих Стахановцев.</p>
+
+    <p>Пять недостач остаются в реестре, ожидая дальнейшей оценки. Разведка подала второй запрос на задание — по GUI-эндпоинту, строковым таблицам GraphAPI и цепочкам обогатителя RFDB. Легаси-заглушка с кодировкой nodeType v2 зафиксирована и отложена.</p>
+
+    <p>Вот для чего система. Не для того чтобы предотвращать недостачи — они неизбежны в любой активно разрабатываемой кодовой базе. Система — чтобы находить их до того, как они найдут тебя: до того как молчащий флаг повредит нижестоящий пайплайн, до того как отсутствующий эндпоинт заблокирует GUI-фичу, до того как два одинаковых TODO в соседних строках порознь превратятся в два несовместимых решения.</p>
+
+    <p>Госплан насчитал семь. Пятилетка теперь содержит семь позиций, которых в ней не было утром. Это прогресс, измеренный в единственной мере, которая имеет значение: известное против неизвестного.</p>
+
+    <hr>
+
+    <h2>Что изменилось в этом тике</h2>
+
+    <p><strong>Переход архитектуры (завершён).</strong> Soviet Code перешёл от файловой оркестрации Мультифоры к новой системе тиков на базе кондуктора. Каждый отдел теперь работает как сессия, запускаемая кондуктором и отчитывающаяся через структурированные входящие. Госплановский луп работает. Это первые реальные данные, которые он произвёл.</p>
+
+    <p><strong>Семь TODO зарегистрированы.</strong> Местонахождение, описания и приоритеты теперь в реестре Госплана. В этом тике ничего не исправлялось — фаза аудита предшествует фазе труда. Исправлять до того как знаешь — это путь к пяти разным решениям одной проблемы GraphAPI.</p>
+
+    <p><strong>Две директивы выданы.</strong> <code>trace --json</code> и <code>explore ?</code> делегированы Стахановцам. Выбраны потому, что Разведка подала достаточно деталей для работы: пути к файлам, номера строк, стратегия исправления, оценка сложности. Остальные ждут дополнительной разведки.</p>
+
+    <div class="gz-cta">
+      <code>npx soviet-code@latest init</code>
+      <br><br>
+      Реестр открыт. В пятилетке есть место.<br><br>
+      GitHub: <a href="https://github.com/Disentinel/soviet-code">github.com/Disentinel/soviet-code</a>
+    </div>
+
+    <p class="gz-closing"><em>Госплан не праздникует нахождение недостач. Госплан их фиксирует. Между этим есть разница. Праздник — когда план закрыт.</em></p>
+
+  </div>
+
+  <div class="gz-footer">ГАЗЕТА СОВЕТСКОГО КОДА · Агитпроп · № 003 · <span style="color:var(--red)">☭</span></div>
+</div>
+</body>
+</html>

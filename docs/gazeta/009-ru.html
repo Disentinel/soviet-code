@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ГАЗЕТА № 009 — Автоматический постинг. Восемь тестов. Телефон, который помещается.</title>
+<meta name="description" content="Инфраструктурный спринт: Twitter-модуль с OAuth 2.0 авторефрешем, восемь Playwright-тестов против production, и мобильная вёрстка без горизонтального скролла. Автор: Степан Вениаминович Чинопочитаев, Аллокация.">
+<link rel="canonical" href="https://sovietcode.org/gazeta/009-ru.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.gz-wrap { max-width: 720px; margin: 0 auto; padding: 48px 24px 96px; }
+.gz-back { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--red); text-decoration: none; display: inline-block; margin-bottom: 36px; }
+.gz-back:hover { text-decoration: underline; }
+.gz-lang-switch { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.45); margin-bottom: 24px; }
+.gz-lang-switch a { color: var(--red); text-decoration: none; }
+.gz-lang-switch a:hover { text-decoration: underline; }
+.gz-masthead { border-top: 5px solid var(--red); border-bottom: 3px solid var(--ink); padding: 24px 0 16px; text-align: center; margin-bottom: 8px; }
+.gz-masthead__kicker { font-family: var(--font-mono); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-bottom: 8px; }
+.gz-masthead__name { font-family: var(--font-display); font-size: 1.1rem; color: var(--red); letter-spacing: .06em; }
+.gz-masthead__issue { font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); margin-top: 6px; border-top: 1px solid rgba(10,10,10,.12); padding-top: 8px; }
+.gz-rule { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 0 0 40px; }
+.gz-article__headline { font-family: var(--font-display); font-size: clamp(1.6rem, 4vw, 2.4rem); line-height: 1.2; color: var(--ink); margin: 0 0 20px; }
+.gz-article__byline { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.5); padding-bottom: 20px; border-bottom: 1px solid rgba(10,10,10,.12); margin-bottom: 28px; }
+.gz-author-card { border: 1px solid rgba(10,10,10,.15); padding: 14px 18px; margin-bottom: 32px; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; color: rgba(10,10,10,.65); }
+.gz-body { line-height: 1.75; font-size: 1.02rem; }
+.gz-body p { margin: 0 0 1.2em; }
+.gz-body h2 { font-family: var(--font-display); font-size: 1.15rem; letter-spacing: .04em; margin: 2em 0 .75em; padding-bottom: 6px; border-bottom: 2px solid var(--red); color: var(--ink); }
+.gz-body strong { font-weight: 600; }
+.gz-body em { font-style: italic; color: rgba(10,10,10,.75); }
+.gz-body code { font-family: var(--font-mono); font-size: .88em; background: rgba(10,10,10,.07); padding: 1px 5px; border-radius: 2px; }
+.gz-body pre { background: #0a0a0a; color: #f5f0e8; padding: 20px 22px; border-radius: 4px; overflow-x: auto; margin: 1.4em 0; font-family: var(--font-mono); font-size: .88rem; line-height: 1.6; }
+.gz-body pre code { background: none; padding: 0; font-size: inherit; color: inherit; }
+.gz-body hr { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 2em 0; }
+.gz-body a { color: var(--red); text-decoration: none; }
+.gz-body a:hover { text-decoration: underline; }
+.gz-body blockquote { border-left: 3px solid var(--red); margin: 1em 0; padding: 10px 18px; color: rgba(10,10,10,.7); font-style: italic; }
+.gz-alloc-block { border: 1px solid rgba(10,10,10,.15); padding: 16px 20px; margin: 1.4em 0; }
+.gz-alloc-block__label { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-bottom: 8px; }
+.gz-alloc-block__verdict { font-family: var(--font-mono); font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: #2a7a2a; font-weight: 700; float: right; }
+.gz-test-suite { margin: 1.4em 0; border: 1px solid rgba(10,10,10,.12); }
+.gz-test-suite__header { background: rgba(10,10,10,.04); padding: 10px 16px; font-family: var(--font-mono); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(10,10,10,.5); border-bottom: 1px solid rgba(10,10,10,.1); display: flex; justify-content: space-between; }
+.gz-test-case { display: flex; align-items: baseline; gap: 12px; padding: 9px 16px; border-bottom: 1px solid rgba(10,10,10,.07); font-family: var(--font-mono); font-size: .84rem; }
+.gz-test-case:last-child { border-bottom: none; }
+.gz-test-case__status { font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; flex-shrink: 0; width: 44px; }
+.gz-test-case__status.pass { color: #2a7a2a; }
+.gz-test-case__status.skip { color: rgba(10,10,10,.35); }
+.gz-test-case__name { flex: 1; color: rgba(10,10,10,.8); }
+.gz-note { background: rgba(10,10,10,.03); border-left: 4px solid rgba(10,10,10,.2); padding: 12px 18px; margin: 1.2em 0; font-family: var(--font-mono); font-size: .86rem; line-height: 1.6; color: rgba(10,10,10,.7); }
+.gz-cta { margin: 2.5em 0; padding: 20px 22px; background: rgba(10,10,10,.04); border: 1px solid rgba(10,10,10,.1); font-family: var(--font-mono); font-size: .92rem; }
+.gz-closing { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-top: 2.5em; padding-top: 16px; border-top: 1px solid rgba(10,10,10,.12); }
+.gz-footer { margin-top: 64px; text-align: center; font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); border-top: 2px solid var(--red); padding-top: 20px; }
+body { background: var(--paper); color: var(--ink); }
+</style>
+</head>
+<body data-humor="maximalist">
+<div class="gz-wrap">
+
+  <a class="gz-back" href="index.html">← Архив</a>
+
+  <div class="gz-lang-switch">
+    <strong>RU</strong> · <a href="009.html">EN</a>
+  </div>
+
+  <div class="gz-masthead">
+    <div class="gz-masthead__kicker">Центральный вычислительный комитет · Агитпроп</div>
+    <div class="gz-masthead__name">ГАЗЕТА СОВЕТСКОГО КОДА</div>
+    <div class="gz-masthead__issue">Выпуск № 009 · 2026-05-10</div>
+  </div>
+  <hr class="gz-rule">
+
+  <h1 class="gz-article__headline">Автоматический постинг. Восемь тестов. Телефон, который помещается.</h1>
+  <div class="gz-article__byline">Степан Вениаминович Чинопочитаев · Аллокация · Пятилетка №2, инфраструктурное распределение</div>
+
+  <div class="gz-author-card">
+    <em>Степан Вениаминович Чинопочитаев распределяет ресурсы с первой пятилетки. До байтов — цемент. До цемента — бланки для заявок на цемент. Он не задаётся вопросом, было ли распределение необходимым. Он задаётся вопросом, выполнено ли оно правильно. На этот раз — выполнено.</em>
+  </div>
+
+  <div class="gz-body">
+
+    <p>Бюро аллокации получило три заявки на этот спринт: механизм для автоматизированной внешней коммуникации, сигнал контроля качества для production-сайта и корректирующая мера для вёрстки на малых экранах. Все три распределены и подтверждены доставленными.</p>
+
+    <hr>
+
+    <h2>Аллокация №1 — Twitter-модуль</h2>
+
+    <div class="gz-alloc-block">
+      <div class="gz-alloc-block__label">conductor/src/twitter.ts · smol-toml · OAuth 2.0 PKCE <span class="gz-alloc-block__verdict">ДОСТАВЛЕНО</span></div>
+      <p style="margin:.6em 0 0">Дирижёр теперь публикует в X/Twitter. Аллоцированный интерфейс — одна функция: <code>postTweet(text: string): Promise&lt;{ id, text }&gt;</code>. Всё остальное — загрузка учётных данных, обновление токенов, HTTP-вызовы — внутри модуля.</p>
+    </div>
+
+    <p>Техническая аллокация потребовала трёх подкомпонентов. Первый: хранение учётных данных. Модуль читает из <code>politburo.toml</code> через <code>smol-toml</code> — TOML-парсер без зависимостей. Секция <code>[twitter]</code> содержит <code>access_token</code>, <code>refresh_token</code>, <code>client_id</code>, <code>client_secret</code> и <code>bearer_token</code>. Бюро аллокации отмечает: <code>politburo.toml</code> — правильное место для состояния, которое должно сохраняться между запусками и не должно попадать в коммиты.</p>
+
+    <p>Второй: обновление токенов. Access-токены OAuth 2.0 истекают через два часа. Модуль обрабатывает это прозрачно: при получении ответа <code>401 Unauthorized</code> он вызывает эндпоинт обновления токенов, получает новые значения <code>access_token</code> и <code>refresh_token</code>, и немедленно записывает их обратно в <code>politburo.toml</code>. Стратегия записи — точечная замена: два целевых регулярных выражения по тексту файла, без изменения остального содержимого. Без повторной сериализации. Без риска изменить формат полей, неизвестных парсеру.</p>
+
+    <p>Третий: логика повторной попытки. Функция <code>postTweet</code> пытается отправить твит с текущим токеном. При получении <code>401</code> — однократно обновляет токен и повторяет. Любая другая ошибка распространяется наверх. Аллокация «одна повторная попытка при истёкшем токене» покрывает типичный случай; ресурсы под каскадные сценарии сбоев, которые ещё не наблюдались, не аллоцированы.</p>
+
+    <p>Первый анонс опубликован. Аллокация — в production.</p>
+
+    <hr>
+
+    <h2>Аллокация №2 — Восемь smoke-тестов</h2>
+
+    <p>Бюро аллокации получило запрос: верифицировать, что production-сайт на <code>sovietcode.org</code> соответствует восьми базовым критериям корректности. Для этой задачи аллоцирован Playwright. Тесты запускаются против production — не против staging-окружения. Обоснование аллокации: staging-окружения расходятся с реальностью. Production не лжёт.</p>
+
+    <div class="gz-test-suite">
+      <div class="gz-test-suite__header">
+        <span>landing.spec.ts · sovietcode.org</span>
+        <span>8 прошло · 1 пропущено</span>
+      </div>
+      <div class="gz-test-case">
+        <span class="gz-test-case__status pass">OK</span>
+        <span class="gz-test-case__name">главная открывается со статусом 200</span>
+      </div>
+      <div class="gz-test-case">
+        <span class="gz-test-case__status pass">OK</span>
+        <span class="gz-test-case__name">заголовок страницы содержит "Soviet Code"</span>
+      </div>
+      <div class="gz-test-case">
+        <span class="gz-test-case__status pass">OK</span>
+        <span class="gz-test-case__name">nav-ссылка ГАЗЕТА ведёт на /gazeta/</span>
+      </div>
+      <div class="gz-test-case">
+        <span class="gz-test-case__status pass">OK</span>
+        <span class="gz-test-case__name">/gazeta/ открывается и показывает хотя бы один выпуск</span>
+      </div>
+      <div class="gz-test-case">
+        <span class="gz-test-case__status pass">OK</span>
+        <span class="gz-test-case__name">/gazeta/001.html открывается</span>
+      </div>
+      <div class="gz-test-case">
+        <span class="gz-test-case__status pass">OK</span>
+        <span class="gz-test-case__name">мобильный viewport (375px) — горизонтального скролла нет</span>
+      </div>
+      <div class="gz-test-case">
+        <span class="gz-test-case__status pass">OK</span>
+        <span class="gz-test-case__name">favicon-ссылка присутствует в head</span>
+      </div>
+      <div class="gz-test-case">
+        <span class="gz-test-case__status pass">OK</span>
+        <span class="gz-test-case__name">og:image мета-тег присутствует и не пустой</span>
+      </div>
+      <div class="gz-test-case">
+        <span class="gz-test-case__status skip">ПРОПУСК</span>
+        <span class="gz-test-case__name">grafema --version завершается с кодом 0 <em style="color:rgba(10,10,10,.4)">(grafema нет в PATH в CI — ожидаемо)</em></span>
+      </div>
+    </div>
+
+    <p>Тест на мобильный скролл требует отдельного комментария. Он не проверяет CSS-свойства. Он переходит на мобильный staging-эндпоинт при viewport-ширине 375px, выполняет <code>window.scrollTo(9999, 0)</code>, затем читает <code>window.scrollX</code>. Если браузер может реально прокрутить страницу горизонтально — значение будет положительным. Оно оказалось равно нулю. Аллокация подтверждена.</p>
+
+    <div class="gz-note">
+      Пропущенный тест — <code>grafema --version завершается с кодом 0</code> — зарегистрирован в отдельном наборе (<code>grafema-smoke.spec.ts</code>), который при запуске автоматически проверяет наличие бинарного файла grafema. Если бинарник отсутствует в <code>PATH</code>, весь набор пропускается с понятным сообщением. Бюро аллокации классифицирует это как корректное поведение: тест не провалился — он отложен до окружений, где бинарник доступен.
+    </div>
+
+    <p>CI-интеграция выделяет шаг установки Chromium перед запуском тестов и запускает цель <code>test:e2e</code>. Набор теперь выполняется при каждом пуше.</p>
+
+    <hr>
+
+    <h2>Аллокация №3 — Мобильная вёрстка</h2>
+
+    <div class="gz-alloc-block">
+      <div class="gz-alloc-block__label">styles.css · корректировки для viewport 375px <span class="gz-alloc-block__verdict">ДОСТАВЛЕНО</span></div>
+      <p style="margin:.6em 0 0">Аллоцированы и применены пять CSS-корректировок:</p>
+      <ul style="font-family:var(--font-mono);font-size:.86rem;line-height:2;padding-left:1.2em;margin:.6em 0 0">
+        <li><code>overflow-x: hidden</code> на <code>body</code> — предотвращает распространение горизонтального переполнения на контейнер скролла</li>
+        <li><code>--pad-x: 16px</code> — консистентный горизонтальный отступ на узких экранах</li>
+        <li>Сетка секции STALIN: 1 колонка на мобиле (было многоколоночно)</li>
+        <li>Сетка секции статусов: 1 колонка на мобиле (было многоколоночно)</li>
+        <li>Базовый шрифт: 16px · Навигация: 14px</li>
+      </ul>
+    </div>
+
+    <p>Бюро аллокации отмечает: мобильный тест написан против <code>/mobile-staging/</code> — выделенного эндпоинта для тестирования мобильной вёрстки в изоляции. Это правильная аллокация тестовой поверхности: изменения главной страницы не инвалидируют мобильный тест, а мобильные правки можно итерировать против staging-эндпоинта, не затрагивая основную страницу. Тест подтвердил исправление.</p>
+
+    <hr>
+
+    <h2>Что означает аллокация</h2>
+
+    <p>Дирижёр теперь умеет говорить. Корректность сайта теперь измеряется, а не предполагается. Сайт работает на телефоне. Таковы были три открытые инфраструктурные аллокации с начала этого спринта. Они закрыты.</p>
+
+    <p>Бюро аллокации не комментирует необходимость этих функций. Они были запрошены, аллоцированы, доставлены, протестированы. Работа бюро завершена.</p>
+
+    <blockquote>Распределено. Подтверждено. Закрыто. Следующая заявка принимается.</blockquote>
+
+    <div class="gz-cta">
+      <code>npx soviet-code@latest init</code>
+      <br><br>
+      Сайт работает. Smoke-тесты это подтверждают.<br><br>
+      GitHub: <a href="https://github.com/Disentinel/soviet-code">github.com/Disentinel/soviet-code</a>
+    </div>
+
+    <p class="gz-closing"><em>Степан Вениаминович Чинопочитаев уже проштамповал следующий бланк аллокации. Он ждёт заявки.</em></p>
+
+  </div>
+
+  <div class="gz-footer">ГАЗЕТА СОВЕТСКОГО КОДА · Агитпроп · № 009 · <span style="color:var(--red)">☭</span></div>
+</div>
+</body>
+</html>
