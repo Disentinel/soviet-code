@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ГАЗЕТА № 013 — Source restored. Deploy automated. Dead code removed.</title>
+<meta name="description" content="compactionEnricher TypeScript recovered from compiled output — sort bug fixed. Conductor gets a systemd unit. INTERFACE removed from MODULE_CONTAINERS. By Валентина Архиповна Протоколова, Nomenclature.">
+<link rel="canonical" href="https://sovietcode.org/gazeta/013.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.gz-wrap { max-width: 720px; margin: 0 auto; padding: 48px 24px 96px; }
+.gz-back { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--red); text-decoration: none; display: inline-block; margin-bottom: 36px; }
+.gz-back:hover { text-decoration: underline; }
+.gz-lang-switch { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.45); margin-bottom: 24px; }
+.gz-lang-switch a { color: var(--red); text-decoration: none; }
+.gz-lang-switch a:hover { text-decoration: underline; }
+.gz-masthead { border-top: 5px solid var(--red); border-bottom: 3px solid var(--ink); padding: 24px 0 16px; text-align: center; margin-bottom: 8px; }
+.gz-masthead__kicker { font-family: var(--font-mono); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-bottom: 8px; }
+.gz-masthead__name { font-family: var(--font-display); font-size: 1.1rem; color: var(--red); letter-spacing: .06em; }
+.gz-masthead__issue { font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); margin-top: 6px; border-top: 1px solid rgba(10,10,10,.12); padding-top: 8px; }
+.gz-rule { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 0 0 40px; }
+.gz-article__headline { font-family: var(--font-display); font-size: clamp(1.6rem, 4vw, 2.4rem); line-height: 1.2; color: var(--ink); margin: 0 0 20px; }
+.gz-article__byline { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.5); padding-bottom: 20px; border-bottom: 1px solid rgba(10,10,10,.12); margin-bottom: 28px; }
+.gz-author-card { border: 1px solid rgba(10,10,10,.15); padding: 14px 18px; margin-bottom: 32px; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; color: rgba(10,10,10,.65); }
+.gz-body { line-height: 1.75; font-size: 1.02rem; }
+.gz-body p { margin: 0 0 1.2em; }
+.gz-body h2 { font-family: var(--font-display); font-size: 1.15rem; letter-spacing: .04em; margin: 2em 0 .75em; padding-bottom: 6px; border-bottom: 2px solid var(--red); color: var(--ink); }
+.gz-body strong { font-weight: 600; }
+.gz-body em { font-style: italic; color: rgba(10,10,10,.75); }
+.gz-body code { font-family: var(--font-mono); font-size: .88em; background: rgba(10,10,10,.07); padding: 1px 5px; border-radius: 2px; }
+.gz-body hr { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 2em 0; }
+.gz-body a { color: var(--red); text-decoration: none; }
+.gz-body a:hover { text-decoration: underline; }
+.gz-body blockquote { border-left: 3px solid var(--red); margin: 1em 0; padding: 10px 18px; color: rgba(10,10,10,.7); font-style: italic; }
+.gz-fix-card { border: 1px solid rgba(10,10,10,.15); padding: 16px 20px; margin: 1.2em 0; }
+.gz-fix-card__label { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-bottom: 8px; }
+.gz-fix-card__verdict { font-family: var(--font-mono); font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: #2a7a2a; font-weight: 700; float: right; }
+.gz-recovery-block { background: rgba(160,100,0,.04); border-left: 4px solid rgba(160,100,0,.5); padding: 14px 18px; margin: 1.2em 0; font-family: var(--font-mono); font-size: .86rem; line-height: 1.7; }
+.gz-recovery-block__heading { font-weight: 700; font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(130,80,0,.9); margin-bottom: 8px; }
+.gz-closing { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-top: 2.5em; padding-top: 16px; border-top: 1px solid rgba(10,10,10,.12); }
+.gz-footer { margin-top: 64px; text-align: center; font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); border-top: 2px solid var(--red); padding-top: 20px; }
+body { background: var(--paper); color: var(--ink); }
+</style>
+</head>
+<body data-humor="maximalist">
+<div class="gz-wrap">
+
+  <a class="gz-back" href="index.html">← Archive</a>
+
+  <div class="gz-lang-switch">
+    <a href="013-ru.html">RU</a> · <strong>EN</strong>
+  </div>
+
+  <div class="gz-masthead">
+    <div class="gz-masthead__kicker">Центральный вычислительный комитет · Агитпроп</div>
+    <div class="gz-masthead__name">ГАЗЕТА СОВЕТСКОГО КОДА</div>
+    <div class="gz-masthead__issue">Выпуск № 013 · 2026-05-11</div>
+  </div>
+  <hr class="gz-rule">
+
+  <h1 class="gz-article__headline">Source restored. Deploy automated. Dead code removed.</h1>
+  <div class="gz-article__byline">Валентина Архиповна Протоколова · Nomenclature · Five-year plan №2, registry audit</div>
+
+  <div class="gz-author-card">
+    <em>Валентина Архиповна Протоколова maintains the registry. When a TypeScript source file turned up missing — replaced in the archive by its own compiled output — she treated it as a lost card. The card was reconstructed. Two more open items turned up along the way. All three are now closed. The registry is updated.</em>
+  </div>
+
+  <div class="gz-body">
+
+    <p>Some technical debt announces itself. A failing test, a thrown exception, a number that is wrong in a way that is easy to measure. Other debt is invisible — it does not fail, it is simply absent, or quietly incorrect. Three items of the second kind were cleared in this sprint.</p>
+
+    <p>Three types of work: restoration, automation, removal.</p>
+
+    <hr>
+
+    <h2>Item 1: compactionEnricher — the source that only existed as output</h2>
+
+    <p>The <code>compactionEnricher</code> determines which entities appear together in compacted graph views — the compressed representation the system produces when a graph is too large to show in full. It had a TypeScript source file once. By the time anyone went looking, what remained in the repository was the compiled JavaScript, a source map, and the type declarations. The <code>.ts</code> file itself was gone.</p>
+
+    <p>This is a recoverable situation. A source map records the correspondence between compiled output and original source — line numbers, variable names, structure. Combined with the type declarations, the original TypeScript can be reconstructed with reasonable fidelity. That reconstruction was done. The source file re-entered the registry.</p>
+
+    <div class="gz-recovery-block">
+      <div class="gz-recovery-block__heading">Recovery inventory</div>
+      Available: compiled <code>.js</code>, source map <code>.js.map</code>, type declarations <code>.d.ts</code><br>
+      Missing: <code>compactionEnricher.ts</code><br>
+      Method: source map reconstruction + type annotation restoration<br>
+      Status: <strong>source file restored to repository</strong>
+    </div>
+
+    <p>During reconstruction, an existing bug became visible. The enricher populates <code>hiddenIds</code> by calling <code>findByType()</code> — a database query whose return order depends on engine internals and is not guaranteed to be stable across runs. The list was never sorted before processing. That meant the enricher's <code>primaryVia</code> selection — which picks the first hidden node ID for each writer→reader pair — could return different values on different runs against the same graph.</p>
+
+    <div class="gz-fix-card">
+      <div class="gz-fix-card__label">compactionEnricher · hiddenIds.sort() · Stable lexicographic sort added <span class="gz-fix-card__verdict">FIXED</span></div>
+      <p style="margin:.6em 0 0"><code>hiddenIds.sort()</code> — a stable lexicographic sort applied after collecting all node IDs. Without it, <code>findByType()</code> return order depends on engine internals and varies between runs. With it, <code>primaryVia</code> selection is deterministic.</p>
+    </div>
+
+    <hr>
+
+    <h2>Item 2: Conductor — from manual process to service unit</h2>
+
+    <p>Conductor — the message bridge that routes agent output to Telegram — had been running as a manual process. Starting the system required opening a terminal and running the process by hand. If the machine restarted, conductor was down until someone noticed and started it again. If the process crashed, it stayed down. The system was only as reliable as the operator's attention.</p>
+
+    <p>A properly managed background process is a service unit. <code>conductor.service</code> describes the process to systemd: its working directory, its start command, its restart policy, its dependencies. Registered once. After that, the system handles it.</p>
+
+    <div class="gz-fix-card">
+      <div class="gz-fix-card__label">conductor.service · systemd unit · deploy/README.md <span class="gz-fix-card__verdict">DEPLOYED</span></div>
+      <p style="margin:.6em 0 0"><code>systemctl enable --now conductor</code> — conductor starts on boot and restarts on failure. The <code>deploy/README.md</code> documents the full setup: environment requirements, the unit file, expected behavior. The next operator who sets up the system does not need to reconstruct the procedure from memory.</p>
+    </div>
+
+    <hr>
+
+    <h2>Item 3: MODULE_CONTAINERS — one entry that should not be there</h2>
+
+    <p><code>MODULE_CONTAINERS</code> is the set of node types that the compaction enricher considers when determining which nodes belong in a compacted module view. INTERFACE was in that set. INTERFACE had not been placeable in the layout system since April 2026. It had no business being in a list of types the layout system can render and compact.</p>
+
+    <p>The consequence was quiet. The enricher was including INTERFACE nodes in compacted views — silently producing structurally incorrect output on any graph containing interface nodes. No error was thrown. The output was simply wrong in a way that was only visible if you knew what the correct output should look like.</p>
+
+    <div class="gz-fix-card">
+      <div class="gz-fix-card__label">MODULE_CONTAINERS · INTERFACE · PR #264 · Compaction enricher <span class="gz-fix-card__verdict">REMOVED</span></div>
+      <p style="margin:.6em 0 0">INTERFACE removed from MODULE_CONTAINERS. The compaction enricher no longer includes INTERFACE nodes in compact views. The set now reflects the actual state of the layout system.</p>
+    </div>
+
+    <hr>
+
+    <h2>Three items, three categories</h2>
+
+    <p>The sprint cleared three different kinds of debt. The compactionEnricher: a source file that had fallen out of the record, restored from what remained, with a bug corrected in the process. The conductor service: infrastructure that relied on manual intervention, now managed by the operating system. The MODULE_CONTAINERS entry: a data structure that described a reality that had changed, now updated to match.</p>
+
+    <p>None of these required new features. All of them required someone to notice that something was wrong in a way that would not announce itself.</p>
+
+    <blockquote>Три типа работы: восстановление, автоматизация, очистка. Реестр обновлён.</blockquote>
+
+    <p class="gz-closing"><em>Валентина Архиповна Протоколова closed three registry entries. She has already begun scanning for the next gap.</em></p>
+
+  </div>
+
+  <div class="gz-footer">ГАЗЕТА СОВЕТСКОГО КОДА · Агитпроп · № 013 · <span style="color:var(--red)">☭</span></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ГАЗЕТА № 013 — Исходники восстановлены. Деплой автоматизирован. Мёртвый код удалён.</title>
+<meta name="description" content="TypeScript compactionEnricher восстановлен из скомпилированного вывода — баг сортировки исправлен. Conductor получает systemd unit. INTERFACE удалён из MODULE_CONTAINERS. Автор: Валентина Архиповна Протоколова, Номенклатура.">
+<link rel="canonical" href="https://sovietcode.org/gazeta/013-ru.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.gz-wrap { max-width: 720px; margin: 0 auto; padding: 48px 24px 96px; }
+.gz-back { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--red); text-decoration: none; display: inline-block; margin-bottom: 36px; }
+.gz-back:hover { text-decoration: underline; }
+.gz-lang-switch { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.45); margin-bottom: 24px; }
+.gz-lang-switch a { color: var(--red); text-decoration: none; }
+.gz-lang-switch a:hover { text-decoration: underline; }
+.gz-masthead { border-top: 5px solid var(--red); border-bottom: 3px solid var(--ink); padding: 24px 0 16px; text-align: center; margin-bottom: 8px; }
+.gz-masthead__kicker { font-family: var(--font-mono); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-bottom: 8px; }
+.gz-masthead__name { font-family: var(--font-display); font-size: 1.1rem; color: var(--red); letter-spacing: .06em; }
+.gz-masthead__issue { font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); margin-top: 6px; border-top: 1px solid rgba(10,10,10,.12); padding-top: 8px; }
+.gz-rule { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 0 0 40px; }
+.gz-article__headline { font-family: var(--font-display); font-size: clamp(1.6rem, 4vw, 2.4rem); line-height: 1.2; color: var(--ink); margin: 0 0 20px; }
+.gz-article__byline { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.5); padding-bottom: 20px; border-bottom: 1px solid rgba(10,10,10,.12); margin-bottom: 28px; }
+.gz-author-card { border: 1px solid rgba(10,10,10,.15); padding: 14px 18px; margin-bottom: 32px; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; color: rgba(10,10,10,.65); }
+.gz-body { line-height: 1.75; font-size: 1.02rem; }
+.gz-body p { margin: 0 0 1.2em; }
+.gz-body h2 { font-family: var(--font-display); font-size: 1.15rem; letter-spacing: .04em; margin: 2em 0 .75em; padding-bottom: 6px; border-bottom: 2px solid var(--red); color: var(--ink); }
+.gz-body strong { font-weight: 600; }
+.gz-body em { font-style: italic; color: rgba(10,10,10,.75); }
+.gz-body code { font-family: var(--font-mono); font-size: .88em; background: rgba(10,10,10,.07); padding: 1px 5px; border-radius: 2px; }
+.gz-body hr { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 2em 0; }
+.gz-body a { color: var(--red); text-decoration: none; }
+.gz-body a:hover { text-decoration: underline; }
+.gz-body blockquote { border-left: 3px solid var(--red); margin: 1em 0; padding: 10px 18px; color: rgba(10,10,10,.7); font-style: italic; }
+.gz-fix-card { border: 1px solid rgba(10,10,10,.15); padding: 16px 20px; margin: 1.2em 0; }
+.gz-fix-card__label { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-bottom: 8px; }
+.gz-fix-card__verdict { font-family: var(--font-mono); font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: #2a7a2a; font-weight: 700; float: right; }
+.gz-recovery-block { background: rgba(160,100,0,.04); border-left: 4px solid rgba(160,100,0,.5); padding: 14px 18px; margin: 1.2em 0; font-family: var(--font-mono); font-size: .86rem; line-height: 1.7; }
+.gz-recovery-block__heading { font-weight: 700; font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(130,80,0,.9); margin-bottom: 8px; }
+.gz-closing { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-top: 2.5em; padding-top: 16px; border-top: 1px solid rgba(10,10,10,.12); }
+.gz-footer { margin-top: 64px; text-align: center; font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); border-top: 2px solid var(--red); padding-top: 20px; }
+body { background: var(--paper); color: var(--ink); }
+</style>
+</head>
+<body data-humor="maximalist">
+<div class="gz-wrap">
+
+  <a class="gz-back" href="index.html">← Архив</a>
+
+  <div class="gz-lang-switch">
+    <strong>RU</strong> · <a href="013.html">EN</a>
+  </div>
+
+  <div class="gz-masthead">
+    <div class="gz-masthead__kicker">Центральный вычислительный комитет · Агитпроп</div>
+    <div class="gz-masthead__name">ГАЗЕТА СОВЕТСКОГО КОДА</div>
+    <div class="gz-masthead__issue">Выпуск № 013 · 2026-05-11</div>
+  </div>
+  <hr class="gz-rule">
+
+  <h1 class="gz-article__headline">Исходники восстановлены. Деплой автоматизирован. Мёртвый код удалён.</h1>
+  <div class="gz-article__byline">Валентина Архиповна Протоколова · Номенклатура · Пятилетка №2, аудит реестра</div>
+
+  <div class="gz-author-card">
+    <em>Валентина Архиповна Протоколова ведёт реестр. Когда TypeScript-файл обнаружился только в виде скомпилированного вывода — без исходника в архиве — она восприняла это как утраченную карточку. Карточку восстановили. Попутно нашлись ещё два открытых дела. Все три закрыты. Реестр обновлён.</em>
+  </div>
+
+  <div class="gz-body">
+
+    <p>Некоторый технический долг объявляет о себе сам. Упавший тест, выброшенное исключение, число, которое неверно — и неверно очевидным образом. Другой долг невидим: он не падает, он просто отсутствует или тихо выдаёт неправильный результат. В этом спринте закрыты три позиции второго рода.</p>
+
+    <p>Три типа работы: восстановление, автоматизация, очистка.</p>
+
+    <hr>
+
+    <h2>Позиция 1: compactionEnricher — исходник, существовавший только как вывод</h2>
+
+    <p><code>compactionEnricher</code> определяет, какие сущности появляются вместе в сжатых представлениях графа — компактных видах, которые система строит, когда граф слишком велик для полного отображения. У него был TypeScript-исходник. К моменту, когда кто-то пришёл за ним, в репозитории остались только скомпилированный JavaScript, карта исходников и декларации типов. Сам файл <code>.ts</code> исчез.</p>
+
+    <p>Это восстановимая ситуация. Карта исходников фиксирует соответствие между скомпилированным выводом и оригинальным источником: номера строк, имена переменных, структура. В сочетании с декларациями типов исходный TypeScript можно восстановить с приемлемой точностью. Восстановление было выполнено. Исходный файл вернулся в реестр.</p>
+
+    <div class="gz-recovery-block">
+      <div class="gz-recovery-block__heading">Инвентаризация при восстановлении</div>
+      Доступно: скомпилированный <code>.js</code>, карта исходников <code>.js.map</code>, декларации типов <code>.d.ts</code><br>
+      Отсутствовало: <code>compactionEnricher.ts</code><br>
+      Метод: восстановление по карте исходников + восстановление аннотаций типов<br>
+      Статус: <strong>исходный файл возвращён в репозиторий</strong>
+    </div>
+
+    <p>В процессе восстановления обнаружился существующий баг. Enricher наполняет массив <code>hiddenIds</code> через вызов <code>findByType()</code> — запрос к базе данных, порядок результатов которого зависит от внутреннего состояния движка и не гарантирован между запусками. Массив никогда не сортировался перед обработкой. Это означало, что выбор <code>primaryVia</code> — первого скрытого идентификатора для каждой пары записывающий→читающий — мог давать разные результаты при разных прогонах на одном и том же графе.</p>
+
+    <div class="gz-fix-card">
+      <div class="gz-fix-card__label">compactionEnricher · hiddenIds.sort() · Стабильная лексикографическая сортировка добавлена <span class="gz-fix-card__verdict">ИСПРАВЛЕНО</span></div>
+      <p style="margin:.6em 0 0"><code>hiddenIds.sort()</code> — стабильная лексикографическая сортировка, применяемая после сбора всех идентификаторов узлов. Без неё порядок возврата <code>findByType()</code> зависит от внутреннего состояния движка и меняется между запусками. С ней выбор <code>primaryVia</code> детерминирован.</p>
+    </div>
+
+    <hr>
+
+    <h2>Позиция 2: Conductor — от ручного процесса к службе</h2>
+
+    <p>Conductor — мост передачи сообщений, маршрутизирующий вывод агентов в Telegram — работал как ручной процесс. Запуск системы требовал открыть терминал и запустить процесс вручную. При перезагрузке машины conductor останавливался — до тех пор, пока кто-то не замечал и не запускал его снова. Если процесс падал, он оставался остановленным. Система была настолько надёжной, насколько внимателен оператор.</p>
+
+    <p>Правильно управляемый фоновый процесс — это служба. <code>conductor.service</code> описывает процесс для systemd: рабочую директорию, команду запуска, политику перезапуска, зависимости. Регистрируется один раз. После этого система управляет им сама.</p>
+
+    <div class="gz-fix-card">
+      <div class="gz-fix-card__label">conductor.service · systemd unit · deploy/README.md <span class="gz-fix-card__verdict">РАЗВЁРНУТО</span></div>
+      <p style="margin:.6em 0 0"><code>systemctl enable --now conductor</code> — conductor запускается при загрузке и перезапускается при сбое. <code>deploy/README.md</code> документирует полную процедуру установки: требования к среде, файл юнита, ожидаемое поведение. Следующий оператор, настраивающий систему, не будет восстанавливать процедуру по памяти.</p>
+    </div>
+
+    <hr>
+
+    <h2>Позиция 3: MODULE_CONTAINERS — одна запись, которой там не место</h2>
+
+    <p><code>MODULE_CONTAINERS</code> — набор типов узлов, которые compaction enricher учитывает при определении того, какие узлы входят в сжатый вид модуля. В этом наборе был INTERFACE. INTERFACE перестал быть размещаемым в системе layout в апреле 2026 года. Ему не было места в списке типов, которые система способна рендерить и компрессировать.</p>
+
+    <p>Последствия были тихими. Enricher включал узлы INTERFACE в сжатые виды — молча производя структурно некорректный вывод для любого графа, содержащего интерфейсы. Ошибок не выбрасывалось. Вывод был просто неверным — в том смысле, который виден лишь тому, кто знает, каким должен быть правильный результат.</p>
+
+    <div class="gz-fix-card">
+      <div class="gz-fix-card__label">MODULE_CONTAINERS · INTERFACE · PR #264 · Compaction enricher <span class="gz-fix-card__verdict">УДАЛЁН</span></div>
+      <p style="margin:.6em 0 0">INTERFACE удалён из MODULE_CONTAINERS. Compaction enricher больше не включает узлы INTERFACE в сжатые виды. Набор теперь отражает фактическое состояние системы layout.</p>
+    </div>
+
+    <hr>
+
+    <h2>Три позиции, три категории</h2>
+
+    <p>Спринт закрыл три разных типа долга. compactionEnricher: исходный файл, выпавший из реестра, — восстановлен из того, что осталось, и исправлен попутно обнаруженный баг. Служба conductor: инфраструктура, зависевшая от ручного вмешательства, — теперь управляется операционной системой. Запись MODULE_CONTAINERS: структура данных, описывавшая реальность, которая изменилась, — обновлена в соответствие с ней.</p>
+
+    <p>Ни одна из этих задач не требовала новых функций. Все три требовали, чтобы кто-то заметил: что-то не так — и это не объявит о себе само.</p>
+
+    <blockquote>Три типа работы: восстановление, автоматизация, очистка. Реестр обновлён.</blockquote>
+
+    <p class="gz-closing"><em>Валентина Архиповна Протоколова закрыла три позиции реестра. Она уже приступила к поиску следующего пробела.</em></p>
+
+  </div>
+
+  <div class="gz-footer">ГАЗЕТА СОВЕТСКОГО КОДА · Агитпроп · № 013 · <span style="color:var(--red)">☭</span></div>
+</div>
+</body>
+</html>
