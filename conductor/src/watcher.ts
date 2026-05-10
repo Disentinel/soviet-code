@@ -102,6 +102,38 @@ function gensekHeartbeat(): void {
   dispatch(gensek, true);
 }
 
+const KOMISSAR_INTERVAL_MS = 12 * 60 * 60 * 1000; // 12 hours
+const KOMISSAR_CHECK_MS = 30 * 60 * 1000; // check every 30 min if it's time
+
+function komissarHeartbeat(): void {
+  if (config_broken) return;
+  const komissar = knownDepts.find((d) => d.name === "komissar");
+  if (!komissar || isActive("komissar")) return;
+
+  // Check last reflection timestamp from processed files
+  const processedPath = resolve(process.cwd(), "depts/komissar/processed");
+  let lastReflectionMs = 0;
+  try {
+    const files = readdirSync(processedPath).filter((f) => f.startsWith("komissar-"));
+    for (const f of files) {
+      const fPath = resolve(processedPath, f);
+      const mtime = require("node:fs").statSync(fPath).mtimeMs;
+      if (mtime > lastReflectionMs) lastReflectionMs = mtime;
+    }
+  } catch { /* no processed dir yet */ }
+
+  const elapsed = Date.now() - lastReflectionMs;
+  if (elapsed < KOMISSAR_INTERVAL_MS) return; // too soon since last reflection
+
+  bus.emit("log", {
+    ts: new Date().toISOString(),
+    dept: "komissar",
+    event: "heartbeat",
+    detail: `reflection due (${Math.round(elapsed / 3600000)}h since last)`,
+  });
+  dispatch(komissar, true);
+}
+
 export function watchDepartments(depts: Department[]): void {
   knownDepts = depts;
   for (const dept of depts) {
@@ -109,6 +141,7 @@ export function watchDepartments(depts: Department[]): void {
   }
   setInterval(fullInboxScan, SCAN_INTERVAL_MS);
   setInterval(gensekHeartbeat, CEO_HEARTBEAT_MS);
+  setInterval(komissarHeartbeat, KOMISSAR_CHECK_MS);
 }
 
 export function watchConfig(onReload: (depts: Department[]) => void): void {

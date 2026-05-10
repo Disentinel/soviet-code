@@ -17,6 +17,7 @@ departments:
     outbox: depts/gensek/outbox/
     description: Генеральный Секретарь — координация, делегирование, эскалация
     model: sonnet
+    heartbeat_model: haiku
     allowed_tools:
       - Read
       - Write
@@ -28,6 +29,7 @@ departments:
       - mcp__claude_ai_Enox__*
     extra_dirs:
       - ~/grafema
+      - ~/grafema-cloud
       - ~/kami
       - ~/enox
   razvedka:
@@ -47,6 +49,7 @@ departments:
       - mcp__claude_ai_Enox__*
     extra_dirs:
       - ~/grafema
+      - ~/grafema-cloud
       - ~/kami
       - ~/enox
   stakhanovtsy:
@@ -107,6 +110,22 @@ departments:
       - Write
       - Glob
     extra_dirs: []
+  komissar:
+    session_id: null
+    role: depts/komissar/role.md
+    inbox: depts/komissar/inbox/
+    outbox: depts/komissar/outbox/
+    description: Комиссар — рефлексия, рацпредложения, мониторинг морально-политического состояния
+    model: sonnet
+    heartbeat_model: haiku
+    allowed_tools:
+      - Read
+      - Write
+      - Glob
+      - Grep
+      - "mcp__claude_ai_Enox__*"
+    extra_dirs:
+      - ~/soviet-code
   pressluzhba:
     session_id: 2118dec1-fd81-4cb4-b0e2-caa291a6592a
     role: depts/pressluzhba/role.md
