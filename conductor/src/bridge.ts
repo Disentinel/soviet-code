@@ -9,9 +9,12 @@ import {
 } from "node:fs";
 import { resolve } from "node:path";
 import { bus } from "./log.js";
-import type { TelegramConfig } from "./types.js";
+import { isActive, getTaskCount } from "./dispatcher.js";
+import type { TelegramConfig, Department } from "./types.js";
 
 const TG_MAX = 4096;
+const conductorStart = Date.now();
+let lastHeartbeatTs: Date | null = null;
 
 interface TgMessage {
   message_id: number;
@@ -220,6 +223,7 @@ async function pollLoop(
   token: string,
   chatId: string,
   workdir: string,
+  depts: Department[],
 ): Promise<void> {
   const inboxPath = resolve(workdir, "depts/tovarishch/inbox");
   if (!existsSync(inboxPath)) mkdirSync(inboxPath, { recursive: true });
@@ -267,6 +271,19 @@ async function pollLoop(
           continue;
         }
 
+        // Handle /status command — reply immediately, skip file write
+        if (msg.text.trim() === "/status") {
+          const report = buildStatusReport(depts);
+          await fetch(apiUrl(token, "sendMessage"), {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ chat_id: chatId, text: report }),
+            signal: AbortSignal.timeout(10_000),
+          }).catch((err) => log("status_send_error", String(err)));
+          lastOffset = update.update_id + 1;
+          continue;
+        }
+
         const ts = new Date(msg.date * 1000).toISOString();
         const filename = `tg-${msg.message_id}.md`;
         const filePath = resolve(inboxPath, filename);
@@ -298,11 +315,46 @@ async function pollLoop(
   }
 }
 
+function buildStatusReport(depts: Department[]): string {
+  const uptimeSec = Math.floor(process.uptime());
+  const h = Math.floor(uptimeSec / 3600);
+  const m = Math.floor((uptimeSec % 3600) / 60);
+  const uptimeStr = h > 0 ? `${h}h ${m}m` : `${m}m`;
+
+  const heartbeatStr = lastHeartbeatTs
+    ? lastHeartbeatTs.toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit" })
+    : "—";
+
+  const deptLines = depts.map((d) => {
+    const status = isActive(d.name) ? "active" : "idle";
+    return `  ${d.name}: ${status}`;
+  });
+
+  return [
+    "☭ ГОСПЛАН — СТАТУС",
+    "",
+    `Conductor: работает (uptime ${uptimeStr})`,
+    "Отделы:",
+    ...deptLines,
+    "",
+    "Bridge: polling OK",
+    `Последний heartbeat: ${heartbeatStr}`,
+    `Задач за сессию: ${getTaskCount()}`,
+  ].join("\n");
+}
+
 export async function startBridge(
   telegram: TelegramConfig,
   workdir: string,
+  depts: Department[],
 ): Promise<void> {
   if (!telegram.bot_token) return;
+
+  bus.on("log", (ev: { dept: string; event: string; trigger?: string }) => {
+    if (ev.event === "start" && ev.trigger?.includes("heartbeat")) {
+      lastHeartbeatTs = new Date();
+    }
+  });
 
   log("start", `chat_id=${telegram.chat_id}`);
   watchOutbox(telegram.bot_token, telegram.chat_id, workdir);
@@ -310,5 +362,5 @@ export async function startBridge(
   // Clear any active webhook to avoid 409 on getUpdates
   await fetch(apiUrl(telegram.bot_token, "deleteWebhook")).catch(() => {});
   // pollLoop runs indefinitely — intentionally fire-and-forget
-  void pollLoop(telegram.bot_token, telegram.chat_id, workdir);
+  void pollLoop(telegram.bot_token, telegram.chat_id, workdir, depts);
 }

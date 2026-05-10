@@ -48,7 +48,7 @@ watchDepartments(depts);
 
 const gosplan = loadGosplanSection();
 if (gosplan.telegram?.bot_token) {
-  startBridge(gosplan.telegram, ROOT).catch((err: Error) =>
+  startBridge(gosplan.telegram, ROOT, depts).catch((err: Error) =>
     bus.emit("log", {
       ts: new Date().toISOString(),
       dept: "bridge",

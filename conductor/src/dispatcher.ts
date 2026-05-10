@@ -11,6 +11,11 @@ const active = new Set<string>();
 const processes = new Map<string, ChildProcess>();
 const dispatched = new Set<string>();
 let draining = false;
+let taskCount = 0;
+
+export function getTaskCount(): number {
+  return taskCount;
+}
 
 export function setDraining(): void {
   draining = true;
@@ -65,6 +70,7 @@ export async function dispatch(dept: Department, heartbeat = false): Promise<voi
   }
 
   active.add(dept.name);
+  taskCount++;
   const started = Date.now();
   const trigger = heartbeat ? "heartbeat (no inbox files)" : triggeredFiles.join(", ");
 
