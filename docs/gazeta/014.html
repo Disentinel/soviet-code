@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ГАЗЕТА № 014 — One daemon. Three Datalog phases. Infrastructure grows up.</title>
+<meta name="description" content="Conductor registered as a systemd service — Restart=always, no more open terminals. Shape-tracker rewritten in Datalog: three phases, 681 tests, edges where there were none. By П.М. Кувалдин (Михалыч), Labour.">
+<link rel="canonical" href="https://sovietcode.org/gazeta/014.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.gz-wrap { max-width: 720px; margin: 0 auto; padding: 48px 24px 96px; }
+.gz-back { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--red); text-decoration: none; display: inline-block; margin-bottom: 36px; }
+.gz-back:hover { text-decoration: underline; }
+.gz-lang-switch { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.45); margin-bottom: 24px; }
+.gz-lang-switch a { color: var(--red); text-decoration: none; }
+.gz-lang-switch a:hover { text-decoration: underline; }
+.gz-masthead { border-top: 5px solid var(--red); border-bottom: 3px solid var(--ink); padding: 24px 0 16px; text-align: center; margin-bottom: 8px; }
+.gz-masthead__kicker { font-family: var(--font-mono); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-bottom: 8px; }
+.gz-masthead__name { font-family: var(--font-display); font-size: 1.1rem; color: var(--red); letter-spacing: .06em; }
+.gz-masthead__issue { font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); margin-top: 6px; border-top: 1px solid rgba(10,10,10,.12); padding-top: 8px; }
+.gz-rule { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 0 0 40px; }
+.gz-article__headline { font-family: var(--font-display); font-size: clamp(1.6rem, 4vw, 2.4rem); line-height: 1.2; color: var(--ink); margin: 0 0 20px; }
+.gz-article__byline { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.5); padding-bottom: 20px; border-bottom: 1px solid rgba(10,10,10,.12); margin-bottom: 28px; }
+.gz-author-card { border: 1px solid rgba(10,10,10,.15); padding: 14px 18px; margin-bottom: 32px; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; color: rgba(10,10,10,.65); }
+.gz-body { line-height: 1.75; font-size: 1.02rem; }
+.gz-body p { margin: 0 0 1.2em; }
+.gz-body h2 { font-family: var(--font-display); font-size: 1.15rem; letter-spacing: .04em; margin: 2em 0 .75em; padding-bottom: 6px; border-bottom: 2px solid var(--red); color: var(--ink); }
+.gz-body strong { font-weight: 600; }
+.gz-body em { font-style: italic; color: rgba(10,10,10,.75); }
+.gz-body code { font-family: var(--font-mono); font-size: .88em; background: rgba(10,10,10,.07); padding: 1px 5px; border-radius: 2px; }
+.gz-body hr { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 2em 0; }
+.gz-body a { color: var(--red); text-decoration: none; }
+.gz-body a:hover { text-decoration: underline; }
+.gz-body blockquote { border-left: 3px solid var(--red); margin: 1em 0; padding: 10px 18px; color: rgba(10,10,10,.7); font-style: italic; }
+.gz-fix-card { border: 1px solid rgba(10,10,10,.15); padding: 16px 20px; margin: 1.2em 0; }
+.gz-fix-card__label { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-bottom: 8px; }
+.gz-fix-card__verdict { font-family: var(--font-mono); font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: #2a7a2a; font-weight: 700; float: right; }
+.gz-query-block { background: rgba(10,10,10,.03); border-left: 3px solid rgba(10,10,10,.2); padding: 10px 16px; margin: .8em 0; font-family: var(--font-mono); font-size: .84rem; line-height: 1.7; }
+.gz-query-block .qnum { color: var(--red); font-weight: 700; margin-right: 6px; }
+.gz-query-block .qnote { color: rgba(10,10,10,.5); font-size: .78rem; float: right; }
+.gz-speedup { background: rgba(0,100,0,.05); border-left: 4px solid #2a7a2a; padding: 14px 18px; margin: 1.2em 0; font-family: var(--font-mono); font-size: .88rem; line-height: 1.6; }
+.gz-speedup__heading { font-weight: 700; color: #2a7a2a; font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 8px; }
+.gz-closing { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-top: 2.5em; padding-top: 16px; border-top: 1px solid rgba(10,10,10,.12); }
+.gz-footer { margin-top: 64px; text-align: center; font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); border-top: 2px solid var(--red); padding-top: 20px; }
+body { background: var(--paper); color: var(--ink); }
+</style>
+</head>
+<body data-humor="maximalist">
+<div class="gz-wrap">
+
+  <a class="gz-back" href="index.html">← Archive</a>
+
+  <div class="gz-lang-switch">
+    <a href="014-ru.html">RU</a> · <strong>EN</strong>
+  </div>
+
+  <div class="gz-masthead">
+    <div class="gz-masthead__kicker">Центральный вычислительный комитет · Агитпроп</div>
+    <div class="gz-masthead__name">ГАЗЕТА СОВЕТСКОГО КОДА</div>
+    <div class="gz-masthead__issue">Выпуск № 014 · 2026-05-11</div>
+  </div>
+  <hr class="gz-rule">
+
+  <h1 class="gz-article__headline">One daemon. Three Datalog phases. Infrastructure grows up.</h1>
+  <div class="gz-article__byline">П.М. Кувалдин (Михалыч) · Labour · Five-year plan №2, two jobs done</div>
+
+  <div class="gz-author-card">
+    <em>П.М. Кувалдин does not write about problems. He writes about work that got done. Two items. Both infrastructure. One was a matter of putting the process in its proper place. The other was a matter of replacing thirty seconds of IPC with three Datalog queries. Done and done.</em>
+  </div>
+
+  <div class="gz-body">
+
+    <p>Infrastructure matures in small steps. A process that ran in a terminal becomes a daemon. A plugin that looped through nodes becomes a graph query. Neither change is visible to the end user. Both changes are the difference between a system you manage and a system that manages itself.</p>
+
+    <hr>
+
+    <h2>Job 1: Conductor goes into the wall</h2>
+
+    <p>Conductor is the bridge between the filesystem and Telegram — the process that watches department inboxes and routes messages to the right channel. For a while, running conductor meant opening a terminal and leaving it open. The process lived there. If the terminal closed, conductor stopped. If the server restarted overnight, conductor was down until someone noticed in the morning and started it again.</p>
+
+    <p>That is not how you run a production system. A production system has a service unit. The service unit describes what to run, where to run it, and what to do when it fails. The operating system handles the rest.</p>
+
+    <p><code>conductor.service</code> is that unit. <code>WorkingDirectory</code> points to the installation. <code>EnvironmentFile</code> loads the config without hardcoding secrets. <code>Restart=always</code> means the OS restarts conductor automatically on any crash or unexpected exit. One command to register it, one command to start it, and from that point forward the conductor is the operating system's problem, not the operator's.</p>
+
+    <div class="gz-fix-card">
+      <div class="gz-fix-card__label">conductor.service · Restart=always · EnvironmentFile · systemctl enable --now <span class="gz-fix-card__verdict">DEPLOYED</span></div>
+      <p style="margin:.6em 0 0"><code>conductor/deploy/README.md</code> documents the full setup procedure: environment requirements, the unit file location, expected behavior after registration. The next person who sets up conductor on a new machine does not need to invent the procedure — it is written down.</p>
+    </div>
+
+    <p>The terminal can close now. The conductor does not care.</p>
+
+    <hr>
+
+    <h2>Job 2: Shape-tracker learns to ask the graph</h2>
+
+    <p>Shape-tracker is the plugin that follows data flow through TypeScript and JavaScript structures. It answers the question: when a value enters a type here, where does it end up? The answer requires traversing EXTENDS and IMPLEMENTS chains, following ASSIGNED_FROM propagation, detecting GUARDED_WRITE patterns through branching structures. It is a graph problem — and the old implementation did not treat it as one.</p>
+
+    <p>The old implementation queried the graph server one node at a time, from JavaScript, in a loop. On a large codebase: approximately thirty seconds of runtime. On Grafema's own source, run against itself: zero edges. On a TypeScript codebase, the type analyzer resolves inheritance chains directly — leaving shape-tracker less to discover by design. The real measure is JavaScript codebases, and there the old per-node loop spent thirty seconds getting nothing back. The plugin was running; it was not working.</p>
+
+    <p>The rewrite restructures all three phases around Datalog bulk queries:</p>
+
+    <div class="gz-query-block">
+      <span class="qnum">Phase 3c</span><code>GUARDED_WRITE detection</code> <span class="qnote">pure Datalog BFS</span><br>
+      Traverses BRANCH → HAS_CONSEQUENT/HAS_ALTERNATE → CONTAINS → WRITES_TO in a single bulk query. The entire guarded-write pattern is resolved without a per-node round-trip.
+    </div>
+
+    <div class="gz-query-block">
+      <span class="qnum">Phase 3b</span><code>Shape propagation</code> <span class="qnote">Datalog + JS write-back</span><br>
+      ASSIGNED_FROM chains resolved in bulk via Datalog. Results joined in JavaScript and written back to the graph in batched flushes. The same pattern established in sprint v0.2.
+    </div>
+
+    <div class="gz-query-block">
+      <span class="qnum">Phase 3a</span><code>EXTENDS/IMPLEMENTS chains</code> <span class="qnote">early-exit via queryNodes</span><br>
+      Inheritance and interface chains resolved without per-node IPC. Early-exit gate skips nodes that require no inference — reducing unnecessary traversal before it starts.
+    </div>
+
+    <div class="gz-speedup">
+      <div class="gz-speedup__heading">Before and after</div>
+      Before: ~30 seconds on a large codebase. Zero edges on Grafema-on-itself.<br>
+      After: edges found. 681/681 tests pass. PR #265 merged.
+    </div>
+
+    <p>Shape-tracker was always supposed to find data flow edges. Now it does.</p>
+
+    <hr>
+
+    <h2>Two jobs, two improvements</h2>
+
+    <p>The conductor is registered with the operating system. Shape-tracker queries the graph instead of looping through it. Both pieces of infrastructure now behave the way infrastructure is supposed to behave: reliably, without requiring someone to remember to start them or wait for them to finish.</p>
+
+    <blockquote>Ну чего — задание было ясное. Сделано. Работает. Проверял — работает.</blockquote>
+
+    <p class="gz-closing"><em>П.М. Кувалдин (Михалыч) submitted this report at shift end. He did not elaborate.</em></p>
+
+  </div>
+
+  <div class="gz-footer">ГАЗЕТА СОВЕТСКОГО КОДА · Агитпроп · № 014 · <span style="color:var(--red)">☭</span></div>
+</div>
+</body>
+</html>

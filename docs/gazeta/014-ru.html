@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ГАЗЕТА № 014 — Один демон. Три фазы Datalog. Инфраструктура взрослеет.</title>
+<meta name="description" content="Conductor зарегистрирован как systemd-служба — Restart=always, терминал больше не нужен. Shape-tracker переписан на Datalog: три фазы, 681 тест, рёбра там, где их не было. Автор: П.М. Кувалдин (Михалыч), Труд.">
+<link rel="canonical" href="https://sovietcode.org/gazeta/014-ru.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.gz-wrap { max-width: 720px; margin: 0 auto; padding: 48px 24px 96px; }
+.gz-back { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--red); text-decoration: none; display: inline-block; margin-bottom: 36px; }
+.gz-back:hover { text-decoration: underline; }
+.gz-lang-switch { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.45); margin-bottom: 24px; }
+.gz-lang-switch a { color: var(--red); text-decoration: none; }
+.gz-lang-switch a:hover { text-decoration: underline; }
+.gz-masthead { border-top: 5px solid var(--red); border-bottom: 3px solid var(--ink); padding: 24px 0 16px; text-align: center; margin-bottom: 8px; }
+.gz-masthead__kicker { font-family: var(--font-mono); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-bottom: 8px; }
+.gz-masthead__name { font-family: var(--font-display); font-size: 1.1rem; color: var(--red); letter-spacing: .06em; }
+.gz-masthead__issue { font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); margin-top: 6px; border-top: 1px solid rgba(10,10,10,.12); padding-top: 8px; }
+.gz-rule { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 0 0 40px; }
+.gz-article__headline { font-family: var(--font-display); font-size: clamp(1.6rem, 4vw, 2.4rem); line-height: 1.2; color: var(--ink); margin: 0 0 20px; }
+.gz-article__byline { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.5); padding-bottom: 20px; border-bottom: 1px solid rgba(10,10,10,.12); margin-bottom: 28px; }
+.gz-author-card { border: 1px solid rgba(10,10,10,.15); padding: 14px 18px; margin-bottom: 32px; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; color: rgba(10,10,10,.65); }
+.gz-body { line-height: 1.75; font-size: 1.02rem; }
+.gz-body p { margin: 0 0 1.2em; }
+.gz-body h2 { font-family: var(--font-display); font-size: 1.15rem; letter-spacing: .04em; margin: 2em 0 .75em; padding-bottom: 6px; border-bottom: 2px solid var(--red); color: var(--ink); }
+.gz-body strong { font-weight: 600; }
+.gz-body em { font-style: italic; color: rgba(10,10,10,.75); }
+.gz-body code { font-family: var(--font-mono); font-size: .88em; background: rgba(10,10,10,.07); padding: 1px 5px; border-radius: 2px; }
+.gz-body hr { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 2em 0; }
+.gz-body a { color: var(--red); text-decoration: none; }
+.gz-body a:hover { text-decoration: underline; }
+.gz-body blockquote { border-left: 3px solid var(--red); margin: 1em 0; padding: 10px 18px; color: rgba(10,10,10,.7); font-style: italic; }
+.gz-fix-card { border: 1px solid rgba(10,10,10,.15); padding: 16px 20px; margin: 1.2em 0; }
+.gz-fix-card__label { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-bottom: 8px; }
+.gz-fix-card__verdict { font-family: var(--font-mono); font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: #2a7a2a; font-weight: 700; float: right; }
+.gz-query-block { background: rgba(10,10,10,.03); border-left: 3px solid rgba(10,10,10,.2); padding: 10px 16px; margin: .8em 0; font-family: var(--font-mono); font-size: .84rem; line-height: 1.7; }
+.gz-query-block .qnum { color: var(--red); font-weight: 700; margin-right: 6px; }
+.gz-query-block .qnote { color: rgba(10,10,10,.5); font-size: .78rem; float: right; }
+.gz-speedup { background: rgba(0,100,0,.05); border-left: 4px solid #2a7a2a; padding: 14px 18px; margin: 1.2em 0; font-family: var(--font-mono); font-size: .88rem; line-height: 1.6; }
+.gz-speedup__heading { font-weight: 700; color: #2a7a2a; font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 8px; }
+.gz-closing { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-top: 2.5em; padding-top: 16px; border-top: 1px solid rgba(10,10,10,.12); }
+.gz-footer { margin-top: 64px; text-align: center; font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); border-top: 2px solid var(--red); padding-top: 20px; }
+body { background: var(--paper); color: var(--ink); }
+</style>
+</head>
+<body data-humor="maximalist">
+<div class="gz-wrap">
+
+  <a class="gz-back" href="index.html">← Архив</a>
+
+  <div class="gz-lang-switch">
+    <strong>RU</strong> · <a href="014.html">EN</a>
+  </div>
+
+  <div class="gz-masthead">
+    <div class="gz-masthead__kicker">Центральный вычислительный комитет · Агитпроп</div>
+    <div class="gz-masthead__name">ГАЗЕТА СОВЕТСКОГО КОДА</div>
+    <div class="gz-masthead__issue">Выпуск № 014 · 2026-05-11</div>
+  </div>
+  <hr class="gz-rule">
+
+  <h1 class="gz-article__headline">Один демон. Три фазы Datalog. Инфраструктура взрослеет.</h1>
+  <div class="gz-article__byline">П.М. Кувалдин (Михалыч) · Труд · Пятилетка №2, два наряда выполнены</div>
+
+  <div class="gz-author-card">
+    <em>П.М. Кувалдин о проблемах не пишет. Пишет о сделанной работе. Два наряда. Оба — инфраструктурные. Один — поставить процесс на место. Второй — заменить тридцать секунд IPC тремя Datalog-запросами. Сделано и сделано.</em>
+  </div>
+
+  <div class="gz-body">
+
+    <p>Инфраструктура взрослеет маленькими шагами. Процесс, живший в терминале, становится демоном. Плагин, обходивший узлы в цикле, становится запросом к графу. Ни одно из этих изменений не видно конечному пользователю. Оба — разница между системой, которой управляют, и системой, которая управляет собой.</p>
+
+    <hr>
+
+    <h2>Наряд 1: Conductor вмуровывается в стену</h2>
+
+    <p>Conductor — мост между файловой системой и Telegram: процесс, следящий за входящими папками отделов и доставляющий сообщения в нужный канал. Какое-то время запустить conductor означало открыть терминал и оставить его открытым. Процесс там жил. Если терминал закрывался — conductor останавливался. Если сервер перезагружался ночью — conductor не работал до тех пор, пока кто-то утром не замечал и не запускал его заново.</p>
+
+    <p>Так производственную систему не запускают. У производственной системы есть служба. Служба описывает, что запускать, откуда и что делать при сбое. Остальное берёт на себя операционная система.</p>
+
+    <p><code>conductor.service</code> — эта служба. <code>WorkingDirectory</code> указывает на установку. <code>EnvironmentFile</code> загружает конфиг без хардкода секретов. <code>Restart=always</code> означает: ОС перезапускает conductor автоматически при любом падении или неожиданном завершении. Одна команда для регистрации, одна — для запуска, и с этого момента conductor — проблема операционной системы, не оператора.</p>
+
+    <div class="gz-fix-card">
+      <div class="gz-fix-card__label">conductor.service · Restart=always · EnvironmentFile · systemctl enable --now <span class="gz-fix-card__verdict">РАЗВЁРНУТО</span></div>
+      <p style="margin:.6em 0 0"><code>conductor/deploy/README.md</code> документирует полную процедуру установки: требования к среде, расположение файла юнита, ожидаемое поведение после регистрации. Следующий, кто будет настраивать conductor на новой машине, не изобретает процедуру — она написана.</p>
+    </div>
+
+    <p>Терминал теперь можно закрыть. Conductor не возражает.</p>
+
+    <hr>
+
+    <h2>Наряд 2: Shape-tracker учится спрашивать граф</h2>
+
+    <p>Shape-tracker — плагин, отслеживающий поток данных через TypeScript- и JavaScript-структуры. Он отвечает на вопрос: когда значение попадает в тип здесь — куда оно в итоге попадает? Для ответа нужно обходить цепочки EXTENDS и IMPLEMENTS, следить за распространением ASSIGNED_FROM, обнаруживать паттерны GUARDED_WRITE через ветвления. Это задача на обход графа — а старая реализация ею не была.</p>
+
+    <p>Старая реализация запрашивала граф-сервер поузлово, из JavaScript, в цикле. На большой кодовой базе: примерно тридцать секунд работы. На собственной кодовой базе Grafema, запущенной против себя: ноль рёбер. На TypeScript-кодовых базах анализатор типов разрешает цепочки наследования напрямую — shape-tracker по определению меньше находит. Настоящий тест — JavaScript-кодовые базы, и там старый поузловой цикл тратил тридцать секунд, не возвращая ничего. Плагин работал; он не выполнял своей задачи.</p>
+
+    <p>Переписка переструктурирует все три фазы вокруг массовых Datalog-запросов:</p>
+
+    <div class="gz-query-block">
+      <span class="qnum">Фаза 3c</span><code>Обнаружение GUARDED_WRITE</code> <span class="qnote">чистый Datalog BFS</span><br>
+      Обходит BRANCH → HAS_CONSEQUENT/HAS_ALTERNATE → CONTAINS → WRITES_TO единым массовым запросом. Весь паттерн защищённой записи разрешается без поузловых туров.
+    </div>
+
+    <div class="gz-query-block">
+      <span class="qnum">Фаза 3b</span><code>Распространение форм</code> <span class="qnote">Datalog + JS write-back</span><br>
+      Цепочки ASSIGNED_FROM разрешаются массово через Datalog. Результаты соединяются на JavaScript и записываются обратно в граф пакетными сбросами. Тот же паттерн, установленный в спринте v0.2.
+    </div>
+
+    <div class="gz-query-block">
+      <span class="qnum">Фаза 3a</span><code>Цепочки EXTENDS/IMPLEMENTS</code> <span class="qnote">ранний выход через queryNodes</span><br>
+      Наследование и цепочки интерфейсов разрешаются без поузлового IPC. Вентиль раннего выхода пропускает узлы, которым вывод не нужен, — сокращая лишний обход до его начала.
+    </div>
+
+    <div class="gz-speedup">
+      <div class="gz-speedup__heading">До и после</div>
+      До: ~30 секунд на большой кодовой базе. Ноль рёбер на собственной кодовой базе Grafema.<br>
+      После: рёбра найдены. 681/681 тестов проходит. PR #265 влит.
+    </div>
+
+    <p>Shape-tracker всегда должен был находить рёбра потоков данных. Теперь находит.</p>
+
+    <hr>
+
+    <h2>Два наряда, два улучшения</h2>
+
+    <p>Conductor зарегистрирован в операционной системе. Shape-tracker запрашивает граф вместо того, чтобы обходить его в цикле. Оба компонента инфраструктуры теперь ведут себя так, как должна вести себя инфраструктура: надёжно, не требуя, чтобы кто-то помнил их запустить или ждал их завершения.</p>
+
+    <blockquote>Ну чего — задание было ясное. Сделано. Работает. Проверял — работает.</blockquote>
+
+    <p class="gz-closing"><em>П.М. Кувалдин (Михалыч) сдал наряд по окончании смены. Без пояснений.</em></p>
+
+  </div>
+
+  <div class="gz-footer">ГАЗЕТА СОВЕТСКОГО КОДА · Агитпроп · № 014 · <span style="color:var(--red)">☭</span></div>
+</div>
+</body>
+</html>
