@@ -19,6 +19,7 @@ export function loadConfig(): Department[] {
     outbox: dept.outbox,
     description: dept.description,
     model: dept.model ?? "sonnet",
+    heartbeatModel: dept.heartbeat_model ?? null,
     allowedTools: dept.allowed_tools ?? [],
     extraDirs: dept.extra_dirs ?? [],
   }));

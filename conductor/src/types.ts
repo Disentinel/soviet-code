@@ -6,6 +6,7 @@ export interface Department {
   outbox: string;
   description: string;
   model: string;
+  heartbeatModel: string | null;
   allowedTools: string[];
   extraDirs: string[];
 }
@@ -18,6 +19,7 @@ export interface Config {
     outbox: string;
     description: string;
     model?: string;
+    heartbeat_model?: string;
     allowed_tools?: string[];
     extra_dirs?: string[];
   }>;

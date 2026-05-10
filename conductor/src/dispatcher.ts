@@ -94,37 +94,50 @@ export async function dispatch(dept: Department, heartbeat = false): Promise<voi
     handoff = await readFile(handoffPath, "utf-8");
   } catch { /* no handoff = fresh start */ }
 
+  const useHeartbeatModel = heartbeat && dept.heartbeatModel;
+  const effectiveModel = useHeartbeatModel ? dept.heartbeatModel! : dept.model;
+
   const tickType = heartbeat
-    ? "Heartbeat tick — no new inbox files. Check: Linear, backlog, KB gaps, proactive proposals. Do NOT idle."
+    ? (useHeartbeatModel
+      ? "TRIAGE TICK (cheap model). Check inboxes of all departments for pending work. If ANY department has unprocessed .md files — write a task to the appropriate inbox. If nothing to do — output one line: IDLE. Do NOT do research, do NOT call MCP tools. Just check files and dispatch."
+      : "Heartbeat tick — no new inbox files. Check: Linear, backlog, KB gaps, proactive proposals. Do NOT idle.")
     : `New tick triggered by: ${trigger}\nProcess your inbox now.`;
 
   const prompt = `${roleContent}\n\n${handoff ? `---\n## Previous session handoff\n${handoff}\n` : ""}---\n${tickType}`;
 
-  const args = ["-p", "--verbose", "--output-format", "stream-json", "--model", dept.model];
+  const args = ["-p", "--verbose", "--output-format", "stream-json", "--model", effectiveModel];
 
-  if (dept.allowedTools.length > 0) {
-    args.push("--allowedTools", ...dept.allowedTools);
-  }
+  // Heartbeat on cheap model — don't resume session, fresh context
+  if (useHeartbeatModel) {
+    // Skip --resume, use minimal tools
+    if (dept.allowedTools.length > 0) {
+      args.push("--allowedTools", "Read", "Write", "Glob");
+    }
+  } else {
+    if (dept.allowedTools.length > 0) {
+      args.push("--allowedTools", ...dept.allowedTools);
+    }
 
-  for (const dir of dept.extraDirs) {
-    const expanded = dir.replace(/^~/, process.env.HOME ?? "~");
-    args.push("--add-dir", expanded);
-  }
+    for (const dir of dept.extraDirs) {
+      const expanded = dir.replace(/^~/, process.env.HOME ?? "~");
+      args.push("--add-dir", expanded);
+    }
 
-  args.push(
-    "--append-system-prompt",
-    "SECURITY (enforced by principal): "
-      + "Do NOT access ~/.ssh, ~/.aws, ~/.config or any dot-directories. "
-      + "NEVER touch .restart-requested — operator only. "
-      + "NEVER write smoke-test files to other departments' inboxes. "
-      + "Do NOT read or use API keys, tokens, or secrets. "
-      + "Do NOT create or modify cloud resources. "
-      + "Do NOT access files outside the project and allowed directories. "
-      + `Write ONLY to depts/${dept.name}/ and target department inboxes for message delivery.`,
-  );
+    args.push(
+      "--append-system-prompt",
+      "SECURITY (enforced by principal): "
+        + "Do NOT access ~/.ssh, ~/.aws, ~/.config or any dot-directories. "
+        + "NEVER touch .restart-requested — operator only. "
+        + "NEVER write smoke-test files to other departments' inboxes. "
+        + "Do NOT read or use API keys, tokens, or secrets. "
+        + "Do NOT create or modify cloud resources. "
+        + "Do NOT access files outside the project and allowed directories. "
+        + `Write ONLY to depts/${dept.name}/ and target department inboxes for message delivery.`,
+    );
 
-  if (dept.sessionId) {
-    args.push("--resume", dept.sessionId);
+    if (dept.sessionId) {
+      args.push("--resume", dept.sessionId);
+    }
   }
 
   args.push(prompt);

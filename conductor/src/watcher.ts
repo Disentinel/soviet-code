@@ -86,7 +86,7 @@ function fullInboxScan(): void {
   }
 }
 
-const CEO_HEARTBEAT_MS = 10 * 60 * 1000;
+const CEO_HEARTBEAT_MS = 30 * 60 * 1000;
 
 function gensekHeartbeat(): void {
   if (config_broken) return;
