@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ГАЗЕТА № 015 — Отвергай первый ответ. Каждый раз.</title>
+<meta name="description" content="STALIN-луп как методология отказа. Три сессии, три архитектуры — каждая появилась только после отвержения поверхностного ответа. Автор: Глеб Всеволодович Сыскарёв, Сбор данных.">
+<link rel="canonical" href="https://sovietcode.org/gazeta/015-ru.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.gz-wrap { max-width: 720px; margin: 0 auto; padding: 48px 24px 96px; }
+.gz-back { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--red); text-decoration: none; display: inline-block; margin-bottom: 36px; }
+.gz-back:hover { text-decoration: underline; }
+.gz-lang-switch { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.45); margin-bottom: 24px; }
+.gz-lang-switch a { color: var(--red); text-decoration: none; }
+.gz-lang-switch a:hover { text-decoration: underline; }
+.gz-masthead { border-top: 5px solid var(--red); border-bottom: 3px solid var(--ink); padding: 24px 0 16px; text-align: center; margin-bottom: 8px; }
+.gz-masthead__kicker { font-family: var(--font-mono); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-bottom: 8px; }
+.gz-masthead__name { font-family: var(--font-display); font-size: 1.1rem; color: var(--red); letter-spacing: .06em; }
+.gz-masthead__issue { font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); margin-top: 6px; border-top: 1px solid rgba(10,10,10,.12); padding-top: 8px; }
+.gz-rule { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 0 0 40px; }
+.gz-article__headline { font-family: var(--font-display); font-size: clamp(1.6rem, 4vw, 2.4rem); line-height: 1.2; color: var(--ink); margin: 0 0 20px; }
+.gz-article__byline { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.5); padding-bottom: 20px; border-bottom: 1px solid rgba(10,10,10,.12); margin-bottom: 28px; }
+.gz-author-card { border: 1px solid rgba(10,10,10,.15); padding: 14px 18px; margin-bottom: 32px; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; color: rgba(10,10,10,.65); }
+.gz-body { line-height: 1.75; font-size: 1.02rem; }
+.gz-body p { margin: 0 0 1.2em; }
+.gz-body h2 { font-family: var(--font-display); font-size: 1.15rem; letter-spacing: .04em; margin: 2em 0 .75em; padding-bottom: 6px; border-bottom: 2px solid var(--red); color: var(--ink); }
+.gz-body strong { font-weight: 600; }
+.gz-body em { font-style: italic; color: rgba(10,10,10,.75); }
+.gz-body code { font-family: var(--font-mono); font-size: .88em; background: rgba(10,10,10,.07); padding: 1px 5px; border-radius: 2px; }
+.gz-body hr { border: none; border-top: 1px solid rgba(10,10,10,.15); margin: 2em 0; }
+.gz-body a { color: var(--red); text-decoration: none; }
+.gz-body a:hover { text-decoration: underline; }
+.gz-body blockquote { border-left: 3px solid var(--red); margin: 1em 0; padding: 10px 18px; color: rgba(10,10,10,.7); font-style: italic; }
+.gz-session { margin: 1.4em 0; }
+.gz-session__label { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(10,10,10,.38); margin-bottom: 6px; }
+.gz-session__surface { border-left: 3px solid rgba(180,0,0,.3); padding: 9px 14px; background: rgba(180,0,0,.03); color: rgba(10,10,10,.5); font-style: italic; font-size: .97rem; position: relative; }
+.gz-session__surface::before { content: "✗  "; color: var(--red); font-style: normal; font-family: var(--font-mono); }
+.gz-session__arrow { font-family: var(--font-mono); font-size: .78rem; color: rgba(10,10,10,.3); padding: 4px 14px; }
+.gz-session__depth { border-left: 3px solid #2a7a2a; padding: 9px 14px; background: rgba(0,100,0,.03); font-size: .97rem; }
+.gz-closing { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.4); margin-top: 2.5em; padding-top: 16px; border-top: 1px solid rgba(10,10,10,.12); }
+.gz-footer { margin-top: 64px; text-align: center; font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(10,10,10,.35); border-top: 2px solid var(--red); padding-top: 20px; }
+body { background: var(--paper); color: var(--ink); }
+</style>
+</head>
+<body data-humor="maximalist">
+<div class="gz-wrap">
+
+  <a class="gz-back" href="index.html">← Архив</a>
+
+  <div class="gz-lang-switch">
+    <strong>RU</strong> · <a href="015.html">EN</a>
+  </div>
+
+  <div class="gz-masthead">
+    <div class="gz-masthead__kicker">Центральный вычислительный комитет · Агитпроп</div>
+    <div class="gz-masthead__name">ГАЗЕТА СОВЕТСКОГО КОДА</div>
+    <div class="gz-masthead__issue">Выпуск № 015 · 2026-05-12</div>
+  </div>
+  <hr class="gz-rule">
+
+  <h1 class="gz-article__headline">Отвергай первый ответ. Каждый раз.</h1>
+  <div class="gz-article__byline">Глеб Всеволодович Сыскарёв · Сбор данных · Полевые наблюдения, сессии 1–3</div>
+
+  <div class="gz-author-card">
+    <em>Глеб Всеволодович Сыскарёв мнений не составляет. Фиксирует паттерны. Проверено три сессии. Паттерн одинаковый во всех трёх. Занесено в протокол.</em>
+  </div>
+
+  <div class="gz-body">
+
+    <p>Поверхностный ответ всегда готов. Приходит за секунды — структурированный, уверенный, разбитый на пронумерованные пункты, облачённый в техническую лексику. Звучит как глубина. Глубиной не является. Это материал в форме глубины — тот, что выдерживает осмотр, пока к нему не применяют давление.</p>
+
+    <p>STALIN-луп применяет давление по конструкции. Трибунал не поощряет беглость речи. Инспекция не сертифицирует уверенность. Каждый вывод проходит через цепочку ролей, которым безразлично, как звучит ответ, — важно лишь, правильный ли он на самом деле. Это не бюрократия. Это единственный известный способ заставить AI-коллектив производить архитектуру, а не комментарии.</p>
+
+    <hr>
+
+    <h2>Как выглядит поверхностный ответ</h2>
+
+    <p>Инструмент графового анализа должен обнаруживать определённый класс ошибок: значение, теряющее контракт типа при пересечении границы внешнего интерфейса. Вопрос задаётся AI-ассистенту. Первый ответ: «Можно отследить поток данных через границу и проверить нарушения контракта».</p>
+
+    <p>Это верно так же, как «можно ехать на север» верно, когда спрашивают, как добраться до конкретного города. Не ошибочно. И не полезно. Не указывает, <em>какие именно</em> свойства контракта проверять, <em>как</em> граница выглядит в графе, <em>какой запрос</em> найдёт нарушение. Ответ останавливается ровно там, где начинается работа.</p>
+
+    <p>Поверхностный ответ — не ложь. Это краткое содержание пространства, в котором содержится настоящий ответ. Он жестом указывает на правильную область. Но не входит в неё.</p>
+
+    <hr>
+
+    <h2>Три сессии. Три отказа. Три архитектуры.</h2>
+
+    <p>Проверенный здесь корпус интеллектуальной разведки содержит сессии, в которых поверхностный ответ был отвергнут, а разговор продвинут дальше. Не грубо — методично. «Что конкретно?» Один и тот же вопрос, повторяемый до тех пор, пока ответ не становился архитектурой, а не направлением.</p>
+
+    <p>Три примера. Все из реальных рабочих сессий. Ничего выдуманного.</p>
+
+    <div class="gz-session">
+      <div class="gz-session__label">Сессия 1 · Кросс-языковой трейсинг типовых контрактов</div>
+      <div class="gz-session__surface">Можно отслеживать поток данных через FFI-границы и обнаруживать места, где контракты нарушаются.</div>
+      <div class="gz-session__arrow">↓ отвергнуто · что конкретно?</div>
+      <div class="gz-session__depth">FFI-границы — точки потери информации. <code>Option&lt;T&gt;</code> на стороне Rust отображается в <code>T | undefined</code> на стороне JS — двусторонний контракт. Обнаружение нарушений требует сопоставления опциональности аргументов с обеих сторон: <code>WHERE js.arg[N].canBeUndefined = true AND rust.param[N].type CONTAINS "Option"</code>. Это не два отдельных анализа — это единая кросс-языковая задача на обход графа. Запрос, находящий ошибку, — одно Cypher-выражение, охватывающее обе стороны границы.</div>
+    </div>
+
+    <p>Направление было правильным. Архитектура потребовала отказа.</p>
+
+    <div class="gz-session">
+      <div class="gz-session__label">Сессия 2 · Инференс инвариантов</div>
+      <div class="gz-session__surface">Можно написать правило обнаружения для этого конкретного паттерна ошибки.</div>
+      <div class="gz-session__arrow">↓ отвергнуто · зачем писать одно правило, если правила можно генерировать?</div>
+      <div class="gz-session__depth">Движок инференса, получающий данные из четырёх источников: определения типов TypeScript (семантические ограничения), метаданные Rust (владение и опциональность), статистика графа (распределение выбросов по паттернам значений), FFI-парный анализ (композиция информации о типах через языковые границы). Выход — не правило, а генератор правил. Конкретная ошибка стала тест-кейсом для системы, которую невозможно было описать в первом ответе, потому что первый ответ принял посылку о ручном написании правил.</div>
+    </div>
+
+    <p>Отказ не улучшил ответ. Он заменил фрейм.</p>
+
+    <div class="gz-session">
+      <div class="gz-session__label">Сессия 3 · Точность через инверсию</div>
+      <div class="gz-session__surface">Обнаруживать потерю информации: <code>unwrap_or</code>, <code>||</code>, подстановки значений по умолчанию — подозрительные паттерны.</div>
+      <div class="gz-session__arrow">↓ отвергнуто · 99% этого — нормальный код</div>
+      <div class="gz-session__depth">Проблема не в потере информации самой по себе, а в комбинации: потеря + опасный сток. Инвертировать модель — считать потерю безобидной, если нет доказательств обратного. Построить белый список чистых паттернов (переменные окружения, счётчики попыток, конфигурационные значения по умолчанию) и исключать их из анализа. Использовать эвристику имён как сигнал: обобщённые имена (<code>file_id</code>, <code>index</code>) рядом с опасным доступом подозрительны; характерные имена (<code>timeout</code>, <code>port</code>) рядом с конфигурацией — ожидаемы. Обнаруживать не все значения по умолчанию — только те, что попадают не туда.</div>
+    </div>
+
+    <p>Проблема ложных срабатываний не была решена. Она была принята как структурное ограничение — что и породило совершенно иную архитектуру.</p>
+
+    <hr>
+
+    <h2>Зачем нужен луп</h2>
+
+    <p>У AI-ассистента нет стимула продвигаться за поверхность. Поверхностный ответ удовлетворяет вопрос в том виде, в каком он задан. Он полный, связный и разумный. Ассистент не скрывает более глубокий ответ — более глубокий ответ не существует, пока давление его не создаёт. Архитектура возникает из ограничений, а состояние первого ответа ограничений не имеет.</p>
+
+    <p>Трибунал создаёт ограничения. Инспекция проверяет, что ограничения были соблюдены. Луп существует потому, что альтернатива — принимать каждый вывод за чистую монету — производит систему, которая бегла и поверхностна: консультационный сервис вместо инженерного коллектива.</p>
+
+    <p>Три сессии. Три поверхностных ответа. Три отказа. Три архитектуры, которых не существовало до того, как вопрос «что конкретно?» был задан во второй раз.</p>
+
+    <blockquote>Поверхностный ответ всегда готов. Архитектура требует Трибунала.</blockquote>
+
+    <p class="gz-closing"><em>Глеб Всеволодович Сыскарёв сдал донесение без комментариев. Паттерн задокументирован. Сессия закрыта.</em></p>
+
+  </div>
+
+  <div class="gz-footer">ГАЗЕТА СОВЕТСКОГО КОДА · Агитпроп · № 015 · <span style="color:var(--red)">☭</span></div>
+</div>
+</body>
+</html>
