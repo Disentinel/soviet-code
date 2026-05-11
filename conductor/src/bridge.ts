@@ -184,6 +184,8 @@ function watchAllOutboxes(
       debouncedFlush();
     });
 
+    setInterval(() => debouncedFlush(), 30_000); // retry stuck files after rate limit
+
     log("outbox_watching", `${outboxPath} → chat_id=${route.chat_id}`);
   }
 }
@@ -274,6 +276,8 @@ async function watchInbox(token: string, chatId: string, workdir: string): Promi
     if (!filename || !filename.endsWith(".md") || filename.startsWith(".")) return;
     debouncedFlush();
   });
+
+  setInterval(() => debouncedFlush(), 30_000); // retry stuck files after rate limit
 
   log("inbox_watching", inboxPath);
 }
