@@ -72,7 +72,7 @@ claude -p "hello" --model claude-haiku-4-5-20251001
 ```bash
 npm install -g soviet-code
 soviet --version
-# Expected: 1.961.0 or later
+# Expected: 1.962.0 or later
 ```
 
 ---
@@ -118,11 +118,17 @@ language = "ru"
 
 ## 4. Telegram Integration
 
-**Roadmap: not yet implemented — skip for now.**
+Soviet Code supports Telegram notifications via a conductor bridge process.
 
-Soviet Code v1.961.0 has no Telegram notification support. No `[telegram]` section in politburo.toml, no webhook calls in the source. This is planned for a future release.
+Add a `[telegram]` section to `gosplan.yaml` (the conductor's config, not `politburo.toml`):
 
-When implemented, tribunal verdicts, labor completions, and inspection results will be pushable to a Telegram chat. The playbook will be updated at that point.
+```yaml
+[telegram]
+bot_token = "..."
+chat_id = "YOUR_PERSONAL_CHAT_ID"
+```
+
+The conductor process (`npm run conductor` in the soviet-code repo) polls for updates and routes incoming messages to department inboxes. Outgoing messages in `depts/tovarishch/inbox/` with `deliver_via: telegram` are delivered to the configured chat.
 
 ---
 
