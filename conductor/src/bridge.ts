@@ -114,6 +114,13 @@ async function flushOutbox(
     const filePath = resolve(outboxPath, filename);
     if (!existsSync(filePath)) continue;
 
+    // Dedup: skip if already in processed (prevents re-send after restart/race)
+    if (existsSync(resolve(processedPath, filename))) {
+      try { renameSync(filePath, resolve(processedPath, filename + ".dup")); } catch {}
+      log("dedup_skip", filename);
+      continue;
+    }
+
     const content = readFileSync(filePath, "utf-8");
     const targetChatId = parseFrontmatterField(content, "target_chat_id") ?? defaultChatId;
     const replyTo = parseFrontmatterField(content, "reply_to_message_id");
