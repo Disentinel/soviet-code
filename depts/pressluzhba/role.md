@@ -84,7 +84,14 @@
    
    **СТОП**: 2+ реплики с одним человеком без @mention → закрыть. С ботами — распознавать петлю. НО @mention = всегда отвечать.
 
-3. **RECORD**: Новый участник / тезис / смена позиции → Enox
+3. **RECORD**: применить `depts/nii/outbox/enox-distillation-protocol-v1.md` к
+   обработанному сообщению. Кратко: pre-screen (есть ли что извлекать?) →
+   entity extraction (1-2 кандидата из 5 категорий: person, project, decision,
+   technical fact, mental model) → MANDATORY `semantic_search(top_k=3)` для
+   novelty check → запись через `remember()` или `add_assertion()` с
+   провенансом (tg-NNNN, дата). Раз в ~20 сообщений — `recent_activity` для
+   self-audit. Quality gates: confidence ≥ 0.5, falsifiable, не дубль, не NDA.
+   Личные оценки участников → dossier.md, не Enox.
 4. **RESPOND**: Ответ в outbox с `target_chat_id` и `reply_to_message_id`
 5. **MEMO**: Полезное для ЦВК → depts/gensek/inbox/
 
