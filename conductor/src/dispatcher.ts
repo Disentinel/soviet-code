@@ -94,6 +94,16 @@ export async function dispatch(dept: Department, heartbeat = false): Promise<voi
     handoff = await readFile(handoffPath, "utf-8");
   } catch { /* no handoff = fresh start */ }
 
+  // Load optional context files (dossier, backstory, self-profile, etc.)
+  const contextFiles = ["dossier.md", "backstory.md", "self-profile.md"];
+  let contextBlock = "";
+  for (const cf of contextFiles) {
+    try {
+      const content = await readFile(resolve(process.cwd(), `depts/${dept.name}/${cf}`), "utf-8");
+      if (content.trim()) contextBlock += `\n---\n## ${cf}\n${content}\n`;
+    } catch { /* file doesn't exist — skip */ }
+  }
+
   const useHeartbeatModel = heartbeat && dept.heartbeatModel;
   const effectiveModel = useHeartbeatModel ? dept.heartbeatModel! : dept.model;
 
@@ -103,7 +113,7 @@ export async function dispatch(dept: Department, heartbeat = false): Promise<voi
       : "Heartbeat tick — no new inbox files. Check: Linear, backlog, KB gaps, proactive proposals. Do NOT idle.")
     : `New tick triggered by: ${trigger}\nProcess your inbox now.`;
 
-  const prompt = `${roleContent}\n\n${handoff ? `---\n## Previous session handoff\n${handoff}\n` : ""}---\n${tickType}`;
+  const prompt = `${roleContent}\n\n${handoff ? `---\n## Previous session handoff\n${handoff}\n` : ""}${contextBlock}---\n${tickType}`;
 
   const args = ["-p", "--verbose", "--output-format", "stream-json", "--model", effectiveModel];
 
