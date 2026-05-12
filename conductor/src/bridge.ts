@@ -123,7 +123,7 @@ async function flushOutbox(
 
     const content = readFileSync(filePath, "utf-8");
     const targetChatId = parseFrontmatterField(content, "target_chat_id") ?? defaultChatId;
-    const replyTo = parseFrontmatterField(content, "reply_to_message_id");
+    const replyTo = parseFrontmatterField(content, "reply_to_message_id") ?? parseFrontmatterField(content, "reply_to");
     const body = truncate(stripFrontmatter(content));
     if (!body) continue;
 
