@@ -28,7 +28,14 @@ export function loadConfig(): Department[] {
 export function loadGosplanSection(): GosplanSection {
   const raw = readFileSync(configPath(), "utf-8");
   const parsed = YAML.parse(raw) as { gosplan?: GosplanSection };
-  return parsed.gosplan ?? {};
+  const section = parsed.gosplan ?? {};
+  if (section.telegram) {
+    const envToken = process.env.TELEGRAM_BOT_TOKEN;
+    if (envToken && (!section.telegram.bot_token || section.telegram.bot_token.startsWith("${"))) {
+      section.telegram.bot_token = envToken;
+    }
+  }
+  return section;
 }
 
 export function updateSessionId(deptName: string, sessionId: string): void {

@@ -1,12 +1,10 @@
 gosplan:
   telegram:
-    bot_token: 8715112240:AAG1ROQ0ldbA9wku6PHi2KRjvrp8sIEnq94
+    bot_token: ${TELEGRAM_BOT_TOKEN}
     chat_id: "547893198"
     routes:
       - chat_id: "547893198"
         dept: tovarishch
-      - chat_id: "-1002330505518"
-        dept: pressluzhba
       - chat_id: "-1001240718803"
         dept: pressluzhba
 departments:
@@ -128,7 +126,7 @@ departments:
     extra_dirs:
       - ~/soviet-code
   nii:
-    session_id: null
+    session_id: c9ddf5d2-9768-4e7a-b236-310a79ccc6f0
     role: depts/nii/role.md
     inbox: depts/nii/inbox/
     outbox: depts/nii/outbox/
@@ -141,14 +139,14 @@ departments:
       - Glob
       - Grep
       - Bash
-      - "mcp__claude_ai_Enox__*"
+      - mcp__claude_ai_Enox__*
     extra_dirs:
       - ~/grafema
       - ~/soviet-code
       - ~/kami
       - ~/enox
   pressluzhba:
-    session_id: 2118dec1-fd81-4cb4-b0e2-caa291a6592a
+    session_id: 814eded5-4e07-4800-85ce-c394998f7e3f
     role: depts/pressluzhba/role.md
     inbox: depts/pressluzhba/inbox/
     outbox: depts/pressluzhba/outbox/
